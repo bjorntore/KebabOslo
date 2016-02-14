@@ -14,6 +14,6 @@ public class HouseBuildingController : BuildingController, IClickable
 
     public void Click()
     {
-        throw new NotImplementedException();
+        Debug.Log("House Click");
     }
 }

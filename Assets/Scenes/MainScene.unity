@@ -166,52 +166,6 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9cdfe59c19cf672419afba794023b067, type: 2}
   m_IsPrefabParent: 0
---- !u!1001 &539804012
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 453014, guid: 9434aea71d7be9a4a91700f007ea5373, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 453014, guid: 9434aea71d7be9a4a91700f007ea5373, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 453014, guid: 9434aea71d7be9a4a91700f007ea5373, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 453014, guid: 9434aea71d7be9a4a91700f007ea5373, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 453014, guid: 9434aea71d7be9a4a91700f007ea5373, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 453014, guid: 9434aea71d7be9a4a91700f007ea5373, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 453014, guid: 9434aea71d7be9a4a91700f007ea5373, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 453014, guid: 9434aea71d7be9a4a91700f007ea5373, type: 2}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6425720, guid: 9434aea71d7be9a4a91700f007ea5373, type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 9434aea71d7be9a4a91700f007ea5373, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1001 &583253805
 Prefab:
   m_ObjectHideFlags: 0
@@ -389,11 +343,11 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 3
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 8
+  orthographic size: 20
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2

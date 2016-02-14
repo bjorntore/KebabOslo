@@ -31,13 +31,25 @@ public class World
         InitBuildings();
     }
 
+    //public List<Customer> ArriveCustomer()
+    //{
+    //    List<Customer> newCustomers = new List<Customer>();
+
+    //    foreach(Building building in buildings)
+    //    {
+
+    //    }
+    //}
+
     private void InitTiles(int width, int height)
     {
         tiles = new Tile[width, height];
         _roadTiles = new List<Tile>();
 
-        List<int> xRoadLines = RollRoadLines();
-        List<int> zRoadLines = RollRoadLines();
+        //List<int> xRoadLines = RollRoadLines();
+        //List<int> zRoadLines = RollRoadLines();
+        List<int> xRoadLines = new List<int>() { 2, 20, 50, 51, 80 }; // Debug purpose only
+        List<int> zRoadLines = new List<int>() { 2, 20, 50, 51, 80 }; // Debug purpose only
 
         for (int x = 0; x < width; x++)
         {
@@ -134,4 +146,5 @@ public class World
 
         return roadLines;
     }
+
 }

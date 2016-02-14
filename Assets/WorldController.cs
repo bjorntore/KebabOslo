@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using System.Collections;
 using System;
 
@@ -28,6 +29,11 @@ public class WorldController : MonoBehaviour
         SpawnBuildings();
     }
 
+    void Update()
+    {
+        //GetComponents<>
+    }
+    
     void AdjustGround()
     {
         float xPosition = (world.Width / 2) - 0.5f; // Hack: The -0.5f is an offset we have to set to align the ground to the tiles
