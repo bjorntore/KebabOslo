@@ -56,7 +56,9 @@ public class WorldController : MonoBehaviour
                 else
                     throw new Exception("Not supporting tile type " + tile.type.ToString());
 
-                SpawnObject(prefab, tile.ToString(), tile.x, tile.z, tileContainer);
+                GameObject tileGameObject = SpawnObject(prefab, tile.ToString(), tile.x, tile.z, tileContainer);
+                TileController tileController = tileGameObject.GetComponent<TileController>();
+                tileController.tile = tile;
             }
         }
     }
@@ -73,18 +75,20 @@ public class WorldController : MonoBehaviour
             else
                 throw new Exception("Not supporting building type " + building.GetType());
 
-            SpawnObject(prefab, building.ToString(), building.x, building.z, buildingContainer);
-              
+            GameObject buildingGameObject = SpawnObject(prefab, building.ToString(), building.x, building.z, buildingContainer);
+            BuildingController buildingController = buildingGameObject.GetComponent<BuildingController>();
+            buildingController.SetBuilding(building);
         }
 
     }
 
-    void SpawnObject(GameObject prefab, string name, int x, int z, GameObject parent=null)
+    GameObject SpawnObject(GameObject prefab, string name, int x, int z, GameObject parent=null)
     {
-        GameObject tileGameObject = (GameObject)Instantiate(prefab, new Vector3(x, 0, z), Quaternion.identity);
-        tileGameObject.name = name;
-        tileGameObject.transform.parent = parent.transform;
+        GameObject gameObject = (GameObject)Instantiate(prefab, new Vector3(x, 0, z), Quaternion.identity);
+        gameObject.name = name;
+        gameObject.transform.parent = parent.transform;
+
+        return gameObject;
     }
 
 }
-
