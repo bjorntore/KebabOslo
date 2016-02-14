@@ -25,7 +25,7 @@ namespace UnityBuildingsTest
             float y = Input.GetAxis("Vertical") * Mathf.Sin(transform.rotation.eulerAngles.x * (Mathf.PI / 180));
             float z = Input.GetAxis("Vertical") * Mathf.Cos(transform.rotation.eulerAngles.x * (Mathf.PI / 180));
 
-            transform.Translate(x, y, z, Space.Self);
+			transform.Translate(x * mainCamera.orthographicSize/50, y * mainCamera.orthographicSize/50, z* mainCamera.orthographicSize/50, Space.Self);
         }
 
         private void MoveCameraUpDown()
