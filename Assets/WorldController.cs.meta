@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: 1b64fc2306c522643a188a0d60a94e80
+timeCreated: 1455401858
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - baseTilePrefab: {fileID: 141556, guid: 3c6c192e27401ef4b9b35d7398b63d0f, type: 2}
+  - roadTilePrefab: {fileID: 175886, guid: 3723aef37cf88a747992d9299ee89eb6, type: 2}
+  - buildableTilePrefab: {fileID: 136980, guid: 76642cb7163b92c40814a39d8fd70e32,
+      type: 2}
+  - housePrefab: {fileID: 178296, guid: 4026fb3968e5c7a49986c92b7bbdf620, type: 2}
+  - clubPrefab: {fileID: 153948, guid: d3d1a115b9ea2fe4b8af34e88f038fd3, type: 2}
+  - kebabPrefab: {fileID: 196710, guid: d5f4e512c28422e46a0bdbafdfbeaaa6, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

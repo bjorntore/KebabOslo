@@ -1,0 +1,102 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &165072
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 450242}
+  - 114: {fileID: 11423862}
+  - 114: {fileID: 11423692}
+  - 114: {fileID: 11422640}
+  m_Layer: 0
+  m_Name: WorldController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &450242
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 165072}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &11422640
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 165072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17eb62143ecc87a46b2fe47a28613157, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11423692
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 165072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c17d8a9ac958c934ba0e3132cbb9595d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11423862
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 165072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b64fc2306c522643a188a0d60a94e80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundTransform: {fileID: 0}
+  roadTilePrefab: {fileID: 175886, guid: 3723aef37cf88a747992d9299ee89eb6, type: 2}
+  buildableTilePrefab: {fileID: 136980, guid: 76642cb7163b92c40814a39d8fd70e32, type: 2}
+  houseBuildingPrefab: {fileID: 199374, guid: 4026fb3968e5c7a49986c92b7bbdf620, type: 2}
+  clubBuildingPrefab: {fileID: 153948, guid: d3d1a115b9ea2fe4b8af34e88f038fd3, type: 2}
+  kebabBuildingPrefab: {fileID: 196710, guid: d5f4e512c28422e46a0bdbafdfbeaaa6, type: 2}
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: buildingPrefab
+      value: 
+      objectReference: {fileID: 196710, guid: d5f4e512c28422e46a0bdbafdfbeaaa6, type: 2}
+    - target: {fileID: 0}
+      propertyPath: clubBuildingPrefab
+      value: 
+      objectReference: {fileID: 153948, guid: d3d1a115b9ea2fe4b8af34e88f038fd3, type: 2}
+    - target: {fileID: 0}
+      propertyPath: houseBuildingPrefab
+      value: 
+      objectReference: {fileID: 199374, guid: 4026fb3968e5c7a49986c92b7bbdf620, type: 2}
+    - target: {fileID: 0}
+      propertyPath: kebabBuildingPrefab
+      value: 
+      objectReference: {fileID: 196710, guid: d5f4e512c28422e46a0bdbafdfbeaaa6, type: 2}
+    - target: {fileID: 0}
+      propertyPath: groundPrefab
+      value: 
+      objectReference: {fileID: 153466, guid: 9cdfe59c19cf672419afba794023b067, type: 2}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 165072}
+  m_IsPrefabParent: 1
