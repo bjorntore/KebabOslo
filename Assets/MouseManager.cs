@@ -26,7 +26,7 @@ public class MouseManager : MonoBehaviour
             else
                 ourHitObject = ourHitObject.transform.parent.gameObject;
 
-            Debug.Log("Mouse over: " + ourHitObject.name);
+            //Debug.Log("Mouse over: " + ourHitObject.name);
 
             if (Input.GetMouseButtonDown(0))
             {

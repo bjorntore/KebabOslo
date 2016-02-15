@@ -19,8 +19,8 @@ public class World
     public Tile[,] Tiles { get { return tiles; } }
     private List<Tile> _roadTiles;
 
-    public List<Building> buildings;
-
+    List<Building> buildings;
+    public List<Building> Buildings { get { return buildings; } }
 
     public World(int width = 200, int height = 200)
     {
@@ -29,6 +29,15 @@ public class World
 
         InitTiles(width, height);
         InitBuildings();
+    }
+
+    public void AddBuilding(Building building, Tile tile)
+    {
+        if (tile.CanBuildOn())
+        {
+            tile.type = TileType.Occupied;
+            buildings.Add(building);
+        }
     }
 
     //public List<Customer> ArriveCustomer()
@@ -79,9 +88,15 @@ public class World
         {
             float roll = UnityEngine.Random.Range(0.0f, 1.0f);
             if (roll < clubSpawnChance)
+            {
                 buildings.Add(new ClubBuilding(tile.x, tile.z));
+                tile.type = TileType.Occupied;
+            }
             else if (roll < houseSpawnChance)
+            {
                 buildings.Add(new HouseBuilding(tile.x, tile.z));
+                tile.type = TileType.Occupied;
+            }
         }
 
         Debug.LogFormat("Created {0} buildings.", buildings.Count);

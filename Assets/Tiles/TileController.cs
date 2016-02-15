@@ -9,5 +9,11 @@ public class TileController : MonoBehaviour, IClickable {
     public void Click()
     {
         Debug.Log("Clicked " + tile.ToString());
+        if (tile.CanBuildOn())
+        {
+            WorldController wc = GameObject.FindObjectOfType<WorldController>();
+            wc.AddAndSpawnBuilding(new KebabBuilding(tile.x, tile.z), tile);
+        }
     }
+
 }

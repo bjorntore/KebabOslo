@@ -209,16 +209,8 @@ Prefab:
       propertyPath: groundTransform
       value: 
       objectReference: {fileID: 1046237520}
-    - target: {fileID: 11423862, guid: 653e3c91e342a1d46a5e65a9bd29bb16, type: 2}
-      propertyPath: buildableTilePrefab
-      value: 
-      objectReference: {fileID: 116462, guid: 76642cb7163b92c40814a39d8fd70e32, type: 2}
-    - target: {fileID: 11423862, guid: 653e3c91e342a1d46a5e65a9bd29bb16, type: 2}
-      propertyPath: roadTilePrefab
-      value: 
-      objectReference: {fileID: 175946, guid: 9434aea71d7be9a4a91700f007ea5373, type: 2}
     m_RemovedComponents:
-    - {fileID: 0}
+    - {fileID: 11454180, guid: 653e3c91e342a1d46a5e65a9bd29bb16, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 653e3c91e342a1d46a5e65a9bd29bb16, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &803509975
