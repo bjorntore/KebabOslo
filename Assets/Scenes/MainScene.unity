@@ -209,8 +209,7 @@ Prefab:
       propertyPath: groundTransform
       value: 
       objectReference: {fileID: 1046237520}
-    m_RemovedComponents:
-    - {fileID: 11454180, guid: 653e3c91e342a1d46a5e65a9bd29bb16, type: 2}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 653e3c91e342a1d46a5e65a9bd29bb16, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &803509975
@@ -245,7 +244,7 @@ Light:
   m_CookieSize: 10
   m_Shadows:
     m_Type: 2
-    m_Resolution: -1
+    m_Resolution: 1
     m_Strength: 1
     m_Bias: 0.05
     m_NormalBias: 0.4
@@ -269,7 +268,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 803509975}
   m_LocalRotation: {x: 0.40821794, y: -0.23456973, z: 0.109381676, w: 0.87542605}
-  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalPosition: {x: 8.81, y: 64.27, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

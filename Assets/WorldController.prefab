@@ -57,6 +57,7 @@ MonoBehaviour:
   houseBuildingPrefab: {fileID: 199374, guid: 4026fb3968e5c7a49986c92b7bbdf620, type: 2}
   clubBuildingPrefab: {fileID: 153948, guid: d3d1a115b9ea2fe4b8af34e88f038fd3, type: 2}
   kebabBuildingPrefab: {fileID: 196710, guid: d5f4e512c28422e46a0bdbafdfbeaaa6, type: 2}
+  policeBuildingPrefab: {fileID: 127936, guid: e1964adbae65c0348bc708febdb585f9, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -84,6 +85,10 @@ Prefab:
       propertyPath: groundPrefab
       value: 
       objectReference: {fileID: 153466, guid: 9cdfe59c19cf672419afba794023b067, type: 2}
+    - target: {fileID: 0}
+      propertyPath: groundTransform
+      value: 
+      objectReference: {fileID: 476582, guid: 9cdfe59c19cf672419afba794023b067, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 165072}

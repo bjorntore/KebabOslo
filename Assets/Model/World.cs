@@ -81,7 +81,8 @@ public class World
         List<Tile> buildableTiles = SetAndGetBuildableTiles();
 
         double clubSpawnChance = 0.1f;
-        double houseSpawnChance = 0.4f;
+		double policeSpawnChance = 0.11f;
+        double houseSpawnChance = 0.5f;
 
         buildings = new List<Building>();
         foreach (Tile tile in buildableTiles)
@@ -92,6 +93,11 @@ public class World
                 buildings.Add(new ClubBuilding(tile.x, tile.z));
                 tile.type = TileType.Occupied;
             }
+			else if (roll < policeSpawnChance)
+			{
+				buildings.Add(new PoliceBuilding(tile.x, tile.z));
+				tile.type = TileType.Occupied;
+			}
             else if (roll < houseSpawnChance)
             {
                 buildings.Add(new HouseBuilding(tile.x, tile.z));

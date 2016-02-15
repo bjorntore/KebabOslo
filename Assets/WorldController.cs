@@ -12,6 +12,7 @@ public class WorldController : MonoBehaviour
     public GameObject houseBuildingPrefab;
     public GameObject clubBuildingPrefab;
     public GameObject kebabBuildingPrefab;
+	public GameObject policeBuildingPrefab;
 
     public World world;
     GameObject tileContainer;
@@ -79,6 +80,8 @@ public class WorldController : MonoBehaviour
             prefab = houseBuildingPrefab;
         else if (building is KebabBuilding)
             prefab = kebabBuildingPrefab;
+		else if (building is PoliceBuilding)
+			prefab = policeBuildingPrefab;
         else
             throw new Exception("Not supporting building type " + building.GetType());
 
