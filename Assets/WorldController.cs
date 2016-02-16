@@ -14,14 +14,17 @@ public class WorldController : MonoBehaviour
     public GameObject kebabBuildingPrefab;
 	public GameObject policeBuildingPrefab;
 
-    public World world;
     GameObject tileContainer;
     GameObject buildingContainer;
+
+    public World world;
+    public Player player;
 
     // Use this for initialization
     void Start()
     {
         world = new World();
+        player = new Player("ShrubNub");
         tileContainer = new GameObject("TileContainer");
         buildingContainer = new GameObject("BuildingContainer");
 

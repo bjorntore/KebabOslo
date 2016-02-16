@@ -73,7 +73,7 @@ public class World
             }
         }
 
-        Debug.LogFormat("Created {0} tiles.", width * height);
+        Debug.LogFormat("Created {0} tiles at model level.", width * height);
     }
 
     private void InitBuildings()
@@ -105,7 +105,7 @@ public class World
             }
         }
 
-        Debug.LogFormat("Created {0} buildings.", buildings.Count);
+        Debug.LogFormat("Created {0} buildings at model level.", buildings.Count);
     }
 
     List<Tile> SetAndGetBuildableTiles()
