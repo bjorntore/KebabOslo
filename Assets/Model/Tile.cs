@@ -16,11 +16,6 @@ public class Tile
         this.type = type;
     }
 
-    public bool CanBuildOn()
-    {
-        return type == TileType.Buildable;
-    }
-
     public override string ToString()
     {
         return "Tile_" + Enum.GetName(typeof(TileType), type) + "_" + x + "_" + z;

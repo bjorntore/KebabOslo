@@ -33,7 +33,7 @@ public class World
 
     public void AddBuilding(Building building, Tile tile)
     {
-        if (tile.CanBuildOn())
+        if (tile.type == TileType.Buildable)
         {
             buildings.Add(building);
             building.tile = tile;
@@ -126,7 +126,8 @@ public class World
                 if (neighborTile.type != TileType.Road)
                 {
                     neighborTile.type = TileType.Buildable;
-                    buildableTiles.Add(neighborTile);
+                    if (!buildableTiles.Contains(neighborTile))
+                        buildableTiles.Add(neighborTile);
                 }
             }
         }
