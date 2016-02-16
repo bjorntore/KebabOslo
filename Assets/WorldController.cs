@@ -88,7 +88,7 @@ public class WorldController : MonoBehaviour
         else
             throw new Exception("Not supporting building type " + building.GetType());
 
-        GameObject buildingGameObject = SpawnObject(prefab, building.ToString(), building.x, building.z, buildingContainer);
+        GameObject buildingGameObject = SpawnObject(prefab, building.ToString(), building.tile.x, building.tile.z, buildingContainer);
         BuildingController buildingController = buildingGameObject.GetComponent<BuildingController>();
         buildingController.SetBuilding(building);
     }
@@ -109,4 +109,9 @@ public class WorldController : MonoBehaviour
         Debug.Log("Added and spawned building " + building.ToString());
     }
 
+    public void ReplaceBuilding(Building oldBuilding, Building newBuilding)
+    {
+        world.ReplaceBuilding(oldBuilding, newBuilding);
+        SpawnBuilding(newBuilding);
+    }
 }

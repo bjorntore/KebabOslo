@@ -4,18 +4,16 @@ using System.Collections;
 public abstract class Building
 {
 
-    public int x;
-    public int z;
+    public Tile tile;
 
-    public Building(int x, int z)
+    public Building(Tile tile)
     {
-        this.x = x;
-        this.z = z;
+        this.tile = tile;
     }
 
     public override string ToString()
     {
-        return "Building_" + GetType() + "_" + x + "_" + z;
+        return "Building_" + GetType() + "_" + tile.x + "_" + tile.z;
     }
 
 }

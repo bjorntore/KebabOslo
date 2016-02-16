@@ -2,19 +2,30 @@
 using System.Collections;
 using System;
 
-public class ClubBuildingController : BuildingController, IClickable
+public class ClubBuildingController : NeutralBuildingController, IClickable
 {
 
-    public ClubBuilding building;
+    ClubBuilding building;
 
     public override void SetBuilding(Building building)
     {
         this.building = (ClubBuilding)building;
     }
 
+    protected override Building GetBuilding()
+    {
+        return building;
+    }
+
     public void Click()
     {
-        Debug.Log("FUCKING YEA, ITS CLALLED");
+        GenericDialogPanel panel = GenericDialogPanel.Instance();
+        panel.SetPanel("Club", "Tear down the building and build a kebab shop!", DeleteBuildingAndBuildKebabBuilding, string.Format("Erase and build (-{0} cash)!", Cost()));
+    }
+
+    protected override int Cost()
+    {
+        return 3000;
     }
 
 }

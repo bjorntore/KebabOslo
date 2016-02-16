@@ -6,6 +6,6 @@ using System;
 public class HouseBuilding : Building
 {
 
-    public HouseBuilding(int x, int z) : base(x, z) { }
+    public HouseBuilding(Tile tile) : base(tile) { }
 
 }

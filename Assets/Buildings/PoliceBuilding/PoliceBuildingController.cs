@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-public class PoliceBuildingController : BuildingController, IClickable {
+public class PoliceBuildingController : NeutralBuildingController, IClickable {
 
 	public PoliceBuilding building;
 
@@ -11,8 +11,20 @@ public class PoliceBuildingController : BuildingController, IClickable {
 		this.building = (PoliceBuilding)building;
 	}
 
-	public void Click()
-	{
-		throw new NotImplementedException();
-	}
+    protected override Building GetBuilding()
+    {
+        return building;
+    }
+
+    public void Click()
+    {
+        GenericDialogPanel panel = GenericDialogPanel.Instance();
+        panel.SetPanel("Police station", "Tear down the building and build a kebab shop!", DeleteBuildingAndBuildKebabBuilding, string.Format("Erase and build (-{0} cash)!", Cost()));
+    }
+
+    protected override int Cost()
+    {
+        return 5000;
+    }
+
 }

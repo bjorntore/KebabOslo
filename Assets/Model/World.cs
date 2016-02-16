@@ -35,9 +35,25 @@ public class World
     {
         if (tile.CanBuildOn())
         {
-            tile.type = TileType.Occupied;
             buildings.Add(building);
+            building.tile = tile;
+            building.tile.type = TileType.Occupied;
         }
+        else
+            throw new Exception("Tried to add a new building to tile " + tile.ToString() + " when not allowed. Should not happend. Fix originating code.");
+    }
+
+    public void DeleteBuilding(Building building, Tile tile)
+    {
+        tile.type = TileType.Buildable;
+        buildings.Remove(building);
+    }
+
+    public void ReplaceBuilding(Building oldBuilding, Building newBuilding)
+    {
+        DeleteBuilding(oldBuilding, oldBuilding.tile);
+        AddBuilding(newBuilding, oldBuilding.tile);
+        Debug.Log("Replaced building at model level. Now " + buildings.Count + " total buildings.");
     }
 
     //public List<Customer> ArriveCustomer()
@@ -81,7 +97,7 @@ public class World
         List<Tile> buildableTiles = SetAndGetBuildableTiles();
 
         double clubSpawnChance = 0.1f;
-		double policeSpawnChance = 0.11f;
+        double policeSpawnChance = 0.11f;
         double houseSpawnChance = 0.5f;
 
         buildings = new List<Building>();
@@ -89,20 +105,11 @@ public class World
         {
             float roll = UnityEngine.Random.Range(0.0f, 1.0f);
             if (roll < clubSpawnChance)
-            {
-                buildings.Add(new ClubBuilding(tile.x, tile.z));
-                tile.type = TileType.Occupied;
-            }
-			else if (roll < policeSpawnChance)
-			{
-				buildings.Add(new PoliceBuilding(tile.x, tile.z));
-				tile.type = TileType.Occupied;
-			}
+                AddBuilding(new ClubBuilding(null), tile);
+            else if (roll < policeSpawnChance)
+                AddBuilding(new PoliceBuilding(null), tile);
             else if (roll < houseSpawnChance)
-            {
-                buildings.Add(new HouseBuilding(tile.x, tile.z));
-                tile.type = TileType.Occupied;
-            }
+                AddBuilding(new HouseBuilding(null), tile);
         }
 
         Debug.LogFormat("Created {0} buildings at model level.", buildings.Count);
@@ -114,7 +121,7 @@ public class World
 
         foreach (Tile roadTile in _roadTiles)
         {
-            foreach(Tile neighborTile in GetNeighborTiles(roadTile))
+            foreach (Tile neighborTile in GetNeighborTiles(roadTile))
             {
                 if (neighborTile.type != TileType.Road)
                 {

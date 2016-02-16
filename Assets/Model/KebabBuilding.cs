@@ -6,6 +6,6 @@ using System;
 public class KebabBuilding : Building
 {
 
-    public KebabBuilding(int x, int z) : base(x, z) { }
+    public KebabBuilding(Tile tile) : base(tile) { }
 
 }

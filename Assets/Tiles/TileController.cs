@@ -4,7 +4,6 @@ using System;
 
 public class TileController : MonoBehaviour, IClickable
 {
-
     public Tile tile;
 
     public void Click()
@@ -17,14 +16,14 @@ public class TileController : MonoBehaviour, IClickable
         }
     }
 
-    public void BuildKebabBuilding()
+    private void BuildKebabBuilding()
     {
         WorldController wc = FindObjectOfType<WorldController>();
-        wc.AddAndSpawnBuilding(new KebabBuilding(tile.x, tile.z), tile);
+        wc.AddAndSpawnBuilding(new KebabBuilding(tile), tile);
         wc.player.ChangeCash(-Cost());
     }
 
-    public int Cost()
+    private int Cost()
     {
         return 1000;
     }
