@@ -6,6 +6,12 @@ using System;
 public class PoliceBuilding : Building
 {
 
-	public PoliceBuilding(Tile tile) : base(tile) { }
+    float spawnCooldown = 30;
+    public override float SpawnCooldown { get { return spawnCooldown; } }
+
+    float lastSpawnTime;
+    public override float LastSpawnTimed { get; set; }
+
+    public PoliceBuilding(Tile tile) : base(tile) { }
 
 }

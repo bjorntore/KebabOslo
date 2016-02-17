@@ -14,8 +14,11 @@ public class WorldController : MonoBehaviour
     public GameObject kebabBuildingPrefab;
 	public GameObject policeBuildingPrefab;
 
+    public GameObject normalCustomerPrefab;
+
     GameObject tileContainer;
     GameObject buildingContainer;
+    GameObject customerContainer;
 
     public World world;
     public Player player;
@@ -27,10 +30,16 @@ public class WorldController : MonoBehaviour
         player = new Player("ShrubNub");
         tileContainer = new GameObject("TileContainer");
         buildingContainer = new GameObject("BuildingContainer");
+        customerContainer = new GameObject("CustomerContainer");
 
         AdjustGround();
         SpawnTiles();
         SpawnBuildings();
+    }
+
+    void Update()
+    {
+        StartCoroutine(CustomerSpawnerRutine());
     }
 
     void AdjustGround()
@@ -93,7 +102,26 @@ public class WorldController : MonoBehaviour
         buildingController.SetBuilding(building);
     }
 
-    GameObject SpawnObject(GameObject prefab, string name, int x, int z, GameObject parent=null)
+    IEnumerator CustomerSpawnerRutine()
+    {
+        foreach (Building building in world.Buildings)
+        {
+            //Debug.Log("CustomerSpawnerRutine looping building " + building.ToString());
+            if (building.SpawnRoll())
+            {
+                Customer customer = world.CreateCustomer(building.tile.x, building.tile.z);
+                SpawnCustomer(customer);
+            }
+            yield return null;
+        }
+    }
+
+    private void SpawnCustomer(Customer customer)
+    {
+        SpawnObject(normalCustomerPrefab, customer.ToString(), customer.x, customer.z, customerContainer);
+    }
+
+    GameObject SpawnObject(GameObject prefab, string name, int x, int z, GameObject parent)
     {
         GameObject gameObject = (GameObject)Instantiate(prefab, new Vector3(x, 0, z), Quaternion.identity);
         gameObject.name = name;
@@ -114,4 +142,5 @@ public class WorldController : MonoBehaviour
         world.ReplaceBuilding(oldBuilding, newBuilding);
         SpawnBuilding(newBuilding);
     }
+
 }

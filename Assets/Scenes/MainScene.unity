@@ -575,6 +575,10 @@ Prefab:
       propertyPath: groundTransform
       value: 
       objectReference: {fileID: 1046237520}
+    - target: {fileID: 11423862, guid: 653e3c91e342a1d46a5e65a9bd29bb16, type: 2}
+      propertyPath: normalCustomerPrefab
+      value: 
+      objectReference: {fileID: 138778, guid: dfda6d53fc5f0ae4caa1862e2541bc45, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 653e3c91e342a1d46a5e65a9bd29bb16, type: 2}
   m_IsPrefabParent: 0

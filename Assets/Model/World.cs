@@ -19,8 +19,11 @@ public class World
     public Tile[,] Tiles { get { return tiles; } }
     private List<Tile> _roadTiles;
 
-    List<Building> buildings;
+    List<Building> buildings = new List<Building>();
     public List<Building> Buildings { get { return buildings; } }
+
+    List<Customer> customers = new List<Customer>();
+    public List<Customer> Customers { get { return customers; } }
 
     public World(int width = 200, int height = 200)
     {
@@ -43,6 +46,14 @@ public class World
             throw new Exception("Tried to add a new building to tile " + tile.ToString() + " when not allowed. Should not happend. Fix originating code.");
     }
 
+    public Customer CreateCustomer(int x, int z)
+    {
+        Customer newCustomer = new Customer(x, z);
+        customers.Add(newCustomer);
+        //Debug.Log("There are now at model level " + customers.Count + " total customers.");
+        return newCustomer;
+    }
+
     public void DeleteBuilding(Building building, Tile tile)
     {
         tile.type = TileType.Buildable;
@@ -55,16 +66,6 @@ public class World
         AddBuilding(newBuilding, oldBuilding.tile);
         Debug.Log("Replaced building at model level. Now " + buildings.Count + " total buildings.");
     }
-
-    //public List<Customer> ArriveCustomer()
-    //{
-    //    List<Customer> newCustomers = new List<Customer>();
-
-    //    foreach(Building building in buildings)
-    //    {
-
-    //    }
-    //}
 
     private void InitTiles(int width, int height)
     {
@@ -101,7 +102,6 @@ public class World
         double houseSpawnChance = 0.5f;
         //UnityEngine.Random.seed = 42; // Debug purpose only, same random values for testing performance
 
-        buildings = new List<Building>();
         foreach (Tile tile in buildableTiles)
         {
             float roll = UnityEngine.Random.Range(0.0f, 1.0f);
@@ -112,6 +112,8 @@ public class World
             else if (roll < houseSpawnChance)
                 AddBuilding(new HouseBuilding(null), tile);
         }
+
+        Shuffle(buildings);
 
         Debug.LogFormat("Created {0} buildings at model level.", buildings.Count);
     }
@@ -175,6 +177,22 @@ public class World
             roadLines.Add(width / 2);
 
         return roadLines;
+    }
+
+
+    public void Shuffle<T>(List<T> list)
+    {
+        System.Random rng = new System.Random();
+            
+        int n = list.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = rng.Next(n + 1);
+            T value = list[k];
+            list[k] = list[n];
+            list[n] = value;
+        }
     }
 
 }

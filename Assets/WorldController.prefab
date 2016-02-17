@@ -58,6 +58,7 @@ MonoBehaviour:
   clubBuildingPrefab: {fileID: 153948, guid: d3d1a115b9ea2fe4b8af34e88f038fd3, type: 2}
   kebabBuildingPrefab: {fileID: 196710, guid: d5f4e512c28422e46a0bdbafdfbeaaa6, type: 2}
   policeBuildingPrefab: {fileID: 127936, guid: e1964adbae65c0348bc708febdb585f9, type: 2}
+  normalCustomerPrefab: {fileID: 138778, guid: dfda6d53fc5f0ae4caa1862e2541bc45, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
