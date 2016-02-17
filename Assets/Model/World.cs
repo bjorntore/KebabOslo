@@ -99,6 +99,7 @@ public class World
         double clubSpawnChance = 0.1f;
         double policeSpawnChance = 0.11f;
         double houseSpawnChance = 0.5f;
+        //UnityEngine.Random.seed = 42; // Debug purpose only, same random values for testing performance
 
         buildings = new List<Building>();
         foreach (Tile tile in buildableTiles)
