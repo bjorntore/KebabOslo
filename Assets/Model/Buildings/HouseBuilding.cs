@@ -6,10 +6,9 @@ using System;
 public class HouseBuilding : Building
 {
 
-    float spawnCooldown = 300;
+    float spawnCooldown = 1;
     public override float SpawnCooldown { get { return spawnCooldown; } }
 
-    float lastSpawnTime;
     public override float LastSpawnTimed { get; set; }
 
     public HouseBuilding(Tile tile) : base(tile) { }

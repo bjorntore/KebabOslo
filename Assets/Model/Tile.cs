@@ -9,6 +9,8 @@ public class Tile
     public int z;
     public TileType type;
 
+    public Tile adjacentRoadTile;
+
     public Tile(int x, int z, TileType type)
     {
         this.x = x;

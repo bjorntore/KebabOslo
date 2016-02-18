@@ -21,6 +21,7 @@ public class World
 
     List<Building> buildings = new List<Building>();
     public List<Building> Buildings { get { return buildings; } }
+    List<KebabBuilding> _kebabBuildings = new List<KebabBuilding>();
 
     List<Customer> customers = new List<Customer>();
     public List<Customer> Customers { get { return customers; } }
@@ -41,6 +42,11 @@ public class World
             buildings.Add(building);
             building.tile = tile;
             building.tile.type = TileType.Occupied;
+            if (building is KebabBuilding)
+            {
+                _kebabBuildings.Add((KebabBuilding)building);
+                SanityCheckKebabBuildingsCount();
+            }
         }
         else
             throw new Exception("Tried to add a new building to tile " + tile.ToString() + " when not allowed. Should not happend. Fix originating code.");
@@ -49,8 +55,8 @@ public class World
     public Customer CreateCustomer(int x, int z)
     {
         Customer newCustomer = new Customer(x, z);
+        newCustomer.DecideDestinationAndPath(FindNearestKebabBuilding(x, z), width, height, _roadTiles);
         customers.Add(newCustomer);
-        //Debug.Log("There are now at model level " + customers.Count + " total customers.");
         return newCustomer;
     }
 
@@ -58,6 +64,19 @@ public class World
     {
         tile.type = TileType.Buildable;
         buildings.Remove(building);
+        if (building is KebabBuilding)
+        {
+            _kebabBuildings.Remove((KebabBuilding)building);
+            SanityCheckKebabBuildingsCount();
+        }
+    }
+
+    private void SanityCheckKebabBuildingsCount()
+    {
+        int _kebabBuildingsCount = _kebabBuildings.Count;
+        int buildingsCount = buildings.Where(b => b is KebabBuilding).Count();
+        if (_kebabBuildingsCount != buildingsCount)
+            throw new Exception(string.Format("Missmatch between count in _kebabBuildings ({0}) and buildings ({1}). Should never happend that the cached _KebabBuildings has different number.", _kebabBuildingsCount, buildingsCount));
     }
 
     public void ReplaceBuilding(Building oldBuilding, Building newBuilding)
@@ -100,7 +119,7 @@ public class World
         double clubSpawnChance = 0.1f;
         double policeSpawnChance = 0.11f;
         double houseSpawnChance = 0.5f;
-        //UnityEngine.Random.seed = 42; // Debug purpose only, same random values for testing performance
+        UnityEngine.Random.seed = 42; // Debug purpose only, same random values for testing performance
 
         foreach (Tile tile in buildableTiles)
         {
@@ -130,7 +149,10 @@ public class World
                 {
                     neighborTile.type = TileType.Buildable;
                     if (!buildableTiles.Contains(neighborTile))
+                    {
+                        neighborTile.adjacentRoadTile = roadTile;
                         buildableTiles.Add(neighborTile);
+                    }
                 }
             }
         }
@@ -193,6 +215,24 @@ public class World
             list[k] = list[n];
             list[n] = value;
         }
+    }
+
+    KebabBuilding FindNearestKebabBuilding(int x, int z)
+    {
+        double shorestDistance = double.PositiveInfinity;
+        KebabBuilding shortestKebabBuilding = null;
+
+        foreach(KebabBuilding building in _kebabBuildings)
+        {
+            double distance = Math.Sqrt(Math.Pow(Math.Abs(building.tile.x - x), 2) + Math.Pow(Math.Abs(building.tile.z - z), 2));
+            if (distance < shorestDistance)
+            {
+                shorestDistance = distance;
+                shortestKebabBuilding = building;
+            }
+        }
+
+        return shortestKebabBuilding;
     }
 
 }

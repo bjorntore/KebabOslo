@@ -35,10 +35,7 @@ public class WorldController : MonoBehaviour
         AdjustGround();
         SpawnTiles();
         SpawnBuildings();
-    }
 
-    void Update()
-    {
         StartCoroutine(CustomerSpawnerRutine());
     }
 
@@ -104,24 +101,37 @@ public class WorldController : MonoBehaviour
 
     IEnumerator CustomerSpawnerRutine()
     {
-        foreach (Building building in world.Buildings)
+        int MaxCustomers = 300;
+
+        while (true)
         {
-            //Debug.Log("CustomerSpawnerRutine looping building " + building.ToString());
-            if (building.SpawnRoll())
+            foreach (Building building in world.Buildings)
             {
-                Customer customer = world.CreateCustomer(building.tile.x, building.tile.z);
-                SpawnCustomer(customer);
+                if (world.Customers.Count >= MaxCustomers)
+                    yield return new WaitForSeconds(10);
+
+                if (world.Customers.Count < MaxCustomers && building.SpawnRoll())
+                {
+                    Customer customer = world.CreateCustomer(building.tile.x, building.tile.z);
+                    SpawnCustomer(customer, building.tile);
+                }
+                yield return null;
             }
-            yield return null;
+
+            yield return 0;
         }
     }
 
-    private void SpawnCustomer(Customer customer)
+    private void SpawnCustomer(Customer customer, Tile tile)
     {
-        SpawnObject(normalCustomerPrefab, customer.ToString(), customer.x, customer.z, customerContainer);
+        float spawnX = (tile.x + tile.adjacentRoadTile.x) / 2.0f;
+        float spawnZ = (tile.z + tile.adjacentRoadTile.z) / 2.0f;
+        GameObject customerGameObject = SpawnObject(normalCustomerPrefab, customer.ToString(), spawnX, spawnZ, customerContainer);
+        CustomerController customerController = customerGameObject.GetComponent<CustomerController>();
+        customerController.customer = customer;
     }
 
-    GameObject SpawnObject(GameObject prefab, string name, int x, int z, GameObject parent)
+    GameObject SpawnObject(GameObject prefab, string name, float x, float z, GameObject parent)
     {
         GameObject gameObject = (GameObject)Instantiate(prefab, new Vector3(x, 0, z), Quaternion.identity);
         gameObject.name = name;
