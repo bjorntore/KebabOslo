@@ -116,22 +116,28 @@ public class World
     {
         List<Tile> buildableTiles = SetAndGetBuildableTiles();
 
-        double clubSpawnChance = 0.1f;
-        double policeSpawnChance = 0.11f;
-        double houseSpawnChance = 0.5f;
+        ProportionItem clubSpawn = new ProportionItem("Club", 10);
+        ProportionItem policeSpawn = new ProportionItem("Police", 2);
+        ProportionItem houseSpawn = new ProportionItem("House", 40);
+        ProportionItem emptyTile = new ProportionItem("Empty", 48);
+
+        ProportionValues buildingSpawnChances = new ProportionValues(new ProportionItem[] { clubSpawn, policeSpawn, houseSpawn, emptyTile });
+
         UnityEngine.Random.seed = 42; // Debug purpose only, same random values for testing performance
 
         foreach (Tile tile in buildableTiles)
         {
-            float roll = UnityEngine.Random.Range(0.0f, 1.0f);
-            if (roll < clubSpawnChance)
+            var randomChoice = buildingSpawnChances.RandomChoice();
+
+            if (randomChoice.Name == "Club")
                 AddBuilding(new ClubBuilding(null), tile);
-            else if (roll < policeSpawnChance)
+            else if (randomChoice.Name == "Police")
                 AddBuilding(new PoliceBuilding(null), tile);
-            else if (roll < houseSpawnChance)
+            else if (randomChoice.Name == "House")
                 AddBuilding(new HouseBuilding(null), tile);
         }
 
+        LogBuildingTypes();
         Shuffle(buildings);
 
         Debug.LogFormat("Created {0} buildings at model level.", buildings.Count);
@@ -205,7 +211,7 @@ public class World
     public void Shuffle<T>(List<T> list)
     {
         System.Random rng = new System.Random();
-            
+
         int n = list.Count;
         while (n > 1)
         {
@@ -222,7 +228,7 @@ public class World
         double shorestDistance = double.PositiveInfinity;
         KebabBuilding shortestKebabBuilding = null;
 
-        foreach(KebabBuilding building in _kebabBuildings)
+        foreach (KebabBuilding building in _kebabBuildings)
         {
             double distance = Math.Sqrt(Math.Pow(Math.Abs(building.tile.x - x), 2) + Math.Pow(Math.Abs(building.tile.z - z), 2));
             if (distance < shorestDistance)
@@ -235,4 +241,18 @@ public class World
         return shortestKebabBuilding;
     }
 
+    private void LogBuildingTypes()
+    {
+        if (Debug.isDebugBuild)
+        {
+            var types = buildings.GroupBy(b => b.GetType())
+                    .Select(g => new { Type = g.Key, Count = g.Count() })
+                    .ToList();
+
+            foreach (var a in types)
+            {
+                Debug.Log(a.Type + ": " + a.Count);
+            }
+        }
+    }
 }
