@@ -18,9 +18,9 @@ public class TileController : MonoBehaviour, IClickable
 
     private void BuildKebabBuilding()
     {
-        WorldController wc = FindObjectOfType<WorldController>();
-        wc.AddAndSpawnBuilding(new KebabBuilding(tile), tile);
-        wc.player.ChangeCash(-Cost());
+        WorldController worldController = FindObjectOfType<WorldController>();
+        worldController.AddAndSpawnKebabBuilding(new KebabBuilding(tile), tile);
+        worldController.player.ChangeCash(-Cost());
     }
 
     private int Cost()

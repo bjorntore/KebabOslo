@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System;
 using System.Linq;
-
+using System.Collections;
 
 public class World
 {
@@ -55,9 +55,23 @@ public class World
     public Customer CreateCustomer(int x, int z)
     {
         Customer newCustomer = new Customer(x, z);
-        newCustomer.DecideDestinationAndPath(FindNearestKebabBuilding(x, z), width, height, _roadTiles);
+        newCustomer.DecideDestinationAndPath(FindNearestKebabBuildingByLinearDistance(x, z), width, height, _roadTiles);
         customers.Add(newCustomer);
         return newCustomer;
+    }
+
+    public IEnumerator SetNewCustomerDestinations(int potentialNewX, int potentialNewZ)
+    {
+        List<Customer> customersReferenceCopy = new List<Customer>(customers)
+            .Where(c => !c.HasArrived())
+            .OrderBy(c => Math.Abs(potentialNewX - c.x) + Math.Abs(potentialNewZ - c.z) ).ToList();
+
+        foreach (Customer customer in customersReferenceCopy)
+        {
+            //Debug.Log("Setting new dest for " + customer.ToString());
+            customer.DecideDestinationAndPath(FindNearestKebabBuildingByLinearDistance(customer.x, customer.z), width, height, _roadTiles);
+            yield return new WaitForSeconds(0.3f);
+        }
     }
 
     public void DeleteBuilding(Building building, Tile tile)
@@ -223,22 +237,22 @@ public class World
         }
     }
 
-    KebabBuilding FindNearestKebabBuilding(int x, int z)
+    KebabBuilding FindNearestKebabBuildingByLinearDistance(int fromX, int fromZ)
     {
-        double shorestDistance = double.PositiveInfinity;
-        KebabBuilding shortestKebabBuilding = null;
+        double nearestDistance = double.PositiveInfinity;
+        KebabBuilding nearestKebabBuilding = null;
 
         foreach (KebabBuilding building in _kebabBuildings)
         {
-            double distance = Math.Sqrt(Math.Pow(Math.Abs(building.tile.x - x), 2) + Math.Pow(Math.Abs(building.tile.z - z), 2));
-            if (distance < shorestDistance)
+            double distance = Math.Sqrt(Math.Pow(Math.Abs(building.tile.x - fromX), 2) + Math.Pow(Math.Abs(building.tile.z - fromZ), 2));
+            if (distance < nearestDistance)
             {
-                shorestDistance = distance;
-                shortestKebabBuilding = building;
+                nearestDistance = distance;
+                nearestKebabBuilding = building;
             }
         }
 
-        return shortestKebabBuilding;
+        return nearestKebabBuilding;
     }
 
     private void LogBuildingTypes()

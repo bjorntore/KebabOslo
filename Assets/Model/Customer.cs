@@ -2,12 +2,18 @@
 using System.Collections.Generic;
 using EpPathFinding.cs;
 using System;
+using UnityEngine;
 
+[Serializable]
 public class Customer
 {
 
-    public int x;
-    public int z;
+    public Guid InstanceID;
+    public int x; // OBS: The position is set before the object actually arrives @ drawing
+    public int z; // OBS: The position is set before the object actually arrives @ drawing
+
+    public int movingToX;
+    public int movingToZ;
 
     public int destinationX = -1;
     public int destinationZ = -1;
@@ -17,21 +23,27 @@ public class Customer
 
     public Customer(int x, int z)
     {
+        this.InstanceID = Guid.NewGuid();
         this.x = x;
         this.z = z;
     }
 
     public override string ToString()
     {
-        return "Customer_" + x + "_" + z;
+        return  "Customer_" + x + "_" + z + "_" + InstanceID;
+    }
+
+    public bool HasArrived()
+    {
+        return (x == destinationX && z == destinationZ);
     }
 
     public void DecideDestinationAndPath(KebabBuilding nearestKebabBuilding, int worldWidth, int worldHeight, List<Tile> roadTiles)
     {
         if (nearestKebabBuilding != null)
         {
-            destinationX = nearestKebabBuilding.tile.adjacentRoadTile.x;
-            destinationZ = nearestKebabBuilding.tile.adjacentRoadTile.z;
+            destinationX = nearestKebabBuilding.tile.x;
+            destinationZ = nearestKebabBuilding.tile.z;
         }
         else
         {
@@ -56,19 +68,15 @@ public class Customer
 
         if (resultPath.Count == 0)
             throw new Exception("Path finding algorithm failed. Did not find any path. Should not happen.");
-
-    }
-
-    public bool HasArrived()
-    {
-        return (x == destinationX && z == destinationZ);
+        else
+            MoveToNextPos();
     }
 
     public void MoveToNextPos()
     {
         GridPos next = resultPath[currentResultPathIndex];
-        x = next.x;
-        z = next.y;
+        movingToX = next.x;
+        movingToZ = next.y;
         currentResultPathIndex++;
     }
 

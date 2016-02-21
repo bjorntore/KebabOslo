@@ -23,6 +23,8 @@ public class WorldController : MonoBehaviour
     public World world;
     public Player player;
 
+    int customerSpawnerBIndex = 0;
+
     // Use this for initialization
     void Start()
     {
@@ -105,14 +107,16 @@ public class WorldController : MonoBehaviour
 
         while (true)
         {
-            foreach (Building building in world.Buildings)
+            for (; customerSpawnerBIndex < world.Buildings.Count; customerSpawnerBIndex++)
             {
+                Building building = world.Buildings[customerSpawnerBIndex];
+
                 if (world.Customers.Count >= MaxCustomers)
                     yield return new WaitForSeconds(10);
 
                 if (world.Customers.Count < MaxCustomers && building.SpawnRoll())
                 {
-                    Customer customer = world.CreateCustomer(building.tile.x, building.tile.z);
+                    Customer customer = world.CreateCustomer(building.tile.adjacentRoadTile.x, building.tile.adjacentRoadTile.z);
                     SpawnCustomer(customer, building.tile);
                 }
                 yield return null;
@@ -140,11 +144,16 @@ public class WorldController : MonoBehaviour
         return gameObject;
     }
 
-    public void AddAndSpawnBuilding(Building building, Tile tile)
+    public void AddAndSpawnKebabBuilding(KebabBuilding building, Tile tile)
     {
+        StopCoroutine(CustomerSpawnerRutine());
+
         world.AddBuilding(building, tile);
         SpawnBuilding(building);
+        StartCoroutine(world.SetNewCustomerDestinations(tile.x, tile.z));
         Debug.Log("Added and spawned building " + building.ToString());
+
+        StartCoroutine(CustomerSpawnerRutine());
     }
 
     public void ReplaceBuilding(Building oldBuilding, Building newBuilding)

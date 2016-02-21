@@ -35,7 +35,6 @@ public class MouseManager : MonoBehaviour
                 IClickable clickableObject = ourHitObject.GetComponent<IClickable>();
                 if (clickableObject != null)
                 {
-                    Debug.Log("Inni clickedOb");
                     clickableObject.Click();
                     return;
                 }
