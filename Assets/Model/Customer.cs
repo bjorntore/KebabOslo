@@ -81,7 +81,6 @@ public class Customer
                 SetDestinationToMapEnd();
             else
             {
-                Debug.Log("GOING HOME");
                 destinationBuilding = null;
                 SetOriginAsDestination();
             }

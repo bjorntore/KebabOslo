@@ -16,13 +16,13 @@ public class CustomerController : MonoBehaviour
     public void SetCustomer(Customer customer)
     {
         this.customer = customer;
-        //bodyTransform.localScale = GetBodyScale(customer.hunger);
     }
 
 	// Use this for initialization
 	void Start () {
         baseBodyScaleX = bodyTransform.localScale.x;
         baseBodyScaleZ = bodyTransform.localScale.z;
+        bodyTransform.localScale = GetBodyScale(customer.hunger);
     }
 	
 	// Update is called once per frame
@@ -46,7 +46,7 @@ public class CustomerController : MonoBehaviour
             if (customer.DestinationBuilding is KebabBuilding)
             {
                 worldController.player.ChangeCash(10);
-                //bodyTransform.localScale = GetBodyScale(customer.hunger);
+                bodyTransform.localScale = GetBodyScale(customer.hunger);
                 customer.DecideDestinationAndPath();
             }
             else
@@ -58,11 +58,11 @@ public class CustomerController : MonoBehaviour
         }
     }
 
-    //private Vector3 GetBodyScale(int hunger)
-    //{
-    //    float scaleX = baseBodyScaleX - (0.4f * hunger / 100.0f);
-    //    float scaleZ = baseBodyScaleZ - (0.4f * hunger / 100.0f);
-    //    return new Vector3(scaleX, bodyTransform.localScale.y, scaleZ);
-    //}
+    private Vector3 GetBodyScale(int hunger)
+    {
+        float scaleX = baseBodyScaleX - (0.4f * hunger / 100.0f);
+        float scaleZ = baseBodyScaleZ - (0.4f * hunger / 100.0f);
+        return new Vector3(scaleX, bodyTransform.localScale.y, scaleZ);
+    }
 
 }
