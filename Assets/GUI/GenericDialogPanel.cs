@@ -13,7 +13,6 @@ public class GenericDialogPanel : MonoBehaviour
     public UnityEngine.UI.Button cancel;
 
     private static GenericDialogPanel genericDialogPanel;
-
     public static GenericDialogPanel Instance()
     {
         if (!genericDialogPanel)

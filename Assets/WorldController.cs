@@ -24,6 +24,38 @@ public class WorldController : MonoBehaviour
     public Player player;
 
     int customerSpawnerBIndex = 0;
+    int MaxCustomers = 50;
+
+    private static WorldController worldController;
+    public static WorldController Instance()
+    {
+        if (!worldController)
+        {
+            worldController = FindObjectOfType(typeof(WorldController)) as WorldController;
+            if (!worldController)
+                Debug.LogError("There needs to be one active WorldController script on a GameObject in your scene.");
+        }
+
+        return worldController;
+    }
+
+    public void AddAndSpawnKebabBuilding(KebabBuilding building, Tile tile)
+    {
+        StopCoroutine(CustomerSpawnerRutine());
+
+        world.AddBuilding(building, tile);
+        SpawnBuilding(building);
+        StartCoroutine(world.SetNewCustomerDestinations(tile.x, tile.z));
+        Debug.Log("Added and spawned building " + building.ToString());
+
+        StartCoroutine(CustomerSpawnerRutine());
+    }
+
+    public void ReplaceBuilding(Building oldBuilding, Building newBuilding)
+    {
+        world.ReplaceBuilding(oldBuilding, newBuilding);
+        SpawnBuilding(newBuilding);
+    }
 
     // Use this for initialization
     void Start()
@@ -82,7 +114,7 @@ public class WorldController : MonoBehaviour
             SpawnBuilding(building);
     }
 
-    private void SpawnBuilding(Building building)
+    void SpawnBuilding(Building building)
     {
         GameObject prefab;
         if (building is ClubBuilding)
@@ -103,20 +135,18 @@ public class WorldController : MonoBehaviour
 
     IEnumerator CustomerSpawnerRutine()
     {
-        int MaxCustomers = 300;
-
         while (true)
         {
-            for (; customerSpawnerBIndex < world.Buildings.Count; customerSpawnerBIndex++)
+            for (customerSpawnerBIndex = 0; customerSpawnerBIndex < world.Buildings.Count; customerSpawnerBIndex++)
             {
                 Building building = world.Buildings[customerSpawnerBIndex];
 
                 if (world.Customers.Count >= MaxCustomers)
-                    yield return new WaitForSeconds(10);
+                    yield return new WaitForSeconds(5);
 
                 if (world.Customers.Count < MaxCustomers && building.SpawnRoll())
                 {
-                    Customer customer = world.CreateCustomer(building.tile.adjacentRoadTile.x, building.tile.adjacentRoadTile.z);
+                    Customer customer = world.CreateCustomer(building.tile.x, building.tile.z);
                     SpawnCustomer(customer, building.tile);
                 }
                 yield return null;
@@ -126,13 +156,13 @@ public class WorldController : MonoBehaviour
         }
     }
 
-    private void SpawnCustomer(Customer customer, Tile tile)
+    void SpawnCustomer(Customer customer, Tile tile)
     {
-        float spawnX = (tile.x + tile.adjacentRoadTile.x) / 2.0f;
-        float spawnZ = (tile.z + tile.adjacentRoadTile.z) / 2.0f;
-        GameObject customerGameObject = SpawnObject(normalCustomerPrefab, customer.ToString(), spawnX, spawnZ, customerContainer);
+        //float spawnX = (tile.x + tile.adjacentRoadTile.x) / 2.0f;
+        //float spawnZ = (tile.z + tile.adjacentRoadTile.z) / 2.0f;
+        GameObject customerGameObject = SpawnObject(normalCustomerPrefab, customer.ToString(), tile.x, tile.z, customerContainer);
         CustomerController customerController = customerGameObject.GetComponent<CustomerController>();
-        customerController.customer = customer;
+        customerController.SetCustomer(customer);
     }
 
     GameObject SpawnObject(GameObject prefab, string name, float x, float z, GameObject parent)
@@ -142,24 +172,6 @@ public class WorldController : MonoBehaviour
         gameObject.transform.parent = parent.transform;
 
         return gameObject;
-    }
-
-    public void AddAndSpawnKebabBuilding(KebabBuilding building, Tile tile)
-    {
-        StopCoroutine(CustomerSpawnerRutine());
-
-        world.AddBuilding(building, tile);
-        SpawnBuilding(building);
-        StartCoroutine(world.SetNewCustomerDestinations(tile.x, tile.z));
-        Debug.Log("Added and spawned building " + building.ToString());
-
-        StartCoroutine(CustomerSpawnerRutine());
-    }
-
-    public void ReplaceBuilding(Building oldBuilding, Building newBuilding)
-    {
-        world.ReplaceBuilding(oldBuilding, newBuilding);
-        SpawnBuilding(newBuilding);
     }
 
 }

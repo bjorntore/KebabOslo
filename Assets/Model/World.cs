@@ -17,11 +17,15 @@ public class World
 
     Tile[,] tiles;
     public Tile[,] Tiles { get { return tiles; } }
-    private List<Tile> _roadTiles;
+
+    List<Tile> _roadTiles;
+    public List<Tile> RoadTiles { get { return _roadTiles; } }
 
     List<Building> buildings = new List<Building>();
     public List<Building> Buildings { get { return buildings; } }
+
     List<KebabBuilding> _kebabBuildings = new List<KebabBuilding>();
+    public List<KebabBuilding> KebabBuildings { get { return _kebabBuildings; } }
 
     List<Customer> customers = new List<Customer>();
     public List<Customer> Customers { get { return customers; } }
@@ -54,22 +58,26 @@ public class World
 
     public Customer CreateCustomer(int x, int z)
     {
-        Customer newCustomer = new Customer(x, z);
-        newCustomer.DecideDestinationAndPath(FindNearestKebabBuildingByLinearDistance(x, z), width, height, _roadTiles);
+        Customer newCustomer = new Customer(x, z, this);
+        newCustomer.DecideDestinationAndPath();
         customers.Add(newCustomer);
         return newCustomer;
+    }
+
+    public void RemoveCustomer(Customer customer)
+    {
+        customers.Remove(customer);
     }
 
     public IEnumerator SetNewCustomerDestinations(int potentialNewX, int potentialNewZ)
     {
         List<Customer> customersReferenceCopy = new List<Customer>(customers)
             .Where(c => !c.HasArrived())
-            .OrderBy(c => Math.Abs(potentialNewX - c.x) + Math.Abs(potentialNewZ - c.z) ).ToList();
+            .OrderBy(c => Math.Abs(potentialNewX - c.X) + Math.Abs(potentialNewZ - c.Z) ).ToList();
 
         foreach (Customer customer in customersReferenceCopy)
         {
-            //Debug.Log("Setting new dest for " + customer.ToString());
-            customer.DecideDestinationAndPath(FindNearestKebabBuildingByLinearDistance(customer.x, customer.z), width, height, _roadTiles);
+            customer.DecideDestinationAndPath();
             yield return new WaitForSeconds(0.3f);
         }
     }
@@ -109,6 +117,8 @@ public class World
         //List<int> zRoadLines = RollRoadLines();
         List<int> xRoadLines = new List<int>() { 2, 20, 50, 51, 80 }; // Debug purpose only
         List<int> zRoadLines = new List<int>() { 2, 20, 50, 51, 80 }; // Debug purpose only
+        //List<int> xRoadLines = new List<int>() { 2, 6}; // Debug purpose only
+        //List<int> zRoadLines = new List<int>() { 2, 6}; // Debug purpose only
 
         for (int x = 0; x < width; x++)
         {
@@ -235,24 +245,6 @@ public class World
             list[k] = list[n];
             list[n] = value;
         }
-    }
-
-    KebabBuilding FindNearestKebabBuildingByLinearDistance(int fromX, int fromZ)
-    {
-        double nearestDistance = double.PositiveInfinity;
-        KebabBuilding nearestKebabBuilding = null;
-
-        foreach (KebabBuilding building in _kebabBuildings)
-        {
-            double distance = Math.Sqrt(Math.Pow(Math.Abs(building.tile.x - fromX), 2) + Math.Pow(Math.Abs(building.tile.z - fromZ), 2));
-            if (distance < nearestDistance)
-            {
-                nearestDistance = distance;
-                nearestKebabBuilding = building;
-            }
-        }
-
-        return nearestKebabBuilding;
     }
 
     private void LogBuildingTypes()
