@@ -6,6 +6,8 @@ using System;
 public class CustomerController : MonoBehaviour
 {
 
+    WorldController worldController;
+
     public Customer customer;
     public Customer Customer { get { return customer; } }
 
@@ -20,6 +22,8 @@ public class CustomerController : MonoBehaviour
 
 	// Use this for initialization
 	void Start () {
+        worldController = WorldController.Instance();
+
         baseBodyScaleX = bodyTransform.localScale.x;
         baseBodyScaleZ = bodyTransform.localScale.z;
         bodyTransform.localScale = GetBodyScale(customer.hunger);
@@ -28,34 +32,33 @@ public class CustomerController : MonoBehaviour
 	// Update is called once per frame
 	void Update () {
         if (transform.position.x != customer.destinationX || transform.position.z != customer.destinationZ) // Has to use transform.position.x so the algorithm stops running when its exactly on destination. Cant use HasArrived() which is an rounded position.
+            Move();
+        else if (customer.State == CustomerState.MovingToEat) // This only triggers when arrived
         {
-            if (transform.position.x == customer.movingToX && transform.position.z == customer.movingToZ)
-                customer.SetNextMovingToPosition();
-
-            float step = customer.moveSpeed * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, new Vector3(customer.movingToX, transform.position.y, customer.movingToZ), step);
-
-            customer.SetPosition((int)Math.Round(transform.position.x, 0), (int)Math.Round(transform.position.z, 0));
+            customer.TriggerArrivedAtKebabBuilding();
+            worldController.player.ChangeCash(10);
         }
-        else // Has arrived at exact destination
+        else if (customer.State == CustomerState.MovingToOrigin || customer.State == CustomerState.MovingToMapEnd) // This only triggers when arrived
         {
-            customer.TriggerArrived();
-
-            WorldController worldController = WorldController.Instance();
-
-            if (customer.DestinationBuilding is KebabBuilding)
-            {
-                worldController.player.ChangeCash(10);
-                bodyTransform.localScale = GetBodyScale(customer.hunger);
-                customer.DecideDestinationAndPath();
-            }
-            else
-            {
-                worldController.world.RemoveCustomer(customer);
-                Destroy(gameObject);
-            }
-
+            worldController.world.RemoveCustomer(customer);
+            Destroy(gameObject);
         }
+        else if (customer.State == CustomerState.Eating && Time.time >= customer.eatingUntil)
+        {
+            customer.StopEating();
+            bodyTransform.localScale = GetBodyScale(customer.hunger);
+        }
+    }
+
+    private void Move()
+    {
+        if (transform.position.x == customer.movingToX && transform.position.z == customer.movingToZ)
+            customer.SetNextMovingToPosition();
+
+        float step = customer.moveSpeed * Time.deltaTime;
+        transform.position = Vector3.MoveTowards(transform.position, new Vector3(customer.movingToX, transform.position.y, customer.movingToZ), step);
+
+        customer.SetPosition((int)Math.Round(transform.position.x, 0), (int)Math.Round(transform.position.z, 0));
     }
 
     private Vector3 GetBodyScale(int hunger)

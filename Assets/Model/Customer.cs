@@ -32,6 +32,11 @@ public class Customer
     List<GridPos> resultPath;
     int currentResultPathIndex = 0;
 
+    CustomerState state = CustomerState.Nothing;
+    public CustomerState State { get { return state; } }
+
+    public float eatingUntil;
+
     public float moveSpeed;
     public int baseMoveSpeed = 3;
     public int hunger;
@@ -53,25 +58,46 @@ public class Customer
         return (x == destinationX && z == destinationZ);
     }
 
-    public void TriggerArrived()
+    public void TriggerArrivedAtKebabBuilding()
     {
-        if (destinationBuilding is KebabBuilding)
+        KebabBuilding destinationKebabBuilding = (KebabBuilding)destinationBuilding;
+        if (destinationKebabBuilding.IsFull())
         {
-            hunger = 0;
-            SetMoveSpeed();
+            state = CustomerState.AngryNoCapacity;
+            SetDestinationToMapEnd();
+            PathFinding();
         }
+        else
+        {
+            destinationKebabBuilding.customers.Add(this);
+            state = CustomerState.Eating;
+            eatingUntil = Time.time + EatDuration(hunger);
+        }
+    }
+
+    float EatDuration(int hunger)
+    {
+        return hunger / 50.0f;
+    }
+
+    public void StopEating()
+    {
+        hunger = 0;
+        SetMoveSpeed();
+        KebabBuilding destinationKebabBuilding = (KebabBuilding)destinationBuilding;
+        destinationKebabBuilding.customers.Remove(this);
+        DecideDestinationAndPath();
     }
 
     public void DecideDestinationAndPath()
     {
+        state = CustomerState.Nothing;
+
         if (hunger >= 50)
         {
             destinationBuilding = FindNearestKebabBuildingByLinearDistance(x, z);
             if (destinationBuilding is KebabBuilding)
-            {
-                destinationX = destinationBuilding.tile.x;
-                destinationZ = destinationBuilding.tile.z;
-            }
+                SetDestinationToKebabBuilding((KebabBuilding)destinationBuilding);
             else
                 SetDestinationToMapEnd();
         }
@@ -80,13 +106,34 @@ public class Customer
             if (IsAtOrigin())
                 SetDestinationToMapEnd();
             else
-            {
-                destinationBuilding = null;
-                SetOriginAsDestination();
-            }
+                SetDestinationToOrigin();
         }
 
         PathFinding();
+    }
+
+    void SetDestinationToKebabBuilding(KebabBuilding kebabBuilding)
+    {
+        destinationX = kebabBuilding.tile.x;
+        destinationZ = kebabBuilding.tile.z;
+        state = CustomerState.MovingToEat;
+    }
+
+    void SetDestinationToMapEnd()
+    {
+        Tile destinationTile = world.RoadTiles[0];
+        destinationX = destinationTile.x;
+        destinationZ = destinationTile.z;
+        state = CustomerState.MovingToMapEnd;
+        destinationBuilding = null;
+    }
+
+    void SetDestinationToOrigin()
+    {
+        destinationX = originX;
+        destinationZ = originZ;
+        state = CustomerState.MovingToOrigin;
+        destinationBuilding = null;
     }
 
     public void SetPosition(int x, int z)
@@ -106,13 +153,6 @@ public class Customer
     public override string ToString()
     {
         return "Customer_" + x + "_" + z + "_" + InstanceID;
-    }
-
-    void SetDestinationToMapEnd()
-    {
-        Tile destinationTile = world.RoadTiles[0];
-        destinationX = destinationTile.x;
-        destinationZ = destinationTile.z;
     }
 
     void PathFinding()
@@ -147,12 +187,6 @@ public class Customer
         return (x == originX && z == originZ);
     }
 
-    void SetOriginAsDestination()
-    {
-        destinationX = originX;
-        destinationZ = originZ;
-    }
-
     KebabBuilding FindNearestKebabBuildingByLinearDistance(int fromX, int fromZ)
     {
         double nearestDistance = double.PositiveInfinity;
@@ -171,4 +205,14 @@ public class Customer
         return nearestKebabBuilding;
     }
 
+}
+
+public enum CustomerState
+{
+    Nothing = 0,
+    MovingToEat = 10,
+    MovingToMapEnd = 11,
+    MovingToOrigin = 12,
+    Eating = 20,
+    AngryNoCapacity = 21
 }
