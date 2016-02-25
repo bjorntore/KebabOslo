@@ -5,7 +5,6 @@ using System;
 [Serializable]
 public class KebabBuildingController : BuildingController, IClickable
 {
-
     public KebabBuilding building;
 
     public override void SetBuilding(Building building)
@@ -15,7 +14,7 @@ public class KebabBuildingController : BuildingController, IClickable
 
     public void Click()
     {
-        throw new NotImplementedException();
+        //Make me a dialog.
     }
 
 }

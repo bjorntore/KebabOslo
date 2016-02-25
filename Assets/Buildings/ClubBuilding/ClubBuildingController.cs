@@ -19,7 +19,7 @@ public class ClubBuildingController : NeutralBuildingController, IClickable
 
     public void Click()
     {
-        GenericDialogPanel panel = GenericDialogPanel.Instance();
+        GenericDialog panel = GenericDialog.Instance();
         panel.SetPanel("Club", "Tear down the building and build a kebab shop!", DeleteBuildingAndBuildKebabBuilding, string.Format("Erase and build (-{0} cash)!", Cost()));
     }
 

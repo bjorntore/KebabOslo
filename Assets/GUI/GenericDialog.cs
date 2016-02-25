@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.Events;
 
-public class GenericDialogPanel : MonoBehaviour
+public class GenericDialog : MonoBehaviour
 {
 
     public GameObject panel;
@@ -12,17 +12,17 @@ public class GenericDialogPanel : MonoBehaviour
     public UnityEngine.UI.Text buttonText;
     public UnityEngine.UI.Button cancel;
 
-    private static GenericDialogPanel genericDialogPanel;
-    public static GenericDialogPanel Instance()
+    private static GenericDialog genericDialog;
+    public static GenericDialog Instance()
     {
-        if (!genericDialogPanel)
+        if (!genericDialog)
         {
-            genericDialogPanel = FindObjectOfType(typeof(GenericDialogPanel)) as GenericDialogPanel;
-            if (!genericDialogPanel)
-                Debug.LogError("There needs to be one active GenericDialogPanel script on a GameObject in your scene.");
+            genericDialog = FindObjectOfType(typeof(GenericDialog)) as GenericDialog;
+            if (!genericDialog)
+                Debug.LogError("There needs to be one active GenericDialog script on a GameObject in your scene.");
         }
 
-        return genericDialogPanel;
+        return genericDialog;
     }
 
     public void SetPanel(string title, string description, UnityAction buttonAction, string buttonText, UnityAction cancelEvent = null)

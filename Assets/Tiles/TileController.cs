@@ -11,7 +11,7 @@ public class TileController : MonoBehaviour, IClickable
         Debug.Log("Clicked " + tile.ToString());
         if (tile.type == TileType.Buildable)
         {
-            GenericDialogPanel panel = GenericDialogPanel.Instance();
+            GenericDialog panel = GenericDialog.Instance();
             panel.SetPanel("Build Kebab Shop!", "Build a kebab shop and expand your empire!", BuildKebabBuilding, string.Format("Build (-{0} cash)!", Cost()));
         }
     }
@@ -19,7 +19,7 @@ public class TileController : MonoBehaviour, IClickable
     private void BuildKebabBuilding()
     {
         WorldController worldController = FindObjectOfType<WorldController>();
-        worldController.AddAndSpawnKebabBuilding(new KebabBuilding(tile), tile);
+		worldController.AddAndSpawnKebabBuilding(new KebabBuilding(tile, worldController.world), tile);
         worldController.world.player.ChangeCash(-Cost());
     }
 
