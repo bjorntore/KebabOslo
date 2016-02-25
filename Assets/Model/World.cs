@@ -6,6 +6,7 @@ using System.Collections;
 
 public class World
 {
+    public Player player;
 
     int width;
     public int Width { get { return width; } }
@@ -30,8 +31,9 @@ public class World
     List<Customer> customers = new List<Customer>();
     public List<Customer> Customers { get { return customers; } }
 
-    public World(int width = 200, int height = 200)
+    public World(Player player, int width = 200, int height = 200)
     {
+        this.player = player;
         this.width = width;
         this.height = height;
 

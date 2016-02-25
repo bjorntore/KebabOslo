@@ -21,7 +21,6 @@ public class WorldController : MonoBehaviour
     GameObject customerContainer;
 
     public World world;
-    public Player player;
 
     int customerSpawnerBIndex = 0;
     int MaxCustomers = 50;
@@ -60,8 +59,8 @@ public class WorldController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        world = new World();
-        player = new Player("ShrubNub");
+        Player player = new Player("ShrubNub");
+        world = new World(player);
         tileContainer = new GameObject("TileContainer");
         buildingContainer = new GameObject("BuildingContainer");
         customerContainer = new GameObject("CustomerContainer");

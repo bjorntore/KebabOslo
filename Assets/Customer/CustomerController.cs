@@ -11,6 +11,8 @@ public class CustomerController : MonoBehaviour
     public Customer customer;
     public Customer Customer { get { return customer; } }
 
+    public GameObject stateGameObject;
+
     public Transform bodyTransform;
     public float baseBodyScaleX;
     public float baseBodyScaleZ;
@@ -21,7 +23,7 @@ public class CustomerController : MonoBehaviour
     }
 
 	// Use this for initialization
-	void Start () {
+	private void Start () {
         worldController = WorldController.Instance();
 
         baseBodyScaleX = bodyTransform.localScale.x;
@@ -30,13 +32,22 @@ public class CustomerController : MonoBehaviour
     }
 	
 	// Update is called once per frame
-	void Update () {
+	private void Update () {
         if (transform.position.x != customer.destinationX || transform.position.z != customer.destinationZ) // Has to use transform.position.x so the algorithm stops running when its exactly on destination. Cant use HasArrived() which is an rounded position.
             Move();
-        else if (customer.State == CustomerState.MovingToEat) // This only triggers when arrived
+        else  // This only triggers when arrived
+        {
+            StateHandler();
+            MoodHandler();
+        }
+    }
+
+    private void StateHandler()
+    {
+        if (customer.State == CustomerState.MovingToEat)
         {
             customer.TriggerArrivedAtKebabBuilding();
-            worldController.player.ChangeCash(10);
+            worldController.world.player.ChangeCash(10);
         }
         else if (customer.State == CustomerState.MovingToOrigin || customer.State == CustomerState.MovingToMapEnd) // This only triggers when arrived
         {
@@ -48,6 +59,14 @@ public class CustomerController : MonoBehaviour
             customer.StopEating();
             bodyTransform.localScale = GetBodyScale(customer.hunger);
         }
+    }
+
+    private void MoodHandler()
+    {
+        if (customer.Mood == CustomerMood.AngryNoCapacity)
+            stateGameObject.SetActive(true);
+        else
+            stateGameObject.SetActive(false);
     }
 
     private void Move()

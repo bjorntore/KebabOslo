@@ -19,4 +19,9 @@
         cash += deltaValue;
     }
 
+    public void ChangeReputation(int deltaValue)
+    {
+        reputation += deltaValue;
+    }
+
 }

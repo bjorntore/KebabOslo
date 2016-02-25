@@ -16,7 +16,7 @@ public class CashLabelUpdater : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        textLabel.text = "Cash: " + worldController.player.Cash;
+        textLabel.text = "Cash: " + worldController.world.player.Cash;
     }
 
 }

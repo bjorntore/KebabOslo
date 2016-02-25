@@ -17,7 +17,7 @@ public class ReputationLabelUpdater : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        textLabel.text = "Reputation: " + worldController.player.Reputation;
+        textLabel.text = "Reputation: " + worldController.world.player.Reputation;
     }
 
 }

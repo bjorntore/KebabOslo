@@ -35,6 +35,9 @@ public class Customer
     CustomerState state = CustomerState.Nothing;
     public CustomerState State { get { return state; } }
 
+    CustomerMood mood;
+    public CustomerMood Mood { get { return mood; } }
+
     public float eatingUntil;
 
     public float moveSpeed;
@@ -63,15 +66,17 @@ public class Customer
         KebabBuilding destinationKebabBuilding = (KebabBuilding)destinationBuilding;
         if (destinationKebabBuilding.IsFull())
         {
-            state = CustomerState.AngryNoCapacity;
+            mood = CustomerMood.AngryNoCapacity;
             SetDestinationToMapEnd();
             PathFinding();
+            world.player.ChangeReputation(-1);
         }
         else
         {
             destinationKebabBuilding.customers.Add(this);
             state = CustomerState.Eating;
             eatingUntil = Time.time + EatDuration(hunger);
+            world.player.ChangeReputation(1);
         }
     }
 
@@ -214,5 +219,9 @@ public enum CustomerState
     MovingToMapEnd = 11,
     MovingToOrigin = 12,
     Eating = 20,
-    AngryNoCapacity = 21
+}
+
+public enum CustomerMood
+{
+    AngryNoCapacity = 1,
 }

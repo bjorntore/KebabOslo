@@ -20,7 +20,7 @@ public class TileController : MonoBehaviour, IClickable
     {
         WorldController worldController = FindObjectOfType<WorldController>();
         worldController.AddAndSpawnKebabBuilding(new KebabBuilding(tile), tile);
-        worldController.player.ChangeCash(-Cost());
+        worldController.world.player.ChangeCash(-Cost());
     }
 
     private int Cost()
