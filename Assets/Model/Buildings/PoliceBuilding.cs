@@ -13,4 +13,9 @@ public class PoliceBuilding : Building
 
     public PoliceBuilding(Tile tile) : base(tile) { }
 
+    public override int Cost()
+    {
+        return tile.propertyValue + Settings.PoliceBuilding_DestroyCost;
+    }
+
 }

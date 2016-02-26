@@ -13,4 +13,9 @@ public class ClubBuilding : Building
 
     public ClubBuilding(Tile tile) : base(tile) { }
 
+    public override int Cost()
+    {
+        return tile.propertyValue + Settings.ClubBuilding_DestroyCost;
+    }
+
 }

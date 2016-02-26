@@ -19,12 +19,7 @@ public class HouseBuildingController : NeutralBuildingController, IClickable
     public void Click()
     {
         GenericDialog panel = GenericDialog.Instance();
-        panel.SetPanel("House", "Tear down the building and build a kebab shop!", DeleteBuildingAndBuildKebabBuilding, string.Format("Erase and build (-{0} cash)!", Cost()));
-    }
-
-    protected override int Cost()
-    {
-        return 2000;
+        panel.SetPanel("House", "Tear down the building and build a kebab shop!", DeleteBuildingAndBuildKebabBuilding, string.Format("Erase and build (-{0} cash)!", building.Cost()));
     }
 
 }

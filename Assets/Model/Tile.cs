@@ -8,6 +8,7 @@ public class Tile
     public int x;
     public int z;
     public TileType type;
+    public int propertyValue = Settings.Tile_BasePropertyValue;
 
     public Tile adjacentRoadTile;
 

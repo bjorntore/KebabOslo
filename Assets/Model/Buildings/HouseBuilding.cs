@@ -13,4 +13,9 @@ public class HouseBuilding : Building
 
     public HouseBuilding(Tile tile) : base(tile) { }
 
+    public override int Cost()
+    {
+        return tile.propertyValue + Settings.HouseBuilding_DestroyCost;
+    }
+
 }

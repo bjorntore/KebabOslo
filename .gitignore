@@ -1,3 +1,10 @@
+# Custom
+/TestResults/
+*/bin/*
+*/obj/*
+
+# From Template
+
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/

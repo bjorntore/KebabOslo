@@ -25,7 +25,7 @@ public class TileController : MonoBehaviour, IClickable
 
     private int Cost()
     {
-        return 1000;
+        return tile.propertyValue;
     }
 
 }

@@ -33,4 +33,9 @@ public class KebabBuilding : Building
 		world.player.ChangeCash(Settings.Employee_HireCost);
 	}
 
+    public override int Cost()
+    {
+        return -1; // Not possible
+    }
+
 }

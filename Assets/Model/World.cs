@@ -8,37 +8,40 @@ public class World
 {
     public Player player;
 
-    int width;
+    private int width;
     public int Width { get { return width; } }
 
-    int height;
+    private int height;
     public int Height { get { return height; } }
 
-    float roadChance = 0.02f;
+    private float roadChance = 0.02f;
 
-    Tile[,] tiles;
+    private Tile[,] tiles;
     public Tile[,] Tiles { get { return tiles; } }
 
-    List<Tile> _roadTiles;
+    private List<Tile> _roadTiles;
     public List<Tile> RoadTiles { get { return _roadTiles; } }
 
-    List<Building> buildings = new List<Building>();
+    private List<Building> buildings = new List<Building>();
     public List<Building> Buildings { get { return buildings; } }
 
-    List<KebabBuilding> _kebabBuildings = new List<KebabBuilding>();
+    private List<KebabBuilding> _kebabBuildings = new List<KebabBuilding>();
     public List<KebabBuilding> KebabBuildings { get { return _kebabBuildings; } }
 
-    List<Customer> customers = new List<Customer>();
+    private List<Customer> customers = new List<Customer>();
     public List<Customer> Customers { get { return customers; } }
 
     public World(Player player, int width = 200, int height = 200)
     {
+        //UnityEngine.Random.seed = 42; // Debug purpose only, same random values for testing performance
+
         this.player = player;
         this.width = width;
         this.height = height;
 
         InitTiles(width, height);
         InitBuildings();
+        InitTilePropertyValues();
     }
 
     public void AddBuilding(Building building, Tile tile)
@@ -138,6 +141,35 @@ public class World
         Debug.LogFormat("Created {0} tiles at model level.", width * height);
     }
 
+    private void InitTilePropertyValues()
+    {
+        int maxDistance = (int)MathUtils.Distance(0, 0, width / 5, height / 5);
+
+        int amountOfPropertyHighPoints = UnityEngine.Random.Range(1, 3);
+        for (int i = 0; i < amountOfPropertyHighPoints; i++)
+        {
+            int highPointX = UnityEngine.Random.Range(0, width);
+            int highPointZ = UnityEngine.Random.Range(0, height);
+            Debug.LogFormat("Rolled property value high point: ({0},{1})", highPointX, highPointZ);
+            for (int x = highPointX - maxDistance; x < highPointX + maxDistance; x++)
+            {
+                for (int z = highPointZ - maxDistance; z < highPointZ + maxDistance; z++)
+                {
+                    Tile tile = SafelyGetTile(x, z);
+                    if (tile != null && tile.type != TileType.Road)
+                    {
+                        int distance = (int)MathUtils.Distance(highPointX, highPointZ, x, z);
+                        if (distance > maxDistance)
+                            continue;
+
+                        tile.propertyValue += MathUtils.LinearConversionInverted(distance, maxDistance, Settings.Tile_MaxPropertyValueGainableFromHighPoint);
+                        //Debug.Log(tile.ToString() + " increased to " + tile.propertyValue);
+                    }
+                }
+            }
+        }
+    }
+
     private void InitBuildings()
     {
         List<Tile> buildableTiles = SetAndGetBuildableTiles();
@@ -148,8 +180,6 @@ public class World
         ProportionItem emptyTile = new ProportionItem("Empty", 48);
 
         ProportionValues buildingSpawnChances = new ProportionValues(new ProportionItem[] { clubSpawn, policeSpawn, houseSpawn, emptyTile });
-
-        UnityEngine.Random.seed = 42; // Debug purpose only, same random values for testing performance
 
         foreach (Tile tile in buildableTiles)
         {
@@ -169,7 +199,7 @@ public class World
         Debug.LogFormat("Created {0} buildings at model level.", buildings.Count);
     }
 
-    List<Tile> SetAndGetBuildableTiles()
+    private List<Tile> SetAndGetBuildableTiles()
     {
         List<Tile> buildableTiles = new List<Tile>();
 
@@ -192,19 +222,19 @@ public class World
         return buildableTiles;
     }
 
-    List<Tile> GetNeighborTiles(Tile tile)
+    private List<Tile> GetNeighborTiles(Tile tile)
     {
         List<Tile> tiles = new List<Tile>();
 
-        tiles.Add(SafelyGetTile(tile.x, tile.z + 1));
-        tiles.Add(SafelyGetTile(tile.x, tile.z - 1));
-        tiles.Add(SafelyGetTile(tile.x + 1, tile.z));
-        tiles.Add(SafelyGetTile(tile.x - 1, tile.z));
+        tiles.Add(SafelyGetOrCreateTile(tile.x, tile.z + 1));
+        tiles.Add(SafelyGetOrCreateTile(tile.x, tile.z - 1));
+        tiles.Add(SafelyGetOrCreateTile(tile.x + 1, tile.z));
+        tiles.Add(SafelyGetOrCreateTile(tile.x - 1, tile.z));
 
         return tiles.Where(t => t != null).ToList();
     }
 
-    Tile SafelyGetTile(int x, int z)
+    private Tile SafelyGetOrCreateTile(int x, int z)
     {
         if (x < 0) return null;
         if (x >= width) return null;
@@ -217,7 +247,17 @@ public class World
         return tiles[x, z];
     }
 
-    List<int> RollRoadLines()
+    private Tile SafelyGetTile(int x, int z)
+    {
+        if (x < 0) return null;
+        if (x >= width) return null;
+        if (z < 0) return null;
+        if (z >= height) return null;
+
+        return tiles[x, z];
+    }
+
+    private List<int> RollRoadLines()
     {
         List<int> roadLines = new List<int>();
         for (int x = 0; x < width; x++)
@@ -234,7 +274,7 @@ public class World
     }
 
 
-    public void Shuffle<T>(List<T> list)
+    private void Shuffle<T>(List<T> list)
     {
         System.Random rng = new System.Random();
 

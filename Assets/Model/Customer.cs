@@ -199,7 +199,7 @@ public class Customer
 
         foreach (KebabBuilding building in world.KebabBuildings)
         {
-            double distance = Math.Sqrt(Math.Pow(Math.Abs(building.tile.x - fromX), 2) + Math.Pow(Math.Abs(building.tile.z - fromZ), 2));
+            double distance = MathUtils.Distance(fromX, fromZ, building.tile.x, building.tile.z);
             if (distance < nearestDistance)
             {
                 nearestDistance = distance;
