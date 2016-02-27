@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using EpPathFinding.cs;
 using System;
 using UnityEngine;
+using System.Linq;
 
 [Serializable]
 public class Customer
@@ -86,6 +87,7 @@ public class Customer
 
     public void StopEating()
     {
+        mood = CustomerMood.Normal;
         hunger = 0;
         SetMoveSpeed();
         KebabBuilding destinationKebabBuilding = (KebabBuilding)destinationBuilding;
@@ -125,7 +127,7 @@ public class Customer
 
     void SetDestinationToMapEnd()
     {
-        Tile destinationTile = world.RoadTiles[0];
+        Tile destinationTile = Utils.Random(world.RoadTiles.Where(t => t.isWorldEdge).ToList());
         destinationX = destinationTile.x;
         destinationZ = destinationTile.z;
         state = CustomerState.MovingToMapEnd;
@@ -213,14 +215,15 @@ public class Customer
 
 public enum CustomerState
 {
-    Nothing = 0,
-    MovingToEat = 10,
-    MovingToMapEnd = 11,
-    MovingToOrigin = 12,
-    Eating = 20,
+    Nothing,
+    MovingToEat,
+    MovingToMapEnd,
+    MovingToOrigin,
+    Eating,
 }
 
 public enum CustomerMood
 {
-    AngryNoCapacity = 1,
+    Normal,
+    AngryNoCapacity,
 }

@@ -132,6 +132,8 @@ public class World
                 if (xRoadLines.Contains(x) || zRoadLines.Contains(z))
                 {
                     Tile roadTile = new Tile(x, z, TileType.Road);
+                    if (x == 0 || x == width - 1 || z == 0 || z == height - 1)
+                        roadTile.isWorldEdge = true;
                     tiles[x, z] = roadTile;
                     _roadTiles.Add(roadTile);
                 }
@@ -194,7 +196,7 @@ public class World
         }
 
         LogBuildingTypes();
-        Shuffle(buildings);
+        Utils.Shuffle(buildings); // For  customer spawning purposes
 
         Debug.LogFormat("Created {0} buildings at model level.", buildings.Count);
     }
