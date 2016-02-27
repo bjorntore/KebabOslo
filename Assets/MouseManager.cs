@@ -12,6 +12,8 @@ public class MouseManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            return;
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 

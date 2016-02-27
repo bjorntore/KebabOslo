@@ -41,7 +41,6 @@ public class Customer
     public float eatingUntil;
 
     public float moveSpeed;
-    public int baseMoveSpeed = 3;
     public int hunger;
 
     public Customer(int x, int z, World world)
@@ -52,7 +51,7 @@ public class Customer
         this.originZ = z;
         this.x = x;
         this.z = z;
-        this.hunger = 50;
+        this.hunger = Settings.Customer_BaseHunger;
         SetMoveSpeed();
     }
 
@@ -82,7 +81,7 @@ public class Customer
 
     float EatDuration(int hunger)
     {
-        return hunger / 50.0f;
+        return hunger / Settings.Customer_EatSpeedPerSec;
     }
 
     public void StopEating()
@@ -184,7 +183,7 @@ public class Customer
 
     void SetMoveSpeed()
     {
-        moveSpeed = (baseMoveSpeed / 2.0f) + (baseMoveSpeed * hunger / 100.0f);
+        moveSpeed = (Settings.Customer_BaseMovementSpeed / 2.0f) + (Settings.Customer_BaseMovementSpeed * hunger / 100.0f);
     }
 
     bool IsAtOrigin()
