@@ -32,10 +32,17 @@ public class GenericDialog : MonoBehaviour
         this.title.text = title;
         this.description.text = description;
 
-        this.button.onClick.RemoveAllListeners();
-        this.button.onClick.AddListener(buttonAction);
-        this.button.onClick.AddListener(ClosePanel);
-        this.buttonText.text = buttonText;
+
+        if (buttonAction == null)
+            this.button.gameObject.SetActive(false);
+        else
+        {
+            this.button.gameObject.SetActive(true);
+            this.button.onClick.RemoveAllListeners();
+            this.button.onClick.AddListener(buttonAction);
+            this.button.onClick.AddListener(ClosePanel);
+            this.buttonText.text = buttonText;
+        }
 
         this.cancel.onClick.RemoveAllListeners();
         this.cancel.onClick.AddListener(ClosePanel);

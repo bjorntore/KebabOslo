@@ -9,6 +9,8 @@ public static class Settings {
 
     public static int KebabBuilding_MaxEmployees = 5;
 	public static int KebabBuilding_CustomerCapacity = 1;
+    public static int KebabBuilding_ReputationGainedFromSale = 4;
+    public static int KebabBuilding_ReputationLostFromFull = 1;
 
     public static int ClubBuilding_DestroyCost = 3000;
 
@@ -16,7 +18,7 @@ public static class Settings {
 
     public static int PoliceBuilding_DestroyCost = 10000;
 
-    public static int Customer_BaseMovementSpeed = 1;
+    public static int Customer_BaseMovementSpeed = 5;
     public static int Customer_BaseHunger = 50;
     public static float Customer_EatSpeedPerSec = 50.0f; // Hunger reduced per second
 

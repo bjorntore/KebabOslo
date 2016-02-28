@@ -69,14 +69,14 @@ public class Customer
             mood = CustomerMood.AngryNoCapacity;
             SetDestinationToMapEnd();
             FindPath();
-            world.player.ChangeReputation(-1);
+            world.player.ChangeReputation(Settings.KebabBuilding_ReputationLostFromFull);
         }
         else
         {
             destinationKebabBuilding.customers.Add(this);
             state = CustomerState.Eating;
             eatingUntil = Time.time + EatDuration(hunger);
-            world.player.ChangeReputation(1);
+            world.player.ChangeReputation(Settings.KebabBuilding_ReputationGainedFromSale);
         }
     }
 
