@@ -68,7 +68,7 @@ public class Customer
         {
             mood = CustomerMood.AngryNoCapacity;
             SetDestinationToMapEnd();
-            PathFinding();
+            FindPath();
             world.player.ChangeReputation(-1);
         }
         else
@@ -80,7 +80,7 @@ public class Customer
         }
     }
 
-    float EatDuration(int hunger)
+    private float EatDuration(int hunger)
     {
         return hunger / Settings.Customer_EatSpeedPerSec;
     }
@@ -98,10 +98,11 @@ public class Customer
     public void DecideDestinationAndPath()
     {
         state = CustomerState.Nothing;
+        mood = CustomerMood.Normal;
 
-        if (hunger >= 50)
+        if (hunger > 0)
         {
-            destinationBuilding = FindNearestKebabBuildingByLinearDistance(x, z);
+            destinationBuilding = CheckIfWantKebab();
             if (destinationBuilding is KebabBuilding)
                 SetDestinationToKebabBuilding((KebabBuilding)destinationBuilding);
             else
@@ -115,17 +116,43 @@ public class Customer
                 SetDestinationToOrigin();
         }
 
-        PathFinding();
+        FindPath();
     }
 
-    void SetDestinationToKebabBuilding(KebabBuilding kebabBuilding)
+    private KebabBuilding CheckIfWantKebab()
+    {
+        int mostWantedScore = 0;
+        KebabBuilding mostWantedKebabBuilding = null;
+
+        foreach (KebabBuilding building in world.KebabBuildings)
+        {
+            double distance = MathUtils.Distance(x, z, building.tile.x, building.tile.z);
+            int buildingWantScore = hunger + building.GetOwnerReputation() - Convert.ToInt32(distance);
+
+            if (buildingWantScore >= mostWantedScore)
+            {
+                mostWantedScore = buildingWantScore;
+                mostWantedKebabBuilding = building;
+            }
+        }
+
+        if (mostWantedKebabBuilding != null)
+            return mostWantedKebabBuilding;
+        else
+        {
+            mood = CustomerMood.SkippingKebabToday;
+            return null;
+        }
+    }
+
+    private void SetDestinationToKebabBuilding(KebabBuilding kebabBuilding)
     {
         destinationX = kebabBuilding.tile.x;
         destinationZ = kebabBuilding.tile.z;
         state = CustomerState.MovingToEat;
     }
 
-    void SetDestinationToMapEnd()
+    private void SetDestinationToMapEnd()
     {
         Tile destinationTile = Utils.Random(world.RoadTiles.Where(t => t.isWorldEdge).ToList());
         destinationX = destinationTile.x;
@@ -134,7 +161,7 @@ public class Customer
         destinationBuilding = null;
     }
 
-    void SetDestinationToOrigin()
+    private void SetDestinationToOrigin()
     {
         destinationX = originX;
         destinationZ = originZ;
@@ -161,7 +188,7 @@ public class Customer
         return "Customer_" + x + "_" + z + "_" + InstanceID;
     }
 
-    void PathFinding()
+    private void FindPath()
     {
         BaseGrid searchGrid = new StaticGrid(world.Width, world.Height);
 
@@ -183,32 +210,14 @@ public class Customer
             SetNextMovingToPosition();
     }
 
-    void SetMoveSpeed()
+    private void SetMoveSpeed()
     {
         moveSpeed = (Settings.Customer_BaseMovementSpeed / 2.0f) + (Settings.Customer_BaseMovementSpeed * hunger / 100.0f);
     }
 
-    bool IsAtOrigin()
+    private bool IsAtOrigin()
     {
         return (x == originX && z == originZ);
-    }
-
-    KebabBuilding FindNearestKebabBuildingByLinearDistance(int fromX, int fromZ)
-    {
-        double nearestDistance = double.PositiveInfinity;
-        KebabBuilding nearestKebabBuilding = null;
-
-        foreach (KebabBuilding building in world.KebabBuildings)
-        {
-            double distance = MathUtils.Distance(fromX, fromZ, building.tile.x, building.tile.z);
-            if (distance < nearestDistance)
-            {
-                nearestDistance = distance;
-                nearestKebabBuilding = building;
-            }
-        }
-
-        return nearestKebabBuilding;
     }
 
 }
@@ -226,4 +235,5 @@ public enum CustomerMood
 {
     Normal,
     AngryNoCapacity,
+    SkippingKebabToday,
 }

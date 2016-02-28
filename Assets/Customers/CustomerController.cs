@@ -8,10 +8,11 @@ public class CustomerController : MonoBehaviour
 
     WorldController worldController;
 
-    public Customer customer;
+    private Customer customer;
     public Customer Customer { get { return customer; } }
 
-    public GameObject stateGameObject;
+    public GameObject angryStateGameObject;
+    public GameObject skippingStateGameObject;
 
     public Transform bodyTransform;
     public float baseBodyScaleX;
@@ -32,13 +33,15 @@ public class CustomerController : MonoBehaviour
     }
 	
 	// Update is called once per frame
-	private void Update () {
+	private void Update ()
+    {
+        MoodHandler();
+
         if (transform.position.x != customer.destinationX || transform.position.z != customer.destinationZ) // Has to use transform.position.x so the algorithm stops running when its exactly on destination. Cant use HasArrived() which is an rounded position.
             Move();
         else  // This only triggers when arrived
         {
             StateHandler();
-            MoodHandler();
         }
     }
 
@@ -63,10 +66,19 @@ public class CustomerController : MonoBehaviour
 
     private void MoodHandler()
     {
+        angryStateGameObject.SetActive(false);
+        skippingStateGameObject.SetActive(false);
+
         if (customer.Mood == CustomerMood.AngryNoCapacity)
-            stateGameObject.SetActive(true);
-        else
-            stateGameObject.SetActive(false);
+        {
+            angryStateGameObject.SetActive(true);
+            skippingStateGameObject.SetActive(false);
+        }
+        else if (customer.Mood == CustomerMood.SkippingKebabToday)
+        {
+            angryStateGameObject.SetActive(false);
+            skippingStateGameObject.SetActive(true);
+        }
     }
 
     private void Move()

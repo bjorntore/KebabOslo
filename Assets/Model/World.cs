@@ -122,8 +122,8 @@ public class World
         //List<int> zRoadLines = RollRoadLines();
         List<int> xRoadLines = new List<int>() { 2, 20, 50, 51, 80 }; // Debug purpose only
         List<int> zRoadLines = new List<int>() { 2, 20, 50, 51, 80 }; // Debug purpose only
-        //List<int> xRoadLines = new List<int>() { 2, 6}; // Debug purpose only
-        //List<int> zRoadLines = new List<int>() { 2, 6}; // Debug purpose only
+        //List<int> xRoadLines = new List<int>() { 2, 6 }; // Debug purpose only
+        //List<int> zRoadLines = new List<int>() { 2, 6 }; // Debug purpose only
 
         for (int x = 0; x < width; x++)
         {

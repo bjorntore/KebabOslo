@@ -38,4 +38,9 @@ public class KebabBuilding : Building
         return -1; // Not possible
     }
 
+    public int GetOwnerReputation()
+    {
+        return world.player.Reputation;
+    }
+
 }
