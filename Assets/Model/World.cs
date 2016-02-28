@@ -33,7 +33,7 @@ public class World
 
     public World(Player player, int width = 200, int height = 200)
     {
-        //UnityEngine.Random.seed = 42; // Debug purpose only, same random values for testing performance
+        UnityEngine.Random.seed = 42; // Debug purpose only, same random values for testing performance
 
         this.player = player;
         this.width = width;
@@ -196,7 +196,7 @@ public class World
         }
 
         LogBuildingTypes();
-        Utils.Shuffle(buildings); // For  customer spawning purposes
+        Utils.Shuffle(buildings); // For customer spawning purposes
 
         Debug.LogFormat("Created {0} buildings at model level.", buildings.Count);
     }

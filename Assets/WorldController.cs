@@ -88,13 +88,13 @@ public class WorldController : MonoBehaviour
             {
                 Tile tile = world.Tiles[x, z];
 
-                if (tile == null)
+                if (tile == null || tile.type == TileType.Occupied)
                     continue;
 
                 GameObject prefab;
                 if (tile.type == TileType.Road)
                     prefab = roadTilePrefab;
-                else if (tile.type == TileType.Buildable || tile.type == TileType.Occupied)
+                else if (tile.type == TileType.Buildable)
                     prefab = buildableTilePrefab;
                 else
                     throw new Exception("Not supporting tile type " + tile.type.ToString());
