@@ -456,6 +456,7 @@ GameObject:
   - 114: {fileID: 453680173}
   - 114: {fileID: 453680172}
   - 114: {fileID: 453680176}
+  - 95: {fileID: 453680177}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -554,6 +555,23 @@ MonoBehaviour:
   button: {fileID: 458979307}
   buttonText: {fileID: 1908257498}
   cancel: {fileID: 701011968}
+--- !u!95 &453680177
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 453680171}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9cd0bda70edecaf4ab2bae0867c0514d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &458979305
 GameObject:
   m_ObjectHideFlags: 0
