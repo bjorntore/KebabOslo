@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using EpPathFinding.cs;
 using System;
-using UnityEngine;
 using System.Linq;
+using UnityEngine;
 
 [Serializable]
 public class Customer
@@ -52,7 +52,7 @@ public class Customer
         this.originZ = z;
         this.x = x;
         this.z = z;
-        this.hunger = Settings.Customer_BaseHunger;
+        this.hunger = Utils.RandomInt(0, 100);
         SetMoveSpeed();
     }
 
@@ -155,7 +155,7 @@ public class Customer
 
     private void SetDestinationToMapEnd()
     {
-        Tile destinationTile = Utils.Random(world.RoadTiles.Where(t => t.isWorldEdge).ToList());
+        Tile destinationTile = world.RoadTiles.Where(t => t.isWorldEdge).OrderBy(t => MathUtils.Distance(t.x, t.z, x, z)).First();
         destinationX = destinationTile.x;
         destinationZ = destinationTile.z;
         state = CustomerState.MovingToMapEnd;

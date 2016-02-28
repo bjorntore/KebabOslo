@@ -40,7 +40,7 @@ public class KebabBuildingController : BuildingController, IClickable
     {
         cashEarnedAnimator.enabled = true;
         cashEarnedAnimator.Play("CashGainedAnimation", -1, 0);
-        AudioSource.PlayOneShot(cashEarnedAudioClip, 0.3f);
+        AudioSource.PlayOneShot(cashEarnedAudioClip, 0.1f);
     }
 
 }

@@ -27,4 +27,9 @@ public static class Utils
         return list[r];
     }
 
+    public static int RandomInt(int min, int max)
+    {
+        return rnd.Next(max - min) + min;
+    }
+
 }

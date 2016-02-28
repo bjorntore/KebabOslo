@@ -37,6 +37,22 @@ public class WorldController : MonoBehaviour
         return worldController;
     }
 
+    // Use this for initialization
+    void Start()
+    {
+        Player player = new Player("ShrubNub");
+        world = new World(player);
+        tileContainer = new GameObject("TileContainer");
+        buildingContainer = new GameObject("BuildingContainer");
+        customerContainer = new GameObject("CustomerContainer");
+
+        AdjustGround();
+        SpawnTiles();
+        SpawnBuildings();
+
+        StartCoroutine(CustomerSpawnerRutine());
+    }
+
     public void AddAndSpawnKebabBuilding(KebabBuilding building, Tile tile)
     {
         StopCoroutine(CustomerSpawnerRutine());
@@ -53,22 +69,6 @@ public class WorldController : MonoBehaviour
     {
         world.ReplaceBuilding(oldBuilding, newBuilding);
         SpawnBuilding(newBuilding);
-    }
-
-    // Use this for initialization
-    void Start()
-    {
-        Player player = new Player("ShrubNub");
-        world = new World(player);
-        tileContainer = new GameObject("TileContainer");
-        buildingContainer = new GameObject("BuildingContainer");
-        customerContainer = new GameObject("CustomerContainer");
-
-        AdjustGround();
-        SpawnTiles();
-        SpawnBuildings();
-
-        StartCoroutine(CustomerSpawnerRutine());
     }
 
     void AdjustGround()
