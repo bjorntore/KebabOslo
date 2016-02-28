@@ -14,8 +14,10 @@ public class KebabBuilding : Building
     public override float LastSpawnTimed { get; set; }
 
     public List<Customer> customers = new List<Customer>();
-
 	public List<Employee> employees = new List<Employee> ();
+
+    public int cashEarned = 0;
+    public bool cashEarnedTrigger = false;
 
 	public KebabBuilding(Tile tile, World world) : base(tile) 
 	{
@@ -32,6 +34,13 @@ public class KebabBuilding : Building
 		employees.Add(new Employee("Dude"));
 		world.player.ChangeCash(Settings.Employee_HireCost);
 	}
+
+    public void AddCashEarned(int cash)
+    {
+        cashEarned += cash;
+        world.player.ChangeCash(cash);
+        cashEarnedTrigger = true;
+    }
 
     public override int Cost()
     {

@@ -41,16 +41,15 @@ public class CustomerController : MonoBehaviour
             Move();
         else  // This only triggers when arrived
         {
-            StateHandler();
+            ArrivedStateHandler();
         }
     }
 
-    private void StateHandler()
+    private void ArrivedStateHandler()
     {
         if (customer.State == CustomerState.MovingToEat)
         {
             customer.TriggerArrivedAtKebabBuilding();
-            worldController.world.player.ChangeCash(10);
         }
         else if (customer.State == CustomerState.MovingToOrigin || customer.State == CustomerState.MovingToMapEnd) // This only triggers when arrived
         {

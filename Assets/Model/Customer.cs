@@ -77,6 +77,7 @@ public class Customer
             state = CustomerState.Eating;
             eatingUntil = Time.time + EatDuration(hunger);
             world.player.ChangeReputation(Settings.KebabBuilding_ReputationGainedFromSale);
+            destinationKebabBuilding.AddCashEarned(Settings.KebabBuilding_CashPerKebab);
         }
     }
 

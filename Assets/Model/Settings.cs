@@ -11,6 +11,7 @@ public static class Settings {
 	public static int KebabBuilding_CustomerCapacity = 1;
     public static int KebabBuilding_ReputationGainedFromSale = 4;
     public static int KebabBuilding_ReputationLostFromFull = 1;
+    public static int KebabBuilding_CashPerKebab = 10;
 
     public static int ClubBuilding_DestroyCost = 3000;
 
