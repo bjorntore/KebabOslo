@@ -5,6 +5,8 @@ using System;
 [Serializable]
 public class KebabBuildingController : BuildingController, IClickable
 {
+    private WorldTimeController worldTimeController;
+
     public Animator cashEarnedAnimator;
     public AudioClip cashEarnedAudioClip;
     private AudioSource AudioSource;
@@ -19,6 +21,7 @@ public class KebabBuildingController : BuildingController, IClickable
     private void Start()
     {
         AudioSource = GetComponent<AudioSource>();
+        worldTimeController = FindObjectOfType<WorldTimeController>();
     }
 
     // Update is called once per frame
@@ -29,6 +32,8 @@ public class KebabBuildingController : BuildingController, IClickable
             RunCashEarnedAnimationAndSound();
             building.cashEarnedTrigger = false;
         }
+
+        building.CheckAndTriggerMaintenance(worldTimeController.day);
     }
 
     public void Click()

@@ -1,7 +1,7 @@
 ﻿
 public static class Settings {
 
-    public static int World_GameSpeed = 1;
+    public static float World_IrlSecondsPerDay = 5.0f;
     public static int World_MaxCustomers = 300;
 
     public static int Tile_BasePropertyValue = 500;

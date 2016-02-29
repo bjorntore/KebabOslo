@@ -41,7 +41,7 @@ public class World
 
         InitTiles(width, height);
         InitBuildings();
-        InitTilePropertyValues();
+        //InitTilePropertyValues();
     }
 
     public void AddBuilding(Building building, Tile tile)
