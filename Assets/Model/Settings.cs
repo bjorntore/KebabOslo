@@ -1,5 +1,6 @@
 ﻿
-public static class Settings {
+public static class Settings
+{
 
     public static float World_IrlSecondsPerDay = 5.0f;
     public static int World_MaxCustomers = 300;

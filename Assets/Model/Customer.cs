@@ -12,6 +12,9 @@ public class Customer
 
     public Guid InstanceID;
 
+
+    // POSITION RELATED VARIABLES
+
     int x; // OBS: The position is set before the object actually arrives @ drawing
     public int X { get { return x; } }
 
@@ -33,6 +36,12 @@ public class Customer
     List<GridPos> resultPath;
     int currentResultPathIndex = 0;
 
+    //private static BaseGrid staticlyCachedSearchGrid;
+    private static JumpPointParam staticlyCachedJpParam;
+
+
+    // STATE VARIABLES
+
     CustomerState state = CustomerState.Nothing;
     public CustomerState State { get { return state; } }
 
@@ -40,7 +49,6 @@ public class Customer
     public CustomerMood Mood { get { return mood; } }
 
     public float eatingUntil;
-
     public float moveSpeed;
     public int hunger;
 
@@ -54,6 +62,8 @@ public class Customer
         this.z = z;
         this.hunger = Utils.RandomInt(0, 100);
         SetMoveSpeed();
+
+        CacheJumpPointParam();
     }
 
     public bool HasArrived()
@@ -69,7 +79,7 @@ public class Customer
             mood = CustomerMood.AngryNoCapacity;
             SetDestinationToMapEnd();
             FindPath();
-            world.player.ChangeReputation(Settings.KebabBuilding_ReputationLostFromFull);
+            world.player.ChangeReputation(-Settings.KebabBuilding_ReputationLostFromFull);
         }
         else
         {
@@ -191,24 +201,44 @@ public class Customer
 
     private void FindPath()
     {
-        BaseGrid searchGrid = new StaticGrid(world.Width, world.Height);
+        CacheJumpPointParam();
 
-        foreach (Tile roadTile in world.RoadTiles)
-        {
-            searchGrid.SetWalkableAt(roadTile.x, roadTile.z, true);
-        }
+        GridPos firstRoadPos = FindWalkableTile(x, z);
+        GridPos lastRoadPos = FindWalkableTile(destinationX, destinationZ);
+        GridPos destinationPos = new GridPos(destinationX, destinationZ);
+        staticlyCachedJpParam.Reset(firstRoadPos, lastRoadPos);
 
-        GridPos startPos = new GridPos(x, z);
-        GridPos endPos = new GridPos(destinationX, destinationZ);
-        JumpPointParam jpParam = new JumpPointParam(searchGrid, startPos, endPos);
-
-        resultPath = JumpPointFinder.FindPath(jpParam);
+        resultPath = new List<GridPos>();
+        resultPath.AddRange(JumpPointFinder.FindPath(staticlyCachedJpParam));
+        resultPath.Add(destinationPos);
         currentResultPathIndex = 0;
 
         if (resultPath.Count == 0)
             throw new Exception("Path finding algorithm failed. Did not find any path. Should not happen.");
         else
             SetNextMovingToPosition();
+    }
+
+    private GridPos FindWalkableTile(int x, int z)
+    {
+        Tile tile = world.Tiles[x, z];
+        if (tile.type != TileType.Road)
+            return new GridPos(tile.adjacentRoadTile.x, tile.adjacentRoadTile.z);
+        else
+            return new GridPos(tile.x, tile.z);
+    }
+
+    private void CacheJumpPointParam()
+    {
+        if (staticlyCachedJpParam == null)
+        {
+            BaseGrid searchGrid = new StaticGrid(world.Width, world.Height);
+
+            foreach (Tile roadTile in world.RoadTiles)
+                searchGrid.SetWalkableAt(roadTile.x, roadTile.z, true);
+
+            staticlyCachedJpParam = new JumpPointParam(searchGrid);
+        }
     }
 
     private void SetMoveSpeed()
