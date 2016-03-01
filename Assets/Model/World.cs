@@ -77,7 +77,7 @@ public class World
     public IEnumerator SetNewCustomerDestinations(int potentialNewX, int potentialNewZ)
     {
         List<Customer> customersReferenceCopy = new List<Customer>(customers)
-            .Where(c => !c.HasArrived())
+            .Where(c => c.CanChangeItsMind())
             .OrderBy(c => Math.Abs(potentialNewX - c.X) + Math.Abs(potentialNewZ - c.Z) ).ToList();
 
         foreach (Customer customer in customersReferenceCopy)

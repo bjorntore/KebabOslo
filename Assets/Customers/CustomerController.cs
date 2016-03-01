@@ -51,7 +51,7 @@ public class CustomerController : MonoBehaviour
         {
             customer.TriggerArrivedAtKebabBuilding();
         }
-        else if (customer.State == CustomerState.MovingToOrigin || customer.State == CustomerState.MovingToMapEnd) // This only triggers when arrived
+        else if (customer.State == CustomerState.MovingToOrigin || customer.State == CustomerState.MovingToMapEnd)
         {
             worldController.world.RemoveCustomer(customer);
             Destroy(gameObject);

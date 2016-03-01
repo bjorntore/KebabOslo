@@ -15,26 +15,26 @@ public class Customer
 
     // POSITION RELATED VARIABLES
 
-    int x; // OBS: The position is set before the object actually arrives @ drawing
+    private int x; // OBS: The position is set before the object actually arrives @ drawing
     public int X { get { return x; } }
 
-    int z; // OBS: The position is set before the object actually arrives @ drawing
+    private int z; // OBS: The position is set before the object actually arrives @ drawing
     public int Z { get { return z; } }
 
-    public int originX;
-    public int originZ;
+    private int originX;
+    private int originZ;
 
     public int movingToX;
     public int movingToZ;
 
-    Building destinationBuilding;
+    private Building destinationBuilding;
     public Building DestinationBuilding { get { return destinationBuilding; } }
 
     public int destinationX = -1;
     public int destinationZ = -1;
 
-    List<GridPos> resultPath;
-    int currentResultPathIndex = 0;
+    private List<GridPos> resultPath;
+    private int currentResultPathIndex = 0;
 
     //private static BaseGrid staticlyCachedSearchGrid;
     private static JumpPointParam staticlyCachedJpParam;
@@ -42,10 +42,10 @@ public class Customer
 
     // STATE VARIABLES
 
-    CustomerState state = CustomerState.Nothing;
+    private CustomerState state = CustomerState.Nothing;
     public CustomerState State { get { return state; } }
 
-    CustomerMood mood;
+    private CustomerMood mood;
     public CustomerMood Mood { get { return mood; } }
 
     public float eatingUntil;
@@ -66,9 +66,12 @@ public class Customer
         CacheJumpPointParam();
     }
 
-    public bool HasArrived()
+    public bool CanChangeItsMind()
     {
-        return (x == destinationX && z == destinationZ);
+        if (hunger == 0)
+            return false;
+        else
+            return state == CustomerState.Nothing || state == CustomerState.MovingToMapEnd || state == CustomerState.MovingToOrigin;
     }
 
     public void TriggerArrivedAtKebabBuilding()
@@ -99,16 +102,20 @@ public class Customer
     public void StopEating()
     {
         mood = CustomerMood.Normal;
+        state = CustomerState.Nothing;
         hunger = 0;
         SetMoveSpeed();
         KebabBuilding destinationKebabBuilding = (KebabBuilding)destinationBuilding;
-        destinationKebabBuilding.customers.Remove(this);
+        if (!destinationKebabBuilding.customers.Remove(this))
+            throw new Exception("Did not find customer in kebab building customer list when removing it.");
         DecideDestinationAndPath();
     }
 
     public void DecideDestinationAndPath()
     {
-        state = CustomerState.Nothing;
+        if (state == CustomerState.Eating)
+            throw new Exception("Should never decide new destination while eating.");
+
         mood = CustomerMood.Normal;
 
         if (hunger > 0)
