@@ -16,13 +16,13 @@ public class WorldController : MonoBehaviour
 
     public GameObject normalCustomerPrefab;
 
-    GameObject tileContainer;
-    GameObject buildingContainer;
-    GameObject customerContainer;
+    private GameObject tileContainer;
+    private GameObject buildingContainer;
+    private GameObject customerContainer;
 
     public World world;
 
-    int customerSpawnerBIndex = 0;
+    private int customerSpawnerBIndex = 0;
 
     private static WorldController worldController;
     public static WorldController Instance()
@@ -38,7 +38,7 @@ public class WorldController : MonoBehaviour
     }
 
     // Use this for initialization
-    void Start()
+    private void Start()
     {
         Player player = new Player("ShrubNub");
         world = new World(player);
@@ -57,10 +57,12 @@ public class WorldController : MonoBehaviour
     {
         StopCoroutine(CustomerSpawnerRutine());
 
+        if (tile.type == TileType.Buildable)
+            Destroy(GameObject.Find(tile.ToString()));
+
         world.AddBuilding(building, tile);
         SpawnBuilding(building);
         StartCoroutine(world.SetNewCustomerDestinations(tile.x, tile.z));
-        Debug.Log("Added and spawned building " + building.ToString());
 
         StartCoroutine(CustomerSpawnerRutine());
     }
@@ -71,7 +73,7 @@ public class WorldController : MonoBehaviour
         SpawnBuilding(newBuilding);
     }
 
-    void AdjustGround()
+    private void AdjustGround()
     {
         float xPosition = (world.Width / 2) - 0.5f; // Hack: The -0.5f is an offset we have to set to align the ground to the tiles
         float zPosition = (world.Height / 2) - 0.5f; // Hack: The -0.5f is an offset we have to set to align the ground to the tiles
@@ -80,7 +82,7 @@ public class WorldController : MonoBehaviour
         groundTransform.localScale = new Vector3(world.Width / 10, 1, world.Height / 10);
     }
 
-    void SpawnTiles()
+    private void SpawnTiles()
     {
         for (int x = 0; x < world.Width; x++)
         {
@@ -106,13 +108,13 @@ public class WorldController : MonoBehaviour
         }
     }
 
-    void SpawnBuildings()
+    private void SpawnBuildings()
     {
         foreach (var building in world.Buildings)
             SpawnBuilding(building);
     }
 
-    void SpawnBuilding(Building building)
+    private void SpawnBuilding(Building building)
     {
         GameObject prefab;
         if (building is ClubBuilding)
@@ -129,9 +131,11 @@ public class WorldController : MonoBehaviour
         GameObject buildingGameObject = SpawnObject(prefab, building.ToString(), building.tile.x, building.tile.z, buildingContainer);
         BuildingController buildingController = buildingGameObject.GetComponent<BuildingController>();
         buildingController.SetBuilding(building);
+
+
     }
 
-    IEnumerator CustomerSpawnerRutine()
+    private IEnumerator CustomerSpawnerRutine()
     {
         while (true)
         {
@@ -154,7 +158,7 @@ public class WorldController : MonoBehaviour
         }
     }
 
-    void SpawnCustomer(Customer customer, Tile tile)
+    private void SpawnCustomer(Customer customer, Tile tile)
     {
         //float spawnX = (tile.x + tile.adjacentRoadTile.x) / 2.0f;
         //float spawnZ = (tile.z + tile.adjacentRoadTile.z) / 2.0f;
@@ -163,7 +167,7 @@ public class WorldController : MonoBehaviour
         customerController.SetCustomer(customer);
     }
 
-    GameObject SpawnObject(GameObject prefab, string name, float x, float z, GameObject parent)
+    private GameObject SpawnObject(GameObject prefab, string name, float x, float z, GameObject parent)
     {
         GameObject gameObject = (GameObject)Instantiate(prefab, new Vector3(x, 0, z), Quaternion.identity);
         gameObject.name = name;
