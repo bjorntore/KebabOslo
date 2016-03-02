@@ -12,7 +12,7 @@ public class TileController : MonoBehaviour, IClickable
         if (tile.type == TileType.Buildable)
         {
             GenericDialog panel = GenericDialog.Instance();
-            panel.SetPanel("Build Kebab Shop!", "Build a kebab shop and expand your empire!", BuildKebabBuilding, string.Format("Build (-{0} cash)!", Cost()));
+            panel.OpenDialog("Build Kebab Shop!", "Build a kebab shop and expand your empire!", BuildKebabBuilding, string.Format("Build (-{0} cash)!", Cost()));
         }
     }
 

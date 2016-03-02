@@ -41,7 +41,7 @@ public class KebabBuildingController : BuildingController, IClickable
     public void Click()
     {
         KebabBuildingDialog panel = KebabBuildingDialog.Instance();
-        panel.SetPanel(building, building.HireEmployee, building.FireEmployee);
+        panel.OpenDialog(building, building.HireEmployee, building.FireEmployee);
     }
 
     private void RunCashEarnedAnimationAndSound()

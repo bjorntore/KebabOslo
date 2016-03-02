@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.Events;
 
-public class KebabBuildingDialog : MonoBehaviour 
+public class KebabBuildingDialog : Dialog
 {
 	public GameObject panel;
 	public Text title;
@@ -37,8 +37,11 @@ public class KebabBuildingDialog : MonoBehaviour
         }
     }
 
-	public void SetPanel(KebabBuilding kebabBuilding, UnityAction addEmployeeAction, UnityAction fireEmployeeAction, UnityAction cancelEvent = null)
+	public void OpenDialog(KebabBuilding kebabBuilding, UnityAction addEmployeeAction, UnityAction fireEmployeeAction, UnityAction cancelEvent = null)
 	{
+        if (IsAnyDialogOpen())
+            return;
+
 		this.kebabBuilding = kebabBuilding;
 		panel.SetActive(true);
 

@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine.Events;
 
-public class GenericDialog : MonoBehaviour
+public class GenericDialog : Dialog
 {
 
     public GameObject panel;
@@ -25,8 +25,11 @@ public class GenericDialog : MonoBehaviour
         return genericDialog;
     }
 
-    public void SetPanel(string title, string description, UnityAction buttonAction, string buttonText, UnityAction cancelEvent = null)
+    public void OpenDialog(string title, string description, UnityAction buttonAction, string buttonText, UnityAction cancelEvent = null)
     {
+        if (IsAnyDialogOpen())
+            return;
+
         panel.SetActive(true);
 
         this.title.text = title;
