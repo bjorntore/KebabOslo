@@ -1,15 +1,17 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.Events;
 
 public class KebabBuildingDialog : MonoBehaviour 
 {
-	/*
 	public GameObject panel;
-	public UnityEngine.UI.Text title;
-	public UnityEngine.UI.Text description;
-	public UnityEngine.UI.Button button;
-	public UnityEngine.UI.Text buttonText;
-	public UnityEngine.UI.Button cancel;
+	public Text title;
+    public Text employeeLabel;
+    public Text customersLabel;
+    public Button addEmployeeButton;
+    public Button fireEmployeeButton;
+    public Button cancelButton;
 
 	private KebabBuilding kebabBuilding;
 
@@ -26,28 +28,37 @@ public class KebabBuildingDialog : MonoBehaviour
 		return kebabBuildingDialog;
 	}
 
-	public void SetPanel(KebabBuilding kebabBuilding)
+    void Update()
+    {
+        if (kebabBuilding != null)
+        {
+            employeeLabel.text = "Employees: " + kebabBuilding.employees.Count + "/" + Settings.KebabBuilding_MaxEmployees;
+            customersLabel.text = "Customers: " + kebabBuilding.customers.Count + "/" + kebabBuilding.GetCurrentCapacity();
+        }
+    }
+
+	public void SetPanel(KebabBuilding kebabBuilding, UnityAction addEmployeeAction, UnityAction fireEmployeeAction, UnityAction cancelEvent = null)
 	{
 		this.kebabBuilding = kebabBuilding;
 		panel.SetActive(true);
 
-//		this.title.text = title;
-//		this.description.text = description;
-//
-//		this.button.onClick.RemoveAllListeners();
-//		this.button.onClick.AddListener(buttonAction);
-//		this.button.onClick.AddListener(ClosePanel);
-//		this.buttonText.text = buttonText;
-//
-//		this.cancel.onClick.RemoveAllListeners();
-//		this.cancel.onClick.AddListener(ClosePanel);
-//		if (cancelEvent != null)
-//			this.cancel.onClick.AddListener(cancelEvent);
-	}
+        title.text = kebabBuilding.ToString();
+
+        addEmployeeButton.onClick.RemoveAllListeners();
+        addEmployeeButton.onClick.AddListener(addEmployeeAction);
+
+        fireEmployeeButton.onClick.RemoveAllListeners();
+        fireEmployeeButton.onClick.AddListener(fireEmployeeAction);
+
+        cancelButton.onClick.RemoveAllListeners();
+        cancelButton.onClick.AddListener(ClosePanel);
+        if (cancelEvent != null)
+            cancelButton.onClick.AddListener(cancelEvent);
+    }
 
 	void ClosePanel()
 	{
 		panel.SetActive(false);
 	}
-	*/
+	
 }

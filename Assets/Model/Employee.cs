@@ -1,4 +1,6 @@
-﻿
+﻿using System;
+
+[Serializable]
 public class Employee  {
 
 	private string name;

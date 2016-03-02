@@ -71,8 +71,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 326b6726fd5bcfb44bf8120e2157005a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weekday: 0
   day: 0
-  weekday: 
   hour: 0
   toString: Day 0, 00:00
 --- !u!1001 &100100000

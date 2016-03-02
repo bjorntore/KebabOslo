@@ -16,6 +16,7 @@ public class KebabBuildingController : BuildingController, IClickable
     public override void SetBuilding(Building building)
     {
         this.building = (KebabBuilding)building;
+        this.building.HireEmployee();
     }
 
     private void Start()
@@ -34,11 +35,13 @@ public class KebabBuildingController : BuildingController, IClickable
         }
 
         building.CheckAndTriggerMaintenance(worldTimeController.day);
+        building.CheckAndTriggerEmployeeWages(worldTimeController.day);
     }
 
     public void Click()
     {
-        //Make me a dialog.
+        KebabBuildingDialog panel = KebabBuildingDialog.Instance();
+        panel.SetPanel(building, building.HireEmployee, building.FireEmployee);
     }
 
     private void RunCashEarnedAnimationAndSound()
