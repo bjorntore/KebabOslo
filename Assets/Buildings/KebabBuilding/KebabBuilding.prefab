@@ -427,7 +427,7 @@ Animator:
   m_GameObject: {fileID: 122060}
   m_Enabled: 0
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a923f5013b618be45a88369d06927383, type: 2}
+  m_Controller: {fileID: 9100000, guid: cfedad3cea6034d49abfad0e31baa5d9, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -473,6 +473,7 @@ MonoBehaviour:
       isWorldEdge: 0
       propertyValue: 0
     customers: []
+    employees: []
     cashEarned: 0
     cashEarnedTrigger: 0
 --- !u!136 &13618134
@@ -514,7 +515,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f5c8b24e2c461f241af8e44906daa739, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 217684b60ce42f04699e42fde929ac31, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -589,6 +590,39 @@ Prefab:
       propertyPath: rolloffCustomCurve.m_Curve.Array.data[0].value
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 217684b60ce42f04699e42fde929ac31,
+        type: 3}
+    - target: {fileID: 0}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: cfedad3cea6034d49abfad0e31baa5d9, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 196710}

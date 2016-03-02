@@ -41,7 +41,7 @@ public class CameraManager : MonoBehaviour
         }
 
         if (mainCamera.orthographicSize > 20)
-            QualitySettings.SetQualityLevel(0,false);
+            QualitySettings.SetQualityLevel(0, false);
         else
             QualitySettings.SetQualityLevel(userChosenQualityLevel, false);
     }
