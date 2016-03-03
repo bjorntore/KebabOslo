@@ -17,7 +17,6 @@ public class KebabBuilding : Building
     public List<Customer> customers = new List<Customer>();
     public List<Employee> employees = new List<Employee>();
 
-    private int maintenancePerDay = 10;
     private int lastMaintenancePayDay = 0;
 
     public int cashEarned = 0;
@@ -28,7 +27,7 @@ public class KebabBuilding : Building
     public KebabBuilding(Tile tile, World world) : base(tile)
     {
         this.world = world;
-        HireEmployee(true);
+        employees.Add(new Employee("Dude"));
     }
 
     public bool IsFull()
@@ -41,15 +40,13 @@ public class KebabBuilding : Building
         return Settings.KebabBuilding_CustomerCapacityPerEmployee * employees.Count;
     }
 
-    public void HireEmployee(bool skipHireCost = false)
+    public void HireEmployee()
     {
         if (employees.Count == Settings.KebabBuilding_MaxEmployees)
             return;
                 
         employees.Add(new Employee("Dude"));
-
-        if (!skipHireCost)
-            world.player.ChangeCash(-Settings.Employee_HireCost);
+        world.player.ChangeCash(-Settings.Employee_HireCost);
     }
 
     /* TODO: Fire last employed person for now, but change to fire spesific at a later point when we implement GUI for that */
@@ -80,7 +77,7 @@ public class KebabBuilding : Building
 
         if (daysSinceLastMaintenance - interval > 0)
         {
-            world.player.ChangeCash(-maintenancePerDay * daysSinceLastMaintenance);
+            world.player.ChangeCash(-Settings.KebabBuilding_MaintenanceCostPerDay * daysSinceLastMaintenance);
             lastMaintenancePayDay += daysSinceLastMaintenance;
 
             Debug.Log("Maintenance");
@@ -92,7 +89,7 @@ public class KebabBuilding : Building
         if (employees.Count == 0)
             return;
 
-        int interval = Settings.KebabBuilding_DaysBetweenEmployeeWages;
+        int interval = Settings.Employee_DaysBetweenEmployeeWages;
         SanityCheckDaysIntervalSetting(interval);
 
         int daysSinceLastEmployeePayDay = currentDay - lastEmployeePayDay;
@@ -100,7 +97,7 @@ public class KebabBuilding : Building
         {
             foreach (Employee employee in employees)
             {
-                world.player.ChangeCash(-Settings.Employee_DailyCost * daysSinceLastEmployeePayDay);               
+                world.player.ChangeCash(-Settings.Employee_WageCostPerDay * daysSinceLastEmployeePayDay);               
                 /* Doing foreach employee so that we can do stuff to the employee object if we want to. */
             }
             lastEmployeePayDay += daysSinceLastEmployeePayDay;
