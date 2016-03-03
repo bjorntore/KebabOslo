@@ -28,6 +28,7 @@ public class KebabBuilding : Building
     public KebabBuilding(Tile tile, World world) : base(tile)
     {
         this.world = world;
+        HireEmployee(true);
     }
 
     public bool IsFull()
@@ -37,17 +38,18 @@ public class KebabBuilding : Building
 
     public int GetCurrentCapacity()
     {
-        return Settings.KebabBuilding_CustomerCapacity * employees.Count;
+        return Settings.KebabBuilding_CustomerCapacityPerEmployee * employees.Count;
     }
 
-    public void HireEmployee()
+    public void HireEmployee(bool skipHireCost = false)
     {
         if (employees.Count == Settings.KebabBuilding_MaxEmployees)
             return;
-
+                
         employees.Add(new Employee("Dude"));
-        world.player.ChangeCash(Settings.Employee_HireCost);
 
+        if (!skipHireCost)
+            world.player.ChangeCash(-Settings.Employee_HireCost);
     }
 
     /* TODO: Fire last employed person for now, but change to fire spesific at a later point when we implement GUI for that */
@@ -64,23 +66,37 @@ public class KebabBuilding : Building
         cashEarnedTrigger = true;
     }
 
-    public void CheckAndTriggerMaintenance(int currentDay)
+    public void TriggerExpences(int currentDay)
+    {
+        CheckAndTriggerMaintenance(currentDay);
+        CheckAndTriggerEmployeeWages(currentDay);
+    }
+
+    private void CheckAndTriggerMaintenance(int currentDay)
     {
         int daysSinceLastMaintenance = currentDay - lastMaintenancePayDay;
-        if (daysSinceLastMaintenance > 0)
+        int interval = Settings.KebabBuilding_DaysBetweenMaintenance;
+        SanityCheckDaysIntervalSetting(interval);
+
+        if (daysSinceLastMaintenance - interval > 0)
         {
             world.player.ChangeCash(-maintenancePerDay * daysSinceLastMaintenance);
             lastMaintenancePayDay += daysSinceLastMaintenance;
+
+            Debug.Log("Maintenance");
         }
     }
 
-    public void CheckAndTriggerEmployeeWages(int currentDay)
+    private void CheckAndTriggerEmployeeWages(int currentDay)
     {
         if (employees.Count == 0)
             return;
 
+        int interval = Settings.KebabBuilding_DaysBetweenEmployeeWages;
+        SanityCheckDaysIntervalSetting(interval);
+
         int daysSinceLastEmployeePayDay = currentDay - lastEmployeePayDay;
-        if (daysSinceLastEmployeePayDay > 0)
+        if (daysSinceLastEmployeePayDay - interval > 0)
         {
             foreach (Employee employee in employees)
             {
@@ -88,6 +104,8 @@ public class KebabBuilding : Building
                 /* Doing foreach employee so that we can do stuff to the employee object if we want to. */
             }
             lastEmployeePayDay += daysSinceLastEmployeePayDay;
+
+            Debug.Log("Payday");
         }
     }
 
@@ -99,6 +117,12 @@ public class KebabBuilding : Building
     public int GetOwnerReputation()
     {
         return world.player.Reputation;
+    }
+
+    private void SanityCheckDaysIntervalSetting(int interval)
+    {
+        if (interval < 1)
+            throw new ArgumentOutOfRangeException("Days interval setting can not be less than 1 day.");
     }
 
 }

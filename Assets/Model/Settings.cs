@@ -11,10 +11,12 @@
     public static int Tile_MaxPropertyValueGainableFromHighPoint = 5000;
 
     public static int KebabBuilding_MaxEmployees = 5;
-	public static int KebabBuilding_CustomerCapacity = 1;
+	public static int KebabBuilding_CustomerCapacityPerEmployee = 1;
     public static int KebabBuilding_ReputationGainedFromSale = 4;
     public static int KebabBuilding_ReputationLostFromFull = 1;
     public static int KebabBuilding_CashPerKebab = 10;
+    public static int KebabBuilding_DaysBetweenMaintenance = 1;
+    public static int KebabBuilding_DaysBetweenEmployeeWages = 7;
 
     public static int ClubBuilding_DestroyCost = 3000;
 
