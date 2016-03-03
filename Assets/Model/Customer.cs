@@ -250,7 +250,7 @@ public class Customer
 
     private void SetMoveSpeed()
     {
-        moveSpeed = (Settings.Customer_BaseMovementSpeed / 2.0f) + (Settings.Customer_BaseMovementSpeed * hunger / 100.0f);
+        moveSpeed = (Settings.Customer_MovementSpeed / 2.0f) + (Settings.Customer_MovementSpeed * hunger / 100.0f);
     }
 
     private bool IsAtOrigin()

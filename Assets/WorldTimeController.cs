@@ -5,7 +5,6 @@ using System;
 public class WorldTimeController : MonoBehaviour
 {
 
-    private float startTime;
     public Weekday weekday;
     public int day;
     public int hour;
@@ -26,15 +25,13 @@ public class WorldTimeController : MonoBehaviour
 
     private void Start()
     {
-        startTime = Time.time;
         InvokeRepeating("UpdateTimeData", 0, Settings.World_IrlSecondsPerDay / 24.0f);
     }
 
     private void UpdateTimeData()
     {
-        float elapsedIrlSeconds = Time.time - startTime;
-        float elapsedDays = elapsedIrlSeconds / Settings.World_IrlSecondsPerDay;
-        TimeSpan gameTimeSpan = TimeSpan.FromDays(elapsedDays);
+        float elapsedGameDays = (Time.time / Settings.World_IrlSecondsPerDay);
+        TimeSpan gameTimeSpan = TimeSpan.FromDays(elapsedGameDays);
 
         day = gameTimeSpan.Days;
         hour = gameTimeSpan.Hours;

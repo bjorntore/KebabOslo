@@ -1,9 +1,11 @@
-﻿
-public static class Settings
+﻿public static class Settings
 {
-
     public static float World_IrlSecondsPerDay = 5.0f;
     public static int World_MaxCustomers = 300;
+    public static int World_MaxGameSpeed = 15;
+
+    public static int Player_StartCash = 1000;
+    public static int Player_DaysWithoutCashLoseCondition = 1;
 
     public static int Tile_BasePropertyValue = 500;
     public static int Tile_MaxPropertyValueGainableFromHighPoint = 5000;
@@ -20,7 +22,7 @@ public static class Settings
 
     public static int PoliceBuilding_DestroyCost = 10000;
 
-    public static int Customer_BaseMovementSpeed = 5;
+    public static float Customer_MovementSpeed = 5.0f;
     public static float Customer_EatSpeedPerSec = 50.0f; // Hunger reduced per second
 
     public static int Employee_HireCost = 500;

@@ -11,6 +11,7 @@ GameObject:
   - 114: {fileID: 11423862}
   - 114: {fileID: 11422640}
   - 114: {fileID: 11429004}
+  - 114: {fileID: 11408618}
   m_Layer: 0
   m_Name: WorldController
   m_TagString: Untagged
@@ -30,6 +31,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11408618
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 165072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f557e78df03977849af28700b7ecc7c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11422640
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -60,6 +72,7 @@ MonoBehaviour:
   kebabBuildingPrefab: {fileID: 196710, guid: d5f4e512c28422e46a0bdbafdfbeaaa6, type: 2}
   policeBuildingPrefab: {fileID: 127936, guid: e1964adbae65c0348bc708febdb585f9, type: 2}
   normalCustomerPrefab: {fileID: 138778, guid: dfda6d53fc5f0ae4caa1862e2541bc45, type: 2}
+  worldTimeController: {fileID: 0}
 --- !u!114 &11429004
 MonoBehaviour:
   m_ObjectHideFlags: 1

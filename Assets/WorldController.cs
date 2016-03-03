@@ -22,6 +22,8 @@ public class WorldController : MonoBehaviour
 
     public World world;
 
+    public WorldTimeController worldTimeController;
+
     private int customerSpawnerBIndex = 0;
 
     private static WorldController worldController;
@@ -45,12 +47,26 @@ public class WorldController : MonoBehaviour
         tileContainer = new GameObject("TileContainer");
         buildingContainer = new GameObject("BuildingContainer");
         customerContainer = new GameObject("CustomerContainer");
+        worldTimeController = FindObjectOfType<WorldTimeController>();
 
         AdjustGround();
         SpawnTiles();
         SpawnBuildings();
 
         StartCoroutine(CustomerSpawnerRutine());
+
+        Time.timeScale = 1.0f;
+    }
+
+    // Update is called once per frame
+    private void Update()
+    {
+        if (world.player.CheckIfLost(worldTimeController.day))
+        {
+            GenericDialog panel = GenericDialog.Instance();
+            panel.OpenDialog("LOST!", "You ran out of money and local gangsters got pissed off and wasted you!");
+            Time.timeScale = 0.0f;
+        }
     }
 
     public void AddAndSpawnKebabBuilding(KebabBuilding building, Tile tile)

@@ -25,7 +25,7 @@ public class GenericDialog : Dialog
         return genericDialog;
     }
 
-    public void OpenDialog(string title, string description, UnityAction buttonAction, string buttonText, UnityAction cancelEvent = null)
+    public void OpenDialog(string title, string description, UnityAction buttonAction = null, string buttonText = "", UnityAction cancelEvent = null)
     {
         if (IsAnyDialogOpen())
             return;
@@ -34,7 +34,6 @@ public class GenericDialog : Dialog
 
         this.title.text = title;
         this.description.text = description;
-
 
         if (buttonAction == null)
             this.button.gameObject.SetActive(false);

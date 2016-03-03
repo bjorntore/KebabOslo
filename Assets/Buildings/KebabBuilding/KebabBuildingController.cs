@@ -2,7 +2,6 @@
 using System.Collections;
 using System;
 
-[Serializable]
 public class KebabBuildingController : BuildingController, IClickable
 {
     private WorldTimeController worldTimeController;
