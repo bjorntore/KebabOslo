@@ -162,7 +162,7 @@ public class WorldController : MonoBehaviour
                 if (world.Customers.Count >= Settings.World_MaxCustomers)
                     yield return new WaitForSeconds(5);
 
-                if (world.Customers.Count < Settings.World_MaxCustomers && building.SpawnRoll())
+                if (world.Customers.Count < Settings.World_MaxCustomers && building.CustomerSpawnRoll())
                 {
                     Customer customer = world.CreateCustomer(building.tile.x, building.tile.z);
                     SpawnCustomer(customer, building.tile);

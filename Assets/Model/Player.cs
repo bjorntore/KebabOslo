@@ -1,14 +1,10 @@
 ﻿public class Player
 {
 
-
     public string companyName;
 
     private int cash;
     public int Cash { get { return cash; } }
-
-    private int reputation = 0;
-    public int Reputation { get { return reputation; } }
 
     private int lastDayWithCash = 0;
 
@@ -21,11 +17,6 @@
     public void ChangeCash(int deltaValue)
     {
         cash += deltaValue;
-    }
-
-    public void ChangeReputation(int deltaValue)
-    {
-        reputation += deltaValue;
     }
 
     public bool CheckIfLost(int currentDay)

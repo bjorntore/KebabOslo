@@ -9,21 +9,21 @@ public class KebabBuilding : Building
 {
     private World world;
 
-    private float spawnCooldown = 0;
-    public override float SpawnCooldown { get { return spawnCooldown; } }
-
-    public override float LastSpawnTimed { get; set; }
+    private float customerSpawnCooldown = 0;
+    public override float CustomerSpawnCooldown { get { return customerSpawnCooldown; } }
 
     public KebabMenu kebabMenu = new KebabMenu();
     public List<Customer> customers = new List<Customer>();
     public List<Employee> employees = new List<Employee>();
 
     private int lastMaintenancePayDay = 0;
+    private int lastEmployeePayDay = 0;
 
     public int cashEarned = 0;
     public bool cashEarnedTrigger = false;
 
-    private int lastEmployeePayDay = 0;
+    private int reputation = 0;
+    public int Reputation { get { return reputation; } }
 
     public KebabBuilding(Tile tile, World world) : base(tile)
     {
@@ -112,9 +112,9 @@ public class KebabBuilding : Building
         return -1; // Not possible
     }
 
-    public int GetOwnerReputation()
+    public void ChangeReputation(int change)
     {
-        return world.player.Reputation;
+        reputation += change;
     }
 
     private void SanityCheckDaysIntervalSetting(int interval)

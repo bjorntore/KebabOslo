@@ -82,14 +82,14 @@ public class Customer
             mood = CustomerMood.AngryNoCapacity;
             SetDestinationToMapEnd();
             FindPath();
-            world.player.ChangeReputation(-Settings.KebabBuilding_ReputationLostFromFull);
+            destinationKebabBuilding.ChangeReputation(-Settings.KebabBuilding_ReputationLostFromFull);
         }
         else
         {
             destinationKebabBuilding.customers.Add(this);
             state = CustomerState.Eating;
             eatingUntil = Time.time + EatDuration(hunger);
-            world.player.ChangeReputation(Settings.KebabBuilding_ReputationGainedFromSale);
+            destinationKebabBuilding.ChangeReputation(Settings.KebabBuilding_ReputationGainedFromSale);
             destinationKebabBuilding.AddCashEarned(Settings.KebabBuilding_CashPerKebab);
         }
     }
@@ -145,7 +145,7 @@ public class Customer
         foreach (KebabBuilding building in world.KebabBuildings)
         {
             double distance = MathUtils.Distance(x, z, building.tile.x, building.tile.z);
-            int buildingWantScore = hunger + building.GetOwnerReputation() - Convert.ToInt32(distance);
+            int buildingWantScore = hunger + building.Reputation - Convert.ToInt32(distance);
 
             if (buildingWantScore >= mostWantedScore)
             {

@@ -98,6 +98,14 @@ public class World
         }
     }
 
+    public int AverageKebabBuildingReputation()
+    {
+        if (_kebabBuildings.Count > 0)
+            return _kebabBuildings.Sum(k => k.Reputation) / _kebabBuildings.Count;
+        else
+            return 0;
+    }
+
     private void SanityCheckKebabBuildingsCount()
     {
         int _kebabBuildingsCount = _kebabBuildings.Count;
