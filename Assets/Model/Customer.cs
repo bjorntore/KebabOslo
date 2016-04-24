@@ -36,7 +36,6 @@ public class Customer
     private List<GridPos> resultPath;
     private int currentResultPathIndex = 0;
 
-    //private static BaseGrid staticlyCachedSearchGrid;
     private static JumpPointParam staticlyCachedJpParam;
 
 
@@ -79,24 +78,43 @@ public class Customer
         KebabBuilding destinationKebabBuilding = (KebabBuilding)destinationBuilding;
         if (destinationKebabBuilding.IsFull())
         {
-            mood = CustomerMood.AngryNoCapacity;
-            SetDestinationToMapEnd();
-            FindPath();
-            destinationKebabBuilding.ChangeReputation(-Settings.KebabBuilding_ReputationLostFromFull);
+            if (!DecideIfJoinQueue(destinationKebabBuilding))
+            {
+                mood = CustomerMood.AngryNoCapacity;
+                SetDestinationToMapEnd();
+                FindPath();
+                destinationKebabBuilding.ChangeReputation(-Settings.KebabBuilding_ReputationLostFromFull);
+            }
         }
         else
+            BuyAndStartEating();
+    }
+
+    public void TriggerMaybeNextInQueue()
+    {
+        KebabBuilding destinationKebabBuilding = (KebabBuilding)destinationBuilding;
+
+        if (!destinationKebabBuilding.IsFull() && destinationKebabBuilding.customersInQueue.FirstOrDefault() == this)
         {
-            destinationKebabBuilding.customers.Add(this);
-            state = CustomerState.Eating;
-            eatingUntil = Time.time + EatDuration(hunger);
-            destinationKebabBuilding.ChangeReputation(Settings.KebabBuilding_ReputationGainedFromSale);
-            destinationKebabBuilding.AddCashEarned(Settings.KebabBuilding_CashPerKebab);
+            if (!destinationKebabBuilding.customersInQueue.Remove(this))
+                throw new Exception("Did not remove customer from queue. Was not found.");
+            BuyAndStartEating();
         }
     }
 
     private float EatDuration(int hunger)
     {
         return hunger / Settings.Customer_EatSpeedPerSec;
+    }
+
+    public void BuyAndStartEating()
+    {
+        KebabBuilding destinationKebabBuilding = (KebabBuilding)destinationBuilding;
+        destinationKebabBuilding.customers.Add(this);
+        state = CustomerState.Eating;
+        eatingUntil = Time.time + EatDuration(hunger);
+        destinationKebabBuilding.ChangeReputation(Settings.KebabBuilding_ReputationGainedFromSale);
+        destinationKebabBuilding.AddCashEarned(Settings.KebabBuilding_CashPerKebab);
     }
 
     public void StopEating()
@@ -120,7 +138,7 @@ public class Customer
 
         if (hunger > 0)
         {
-            destinationBuilding = CheckIfWantKebab();
+            destinationBuilding = DecideIfWantKebab();
             if (destinationBuilding is KebabBuilding)
                 SetDestinationToKebabBuilding((KebabBuilding)destinationBuilding);
             else
@@ -137,7 +155,7 @@ public class Customer
         FindPath();
     }
 
-    private KebabBuilding CheckIfWantKebab()
+    private KebabBuilding DecideIfWantKebab()
     {
         int mostWantedScore = 0;
         KebabBuilding mostWantedKebabBuilding = null;
@@ -161,6 +179,24 @@ public class Customer
             mood = CustomerMood.SkippingKebabToday;
             return null;
         }
+    }
+
+    private bool DecideIfJoinQueue(KebabBuilding kebabBuilding)
+    {
+        int decisionValue   = hunger - 50; // Since 50 should be the average
+        decisionValue       += kebabBuilding.Reputation;
+        decisionValue       -= kebabBuilding.customersInQueue.Count;
+        decisionValue       += Utils.RandomInt(-10, 10);
+
+        bool decision = decisionValue >= 0;
+        if (decision)
+        {
+            state = CustomerState.Queued;
+            kebabBuilding.customersInQueue.Add(this);
+        }
+
+        //Debug.Log(string.Format("Decision value {0}, hunger {1}, building rep {2}, queue {3}", decisionValue, hunger, kebabBuilding.Reputation, kebabBuilding.customersInQueue.Count));
+        return decision;
     }
 
     private void SetDestinationToKebabBuilding(KebabBuilding kebabBuilding)
@@ -266,6 +302,7 @@ public enum CustomerState
     MovingToEat,
     MovingToMapEnd,
     MovingToOrigin,
+    Queued,
     Eating,
 }
 

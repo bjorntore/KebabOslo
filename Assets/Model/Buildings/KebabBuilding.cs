@@ -14,6 +14,7 @@ public class KebabBuilding : Building
 
     public KebabMenu kebabMenu = new KebabMenu();
     public List<Customer> customers = new List<Customer>();
+    public List<Customer> customersInQueue = new List<Customer>();
     public List<Employee> employees = new List<Employee>();
 
     private int lastMaintenancePayDay = 0;

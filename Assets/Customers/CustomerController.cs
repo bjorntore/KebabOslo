@@ -41,11 +41,11 @@ public class CustomerController : MonoBehaviour
             Move();
         else  // This only triggers when arrived
         {
-            ArrivedStateHandler();
+            StateHandler();
         }
     }
 
-    private void ArrivedStateHandler()
+    private void StateHandler()
     {
         if (customer.State == CustomerState.MovingToEat)
         {
@@ -55,6 +55,10 @@ public class CustomerController : MonoBehaviour
         {
             worldController.world.RemoveCustomer(customer);
             Destroy(gameObject);
+        }
+        else if (customer.State == CustomerState.Queued)
+        {
+            customer.TriggerMaybeNextInQueue();
         }
         else if (customer.State == CustomerState.Eating && Time.time >= customer.eatingUntil)
         {
