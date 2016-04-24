@@ -98,8 +98,9 @@ public class KebabBuilding : Building
         {
             foreach (Employee employee in employees)
             {
-                world.player.ChangeCash(-Settings.Employee_WageCostPerDay * daysSinceLastEmployeePayDay);               
-                /* Doing foreach employee so that we can do stuff to the employee object if we want to. */
+                var salery = -Settings.Employee_WageCostPerDay * daysSinceLastEmployeePayDay;
+                world.player.ChangeCash(salery);
+                employee.ChangeTotalPaidSalery(salery);
             }
             lastEmployeePayDay += daysSinceLastEmployeePayDay;
 

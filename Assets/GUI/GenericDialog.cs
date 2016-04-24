@@ -4,8 +4,6 @@ using UnityEngine.Events;
 
 public class GenericDialog : Dialog
 {
-
-    public GameObject panel;
     public UnityEngine.UI.Text title;
     public UnityEngine.UI.Text description;
     public UnityEngine.UI.Button button;
@@ -27,10 +25,7 @@ public class GenericDialog : Dialog
 
     public void OpenDialog(string title, string description, UnityAction buttonAction = null, string buttonText = "", UnityAction cancelEvent = null)
     {
-        if (IsAnyDialogOpen())
-            return;
-
-        panel.SetActive(true);
+        Display();
 
         this.title.text = title;
         this.description.text = description;
@@ -50,10 +45,5 @@ public class GenericDialog : Dialog
         this.cancel.onClick.AddListener(ClosePanel);
         if (cancelEvent != null)
             this.cancel.onClick.AddListener(cancelEvent);
-    }
-
-    void ClosePanel()
-    {
-        panel.SetActive(false);
     }
 }

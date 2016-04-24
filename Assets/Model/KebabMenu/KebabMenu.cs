@@ -6,15 +6,24 @@ public class KebabMenu
 {
     public readonly List<MenuItem> menuItems = new List<MenuItem>() { new MenuItem() };
 
-    public void AddMenuItem(MenuItem newItem)
+    public MenuItem AddMenuItem(MenuItem newItem)
     {
-        /* IF OK, add item. */
+        if (!CanCreateMoreMenuItems()) { 
+            return null;
+        }
+
         menuItems.Add(newItem);
+        return newItem;
     }
 
     public void RemoveMenuItem(MenuItem menuItem)
     {
         if(menuItem != null)
             menuItems.Remove(menuItem);
+    }
+
+    public bool CanCreateMoreMenuItems()
+    {
+        return menuItems.Count < 5;
     }
 }

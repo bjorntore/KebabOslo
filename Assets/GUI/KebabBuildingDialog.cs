@@ -2,18 +2,19 @@
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.Events;
+using System.Linq;
 
 public class KebabBuildingDialog : Dialog
 {
-	public GameObject panel;
 	public Text title;
     public Text employeeLabel;
     public Text customersLabel;
     public Button addEmployeeButton;
     public Button fireEmployeeButton;
     public Button cancelButton;
+    public KebabMenuController kebabMenuController;
 
-	private KebabBuilding kebabBuilding;
+    private KebabBuilding kebabBuilding;
 
 	private static KebabBuildingDialog kebabBuildingDialog;
 	public static KebabBuildingDialog Instance()
@@ -37,31 +38,24 @@ public class KebabBuildingDialog : Dialog
         }
     }
 
-	public void OpenDialog(KebabBuilding kebabBuilding, UnityAction addEmployeeAction, UnityAction fireEmployeeAction, UnityAction cancelEvent = null)
+	public void OpenDialog(KebabBuilding kebabBuilding, UnityAction cancelEvent = null)
 	{
-        if (IsAnyDialogOpen())
-            return;
-
+        Display(lockKeyboard: true);
 		this.kebabBuilding = kebabBuilding;
-		panel.SetActive(true);
 
         title.text = kebabBuilding.ToString();
 
         addEmployeeButton.onClick.RemoveAllListeners();
-        addEmployeeButton.onClick.AddListener(addEmployeeAction);
+        addEmployeeButton.onClick.AddListener(kebabBuilding.HireEmployee);
 
         fireEmployeeButton.onClick.RemoveAllListeners();
-        fireEmployeeButton.onClick.AddListener(fireEmployeeAction);
+        fireEmployeeButton.onClick.AddListener(kebabBuilding.FireEmployee);
 
         cancelButton.onClick.RemoveAllListeners();
         cancelButton.onClick.AddListener(ClosePanel);
         if (cancelEvent != null)
             cancelButton.onClick.AddListener(cancelEvent);
-    }
 
-	void ClosePanel()
-	{
-		panel.SetActive(false);
-	}
-	
+        kebabMenuController.SetupKebabMenu(kebabBuilding.kebabMenu);
+    }	
 }
