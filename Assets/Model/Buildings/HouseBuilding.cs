@@ -7,9 +7,7 @@ public class HouseBuilding : Building
 {
 
     float spawnCooldown = 1;
-    public override float SpawnCooldown { get { return spawnCooldown; } }
-
-    public override float LastSpawnTimed { get; set; }
+    public override float CustomerSpawnCooldown { get { return spawnCooldown; } }
 
     public HouseBuilding(Tile tile) : base(tile) { }
 

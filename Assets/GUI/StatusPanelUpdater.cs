@@ -27,7 +27,7 @@ public class StatusPanelUpdater : MonoBehaviour
         timeLabel.text = worldTimeController.toString;
         gameSpeedLabel.text = GetTimeScaleUnderscores();
         cashLabel.text = "Cash: " + worldController.world.player.Cash;
-        reputationLabel.text = "Reputation: " + worldController.world.player.Reputation;
+        reputationLabel.text = "Reputation: " + worldController.world.AverageKebabBuildingReputation();
         populationLabel.text = "Population: " + worldController.world.Customers.Count;
     }
 

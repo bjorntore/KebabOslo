@@ -5,16 +5,16 @@ using System;
 public abstract class Building
 {
 
-    public abstract float SpawnCooldown { get; }
-    public abstract float LastSpawnTimed { get; set; }
+    public abstract float CustomerSpawnCooldown { get; }
     public abstract int Cost();
 
     public Tile tile;
+    public float lastSpawnTime;
 
     public Building(Tile tile)
     {
         this.tile = tile;
-        LastSpawnTimed = Time.time;
+        lastSpawnTime = Time.time;
     }
 
     public override string ToString()
@@ -22,14 +22,14 @@ public abstract class Building
         return "Building_" + GetType() + "_" + tile.x + "_" + tile.z;
     }
 
-    public bool SpawnRoll()
+    public bool CustomerSpawnRoll()
     {
-        float timeSinceLastSpawn = Time.time - LastSpawnTimed;
-        timeSinceLastSpawn += UnityEngine.Random.Range(-SpawnCooldown, SpawnCooldown);
+        float timeSinceLastSpawn = Time.time - lastSpawnTime;
+        timeSinceLastSpawn += UnityEngine.Random.Range(-CustomerSpawnCooldown, CustomerSpawnCooldown);
 
-        if (timeSinceLastSpawn >= SpawnCooldown)
+        if (timeSinceLastSpawn >= CustomerSpawnCooldown)
         {
-            LastSpawnTimed += SpawnCooldown;
+            lastSpawnTime += CustomerSpawnCooldown;
             return true;
         }
         else
