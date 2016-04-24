@@ -55,7 +55,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &172430
 GameObject:
-  m_ObjectHideFlags: 1
+  m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
@@ -66,22 +66,6 @@ GameObject:
   - 23: {fileID: 2391104}
   m_Layer: 0
   m_Name: Floor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &196044
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 457016}
-  - 114: {fileID: 11408762}
-  m_Layer: 0
-  m_Name: BuildableTile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -140,19 +124,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 476588}
   m_RootOrder: 0
---- !u!4 &457016
-Transform:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 196044}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 473918}
-  m_Father: {fileID: 476588}
-  m_RootOrder: 3
 --- !u!4 &473918
 Transform:
   m_ObjectHideFlags: 1
@@ -163,8 +134,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
-  m_Father: {fileID: 457016}
-  m_RootOrder: 0
+  m_Father: {fileID: 476588}
+  m_RootOrder: 3
 --- !u!4 &476588
 Transform:
   m_ObjectHideFlags: 1
@@ -178,7 +149,7 @@ Transform:
   - {fileID: 446236}
   - {fileID: 429286}
   - {fileID: 407480}
-  - {fileID: 457016}
+  - {fileID: 473918}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!23 &2311672
@@ -435,23 +406,6 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &11408762
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 196044}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1068a26a2fdae074d9d42cf00c5c8a5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tile:
-    x: 0
-    z: 0
-    type: 0
-    isWorldEdge: 0
-    propertyValue: 0
 --- !u!114 &11417322
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -472,7 +426,9 @@ MonoBehaviour:
       type: 0
       isWorldEdge: 0
       propertyValue: 0
+    lastSpawnTime: 0
     customers: []
+    customersInQueue: []
     employees: []
     cashEarned: 0
     cashEarnedTrigger: 0
