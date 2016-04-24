@@ -14,6 +14,7 @@ public class KebabBuilding : Building
 
     public override float LastSpawnTimed { get; set; }
 
+    public KebabMenu kebabMenu = new KebabMenu();
     public List<Customer> customers = new List<Customer>();
     public List<Employee> employees = new List<Employee>();
 
