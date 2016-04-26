@@ -45,6 +45,7 @@ public class MenuItemController : MonoBehaviour {
         menuItem.VegetableType = ConvertDropdownValueToIngredient(vegetableDropdown, IngredientDB.Vegetables);
         menuItem.SauceType = ConvertDropdownValueToIngredient(sauceDropdown, IngredientDB.Sauces);
         menuItem.Price = double.Parse(priceInputField.text);
+        menuItem.IsActive = true;
     }
 
     private void SetupDropdowns()

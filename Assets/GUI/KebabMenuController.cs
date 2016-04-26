@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
@@ -19,6 +20,8 @@ public class KebabMenuController : MonoBehaviour
     {
         if (MenuItemPanelPrefab == null)
             throw new Exception("MenuItemPanelPrefab is missing! Configure for KebabMenuController.");
+
+        ResetMenuItemList();
 
         this.kebabMenu = kebabMenu;
         foreach (MenuItem menuItem in this.kebabMenu.menuItems)
@@ -59,16 +62,42 @@ public class KebabMenuController : MonoBehaviour
         }
 
         if (!kebabMenu.CanCreateMoreMenuItems())
-            AddMenuItemButton.interactable = false; 
+            AddMenuItemButton.interactable = false;
     }
 
     public void SaveMenu()
     {
         menuItemControls.ForEach(x => x.SaveChanges());
+        if (kebabMenu.CanCreateMoreMenuItems()) AddMenuItemButton.interactable = true;
     }
 
     public void DiscardChanges()
     {
-        menuItemControls.ForEach(x => x.DiscardChanges());
+        List<MenuItemController> menuItemControllersToDelete = new List<MenuItemController>();
+        menuItemControls.ForEach(x =>
+        {
+            if (!x.menuItem.IsActive)
+            {
+                Destroy(x.gameObject);
+                menuItemControllersToDelete.Add(x);
+            }
+            else
+                x.DiscardChanges();
+        });
+
+
+        menuItemControllersToDelete.ForEach(x =>
+        {
+            kebabMenu.RemoveMenuItem(x.menuItem);
+            menuItemControls.Remove(x);
+        });
+
+        if (kebabMenu.CanCreateMoreMenuItems()) AddMenuItemButton.interactable = true;
+    }
+
+    private void ResetMenuItemList()
+    {
+        menuItemControls.ForEach(x => Destroy(x.gameObject));
+        menuItemControls = new List<MenuItemController>();
     }
 }

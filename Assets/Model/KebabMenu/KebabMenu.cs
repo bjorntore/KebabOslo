@@ -1,10 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 [Serializable]
 public class KebabMenu
 {
-    public readonly List<MenuItem> menuItems = new List<MenuItem>() { new MenuItem() };
+    public List<MenuItem> menuItems = new List<MenuItem>();
+
+    public KebabMenu()
+    {
+        menuItems.Add(new MenuItem() { IsActive = true });
+    }
 
     public MenuItem AddMenuItem(MenuItem newItem)
     {
@@ -20,6 +26,16 @@ public class KebabMenu
     {
         if(menuItem != null)
             menuItems.Remove(menuItem);
+    }
+
+    public void SetAllMenuItemsActive()
+    {
+        menuItems.ForEach(x => x.IsActive = true);
+    }
+
+    public void RemoveAllInactiveMenuItems()
+    {
+        menuItems.RemoveAll(x => !x.IsActive);
     }
 
     public bool CanCreateMoreMenuItems()
