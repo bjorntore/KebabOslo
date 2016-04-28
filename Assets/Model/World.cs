@@ -40,8 +40,9 @@ public class World
         this.height = height;
 
         InitTiles(width, height);
-        InitBuildings();
-        //InitTilePropertyValues();
+        List<Tile> buildableTiles = SetAndGetBuildableTiles();
+        InitTilePropertyValues();
+        InitBuildings(buildableTiles);
     }
 
     public void AddBuilding(Building building, Tile tile)
@@ -155,7 +156,7 @@ public class World
     {
         int maxDistance = (int)MathUtils.Distance(0, 0, width / 5, height / 5);
 
-        int amountOfPropertyHighPoints = UnityEngine.Random.Range(1, 3);
+        int amountOfPropertyHighPoints = Utils.RandomInt(1, 3);
         for (int i = 0; i < amountOfPropertyHighPoints; i++)
         {
             int highPointX = UnityEngine.Random.Range(0, width);
@@ -180,27 +181,38 @@ public class World
         }
     }
 
-    private void InitBuildings()
+    private void InitBuildings(List<Tile> buildableTiles)
     {
-        List<Tile> buildableTiles = SetAndGetBuildableTiles();
-
         ProportionItem clubSpawn = new ProportionItem("Club", 10);
         ProportionItem policeSpawn = new ProportionItem("Police", 2);
-        ProportionItem houseSpawn = new ProportionItem("House", 40);
+        ProportionItem houseSpawn = new ProportionItem("House", 10); // Might get converted to Villa, based on property value
+        ProportionItem villaSpawn = new ProportionItem("Villa", 1);
         ProportionItem emptyTile = new ProportionItem("Empty", 48);
 
-        ProportionValues buildingSpawnChances = new ProportionValues(new ProportionItem[] { clubSpawn, policeSpawn, houseSpawn, emptyTile });
+        ProportionValues buildingSpawnChances = new ProportionValues(new ProportionItem[] { clubSpawn, policeSpawn, houseSpawn, villaSpawn, emptyTile });
 
         foreach (Tile tile in buildableTiles)
         {
             var randomChoice = buildingSpawnChances.RandomChoice();
 
             if (randomChoice.Name == "Club")
-                AddBuilding(new ClubBuilding(null), tile);
+                AddBuilding(new ClubBuilding(), tile);
             else if (randomChoice.Name == "Police")
-                AddBuilding(new PoliceBuilding(null), tile);
+                AddBuilding(new PoliceBuilding(), tile);
             else if (randomChoice.Name == "House")
-                AddBuilding(new HouseBuilding(null), tile);
+            {
+                double villaChance = (Convert.ToDouble(tile.propertyValue) - Settings.Tile_BasePropertyValue) * 100 / Settings.Tile_MaxPropertyValueGainableFromHighPoint;
+                if (Utils.PercentageRoll(villaChance))
+                    AddBuilding(new VillaBuilding(), tile);
+                else
+                    AddBuilding(new HouseBuilding(), tile);
+            }
+            else
+            {
+                var propertyValueHouseChance = (Convert.ToDouble(tile.propertyValue) - Settings.Tile_BasePropertyValue) * 100 / Settings.Tile_MaxPropertyValueGainableFromHighPoint;
+                if (Utils.PercentageRoll(propertyValueHouseChance))
+                    AddBuilding(new HouseBuilding(), tile);
+            }
         }
 
         LogBuildingTypes();

@@ -3,15 +3,15 @@ using System.Collections;
 using System;
 
 [Serializable]
-public class HouseBuilding : Building
+public class VillaBuilding : Building
 {
 
-    float spawnCooldown = 1;
+    float spawnCooldown = 2;
     public override float CustomerSpawnCooldown { get { return spawnCooldown; } }
 
     public override int Cost()
     {
-        return tile.propertyValue + Settings.HouseBuilding_DestroyCost;
+        return tile.propertyValue + Settings.VillaBuilding_DestroyCost;
     }
 
 }

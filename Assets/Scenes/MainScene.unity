@@ -1085,6 +1085,10 @@ Prefab:
       propertyPath: worldTimeController
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 11423862, guid: 653e3c91e342a1d46a5e65a9bd29bb16, type: 2}
+      propertyPath: villaBuildingPrefab
+      value: 
+      objectReference: {fileID: 199374, guid: 22e45e25c493a5d44a0ff14c1cee84ce, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 653e3c91e342a1d46a5e65a9bd29bb16, type: 2}
   m_IsPrefabParent: 0
@@ -2302,19 +2306,19 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22414044, guid: 12fbe15539b11ef408b800732426fbf7, type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 465.9
       objectReference: {fileID: 0}
     - target: {fileID: 22414044, guid: 12fbe15539b11ef408b800732426fbf7, type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -16
       objectReference: {fileID: 0}
     - target: {fileID: 22414044, guid: 12fbe15539b11ef408b800732426fbf7, type: 2}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 931.8
       objectReference: {fileID: 0}
     - target: {fileID: 22414044, guid: 12fbe15539b11ef408b800732426fbf7, type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 32
       objectReference: {fileID: 0}
     - target: {fileID: 22414044, guid: 12fbe15539b11ef408b800732426fbf7, type: 2}
       propertyPath: m_AnchorMin.x
@@ -2322,7 +2326,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22414044, guid: 12fbe15539b11ef408b800732426fbf7, type: 2}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22414044, guid: 12fbe15539b11ef408b800732426fbf7, type: 2}
       propertyPath: m_AnchorMax.x
@@ -2330,7 +2334,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22414044, guid: 12fbe15539b11ef408b800732426fbf7, type: 2}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 22414044, guid: 12fbe15539b11ef408b800732426fbf7, type: 2}
       propertyPath: m_Pivot.x
@@ -2697,7 +2701,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1515220328
 RectTransform:
   m_ObjectHideFlags: 0

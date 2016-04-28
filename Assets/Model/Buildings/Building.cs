@@ -11,9 +11,8 @@ public abstract class Building
     public Tile tile;
     public float lastSpawnTime;
 
-    public Building(Tile tile)
+    public Building()
     {
-        this.tile = tile;
         lastSpawnTime = Time.time;
     }
 

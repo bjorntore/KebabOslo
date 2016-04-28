@@ -10,6 +10,7 @@ public class WorldController : MonoBehaviour
     public GameObject buildableTilePrefab;
 
     public GameObject houseBuildingPrefab;
+    public GameObject villaBuildingPrefab;
     public GameObject clubBuildingPrefab;
     public GameObject kebabBuildingPrefab;
 	public GameObject policeBuildingPrefab;
@@ -133,10 +134,12 @@ public class WorldController : MonoBehaviour
     private void SpawnBuilding(Building building)
     {
         GameObject prefab;
-        if (building is ClubBuilding)
-            prefab = clubBuildingPrefab;
-        else if (building is HouseBuilding)
+        if (building is HouseBuilding)
             prefab = houseBuildingPrefab;
+        else if (building is VillaBuilding)
+            prefab = villaBuildingPrefab;
+        else if (building is ClubBuilding)
+            prefab = clubBuildingPrefab;
         else if (building is KebabBuilding)
             prefab = kebabBuildingPrefab;
 		else if (building is PoliceBuilding)
@@ -147,8 +150,6 @@ public class WorldController : MonoBehaviour
         GameObject buildingGameObject = SpawnObject(prefab, building.ToString(), building.tile.x, building.tile.z, buildingContainer);
         BuildingController buildingController = buildingGameObject.GetComponent<BuildingController>();
         buildingController.SetBuilding(building);
-
-
     }
 
     private IEnumerator CustomerSpawnerRutine()

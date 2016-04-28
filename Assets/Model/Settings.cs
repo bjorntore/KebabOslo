@@ -9,6 +9,7 @@
 
     public static int Tile_BasePropertyValue = 500;
     public static int Tile_MaxPropertyValueGainableFromHighPoint = 5000;
+    //public static int Tile_MaxPropertyValue = Tile_BasePropertyValue + Tile_MaxPropertyValueGainableFromHighPoint;
 
     public static int KebabBuilding_MaxEmployees = 5;
 	public static int KebabBuilding_CustomerCapacityPerEmployee = 1;
@@ -21,6 +22,8 @@
     public static int ClubBuilding_DestroyCost = 3000;
 
     public static int HouseBuilding_DestroyCost = 2000;
+
+    public static int VillaBuilding_DestroyCost = 6000;
 
     public static int PoliceBuilding_DestroyCost = 10000;
 

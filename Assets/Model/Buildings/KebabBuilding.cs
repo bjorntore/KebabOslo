@@ -26,7 +26,7 @@ public class KebabBuilding : Building
     private int reputation = 0;
     public int Reputation { get { return reputation; } }
 
-    public KebabBuilding(Tile tile, World world) : base(tile)
+    public KebabBuilding(World world) : base()
     {
         this.world = world;
         employees.Add(new Employee("Dude"));

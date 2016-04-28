@@ -11,7 +11,7 @@ public abstract class NeutralBuildingController : BuildingController
         Building building = GetBuilding();
 
         WorldController wc = FindObjectOfType<WorldController>();
-		wc.ReplaceBuilding(GetBuilding(), new KebabBuilding(null, wc.world));
+		wc.ReplaceBuilding(GetBuilding(), new KebabBuilding(wc.world));
         wc.world.player.ChangeCash(-building.Cost());
 
         Destroy(gameObject);
