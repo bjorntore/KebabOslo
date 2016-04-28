@@ -35,14 +35,16 @@ public class KebabBuildingDialog : Dialog
         {
             employeeLabel.text = "Employees: " + kebabBuilding.employees.Count + "/" + Settings.KebabBuilding_MaxEmployees;
             customersLabel.text = "Customers: " + kebabBuilding.customers.Count + "/" + kebabBuilding.GetCurrentCapacity();
+            if (kebabBuilding.customersInQueue.Count > 0)
+                customersLabel.text = string.Format("{0} (Queue: {1})", customersLabel.text, kebabBuilding.customersInQueue.Count);
         }
     }
 
 	public void OpenDialog(KebabBuilding kebabBuilding, UnityAction cancelEvent = null)
 	{
-        Display(lockKeyboard: true);
-		this.kebabBuilding = kebabBuilding;
+        Display();
 
+        this.kebabBuilding = kebabBuilding;
         title.text = kebabBuilding.ToString();
 
         addEmployeeButton.onClick.RemoveAllListeners();
@@ -53,6 +55,7 @@ public class KebabBuildingDialog : Dialog
 
         cancelButton.onClick.RemoveAllListeners();
         cancelButton.onClick.AddListener(ClosePanel);
+        cancelButton.onClick.AddListener(kebabMenuController.DiscardChanges);
         if (cancelEvent != null)
             cancelButton.onClick.AddListener(cancelEvent);
 

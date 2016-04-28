@@ -7,13 +7,12 @@ public abstract class Dialog : MonoBehaviour {
     public GameObject panel;
     public static bool KeyboardLock { get; set; }
 
-    public void Display(bool lockKeyboard = false)
+    public void Display()
     {
         if (IsAnyDialogOpen())
             return;
 
         panel.SetActive(true);
-        KeyboardLock = lockKeyboard;
     }
 
     public bool IsAnyDialogOpen()
@@ -23,7 +22,16 @@ public abstract class Dialog : MonoBehaviour {
 
     public void ClosePanel()
     {
-        KeyboardLock = false;
         panel.SetActive(false);
+    }
+
+    public static void KeyboardLockOn(string  arg0 = "")
+    {
+        KeyboardLock = true;
+    }
+
+    public static void KeyboardLockOff(string arg0 = "")
+    {
+        KeyboardLock = false;
     }
 }
