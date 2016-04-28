@@ -104,6 +104,7 @@ public class KebabMenuController : MonoBehaviour
         });
 
         if (kebabMenu.CanCreateMoreMenuItems()) AddMenuItemButton.interactable = true;
+        Dialog.KeyboardLockOff();
     }
 
     private void ResetMenuItemList()

@@ -43,8 +43,8 @@ public class MenuItemController : MonoBehaviour {
     public void SetMenuItem(MenuItem newMenuItem)
     {
         menuItem = newMenuItem;
-        SetupInputs();
         CopyModelDataToGUI();
+        SetupInputs();
     }
     
     private void CopyModelDataToGUI()
@@ -94,9 +94,13 @@ public class MenuItemController : MonoBehaviour {
         sauceDropdown.onValueChanged.RemoveAllListeners();
         sauceDropdown.onValueChanged.AddListener(IngredientChanged);
 
+        nameInputField.onValueChanged.RemoveAllListeners();
+        nameInputField.onValueChanged.AddListener(Dialog.KeyboardLockOn);
         nameInputField.onEndEdit.RemoveAllListeners();
         nameInputField.onEndEdit.AddListener(InputFieldValueChanged);
 
+        priceInputField.onValueChanged.RemoveAllListeners();
+        priceInputField.onValueChanged.AddListener(Dialog.KeyboardLockOn);
         priceInputField.onEndEdit.RemoveAllListeners();
         priceInputField.onEndEdit.AddListener(InputFieldValueChanged);
     }
@@ -116,6 +120,7 @@ public class MenuItemController : MonoBehaviour {
     private void InputFieldValueChanged(string arg0)
     {
         menuItemIsSaved = false;
+        Dialog.KeyboardLockOff();
     }
 
     private int ConvertIngredientToOptionValue(Dropdown dropdown, string ingredientName)
