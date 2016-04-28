@@ -13,13 +13,37 @@ public class MenuItemController : MonoBehaviour {
     public Dropdown sauceDropdown;
     public Text costLabel;
     public InputField priceInputField;
-
     public MenuItem menuItem;
+    public bool menuItemIsSaved = false;
+
+    private Image background;
+    private Color originalBackgroundColor;
+
+    void Awake()
+    {
+        background = GetComponent<Image>();
+        originalBackgroundColor = background.color;
+    }
+
+    void Update()
+    {
+        if (!menuItemIsSaved)
+        {
+            if (background != null)
+                background.color = Color.white;
+            transform.localScale = new Vector3(1.01f, 1.01f, 1.01f);
+        }
+        else
+        {
+            background.color = originalBackgroundColor;
+            transform.localScale = new Vector3(1f, 1f, 1f);
+        }
+    }
 
     public void SetMenuItem(MenuItem newMenuItem)
     {
         menuItem = newMenuItem;
-        SetupDropdowns();
+        SetupInputs();
         CopyModelDataToGUI();
     }
     
@@ -36,6 +60,7 @@ public class MenuItemController : MonoBehaviour {
     internal void DiscardChanges()
     {
         CopyModelDataToGUI();
+        menuItemIsSaved = true;
     }
 
     internal void SaveChanges()
@@ -46,9 +71,10 @@ public class MenuItemController : MonoBehaviour {
         menuItem.SauceType = ConvertDropdownValueToIngredient(sauceDropdown, IngredientDB.Sauces);
         menuItem.Price = double.Parse(priceInputField.text);
         menuItem.IsActive = true;
+        menuItemIsSaved = true;
     }
 
-    private void SetupDropdowns()
+    private void SetupInputs()
     {
         IngredientDB.Meats.ForEach(x => meatDropdown.options.Add(new Dropdown.OptionData(x.Name)));
         IngredientDB.Vegetables.ForEach(x => vegetableDropdown.options.Add(new Dropdown.OptionData(x.Name)));
@@ -60,16 +86,22 @@ public class MenuItemController : MonoBehaviour {
         sauceDropdown.RefreshShownValue();
 
         meatDropdown.onValueChanged.RemoveAllListeners();
-        meatDropdown.onValueChanged.AddListener(UpdateCostInGUI);
+        meatDropdown.onValueChanged.AddListener(IngredientChanged);
 
         vegetableDropdown.onValueChanged.RemoveAllListeners();
-        vegetableDropdown.onValueChanged.AddListener(UpdateCostInGUI);
+        vegetableDropdown.onValueChanged.AddListener(IngredientChanged);
 
         sauceDropdown.onValueChanged.RemoveAllListeners();
-        sauceDropdown.onValueChanged.AddListener(UpdateCostInGUI);
+        sauceDropdown.onValueChanged.AddListener(IngredientChanged);
+
+        nameInputField.onEndEdit.RemoveAllListeners();
+        nameInputField.onEndEdit.AddListener(InputFieldValueChanged);
+
+        priceInputField.onEndEdit.RemoveAllListeners();
+        priceInputField.onEndEdit.AddListener(InputFieldValueChanged);
     }
 
-    private void UpdateCostInGUI(int arg0)
+    private void IngredientChanged(int arg0)
     {
         var tempMenuItem = new MenuItem();
         tempMenuItem.MeatType = ConvertDropdownValueToIngredient(meatDropdown, IngredientDB.Meats);
@@ -77,6 +109,13 @@ public class MenuItemController : MonoBehaviour {
         tempMenuItem.SauceType = ConvertDropdownValueToIngredient(sauceDropdown, IngredientDB.Sauces);
 
         costLabel.text = tempMenuItem.GetProductionCost().ToString();
+
+        menuItemIsSaved = false;
+    }
+
+    private void InputFieldValueChanged(string arg0)
+    {
+        menuItemIsSaved = false;
     }
 
     private int ConvertIngredientToOptionValue(Dropdown dropdown, string ingredientName)

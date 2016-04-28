@@ -53,6 +53,7 @@ public class KebabBuildingDialog : Dialog
 
         cancelButton.onClick.RemoveAllListeners();
         cancelButton.onClick.AddListener(ClosePanel);
+        cancelButton.onClick.AddListener(kebabMenuController.DiscardChanges);
         if (cancelEvent != null)
             cancelButton.onClick.AddListener(cancelEvent);
 
