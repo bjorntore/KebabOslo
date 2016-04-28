@@ -58,7 +58,7 @@ public class CustomerController : MonoBehaviour
         }
         else if (customer.State == CustomerState.Queued)
         {
-            customer.TriggerMaybeNextInQueue();
+            customer.TriggerMaybeLeaveQueueOrBuyKebab();
         }
         else if (customer.State == CustomerState.Eating && Time.time >= customer.eatingUntil)
         {
@@ -72,7 +72,7 @@ public class CustomerController : MonoBehaviour
         angryStateGameObject.SetActive(false);
         skippingStateGameObject.SetActive(false);
 
-        if (customer.Mood == CustomerMood.AngryNoCapacity)
+        if (customer.Mood == CustomerMood.AngryNoCapacity || customer.Mood == CustomerMood.AngryToLongWaitTime)
         {
             angryStateGameObject.SetActive(true);
             skippingStateGameObject.SetActive(false);

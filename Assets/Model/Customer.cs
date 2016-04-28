@@ -51,6 +51,8 @@ public class Customer
     public float moveSpeed;
     public int hunger;
 
+    private float timeWhenLeavesQueue;
+
     public Customer(int x, int z, World world)
     {
         this.world = world;
@@ -81,8 +83,7 @@ public class Customer
             if (!DecideIfJoinQueue(destinationKebabBuilding))
             {
                 mood = CustomerMood.AngryNoCapacity;
-                SetDestinationToMapEnd();
-                FindPath();
+                GoToMapEnd();
                 destinationKebabBuilding.ChangeReputation(-Settings.KebabBuilding_ReputationLostFromFull);
             }
         }
@@ -90,21 +91,25 @@ public class Customer
             BuyAndStartEating();
     }
 
-    public void TriggerMaybeNextInQueue()
+    public void TriggerMaybeLeaveQueueOrBuyKebab()
     {
         KebabBuilding destinationKebabBuilding = (KebabBuilding)destinationBuilding;
 
-        if (!destinationKebabBuilding.IsFull() && destinationKebabBuilding.customersInQueue.FirstOrDefault() == this)
+        if (Time.time >= timeWhenLeavesQueue)
         {
+            mood = CustomerMood.AngryToLongWaitTime;
+            GoToMapEnd();
+            destinationKebabBuilding.ChangeReputation(-Settings.KebabBuilding_ReputationLostFromFull);
             if (!destinationKebabBuilding.customersInQueue.Remove(this))
                 throw new Exception("Did not remove customer from queue. Was not found.");
-            BuyAndStartEating();
         }
-    }
 
-    private float EatDuration(int hunger)
-    {
-        return hunger / Settings.Customer_EatSpeedPerSec;
+        if (!destinationKebabBuilding.IsFull() && destinationKebabBuilding.customersInQueue.FirstOrDefault() == this)
+        {
+            BuyAndStartEating();
+            if (!destinationKebabBuilding.customersInQueue.Remove(this))
+                throw new Exception("Did not remove customer from queue. Was not found.");
+        }
     }
 
     public void BuyAndStartEating()
@@ -115,6 +120,11 @@ public class Customer
         eatingUntil = Time.time + EatDuration(hunger);
         destinationKebabBuilding.ChangeReputation(Settings.KebabBuilding_ReputationGainedFromSale);
         destinationKebabBuilding.AddCashEarned(Settings.KebabBuilding_CashPerKebab);
+    }
+
+    private float EatDuration(int hunger)
+    {
+        return hunger / Settings.Customer_EatSpeedPerSec;
     }
 
     public void StopEating()
@@ -140,19 +150,17 @@ public class Customer
         {
             destinationBuilding = DecideIfWantKebab();
             if (destinationBuilding is KebabBuilding)
-                SetDestinationToKebabBuilding((KebabBuilding)destinationBuilding);
+                GoToKebabBuilding((KebabBuilding)destinationBuilding);
             else
-                SetDestinationToMapEnd();
+                GoToMapEnd();
         }
         else
         {
             if (IsAtOrigin())
-                SetDestinationToMapEnd();
+                GoToMapEnd();
             else
-                SetDestinationToOrigin();
+                GoToOrigin();
         }
-
-        FindPath();
     }
 
     private KebabBuilding DecideIfWantKebab()
@@ -193,34 +201,38 @@ public class Customer
         {
             state = CustomerState.Queued;
             kebabBuilding.customersInQueue.Add(this);
+            timeWhenLeavesQueue = Time.time + decisionValue;
         }
 
         //Debug.Log(string.Format("Decision value {0}, hunger {1}, building rep {2}, queue {3}", decisionValue, hunger, kebabBuilding.Reputation, kebabBuilding.customersInQueue.Count));
         return decision;
     }
 
-    private void SetDestinationToKebabBuilding(KebabBuilding kebabBuilding)
+    private void GoToKebabBuilding(KebabBuilding kebabBuilding)
     {
         destinationX = kebabBuilding.tile.x;
         destinationZ = kebabBuilding.tile.z;
         state = CustomerState.MovingToEat;
+        FindPath();
     }
 
-    private void SetDestinationToMapEnd()
+    private void GoToMapEnd()
     {
         Tile destinationTile = world.RoadTiles.Where(t => t.isWorldEdge).OrderBy(t => MathUtils.Distance(t.x, t.z, x, z)).First();
         destinationX = destinationTile.x;
         destinationZ = destinationTile.z;
         state = CustomerState.MovingToMapEnd;
         destinationBuilding = null;
+        FindPath();
     }
 
-    private void SetDestinationToOrigin()
+    private void GoToOrigin()
     {
         destinationX = originX;
         destinationZ = originZ;
         state = CustomerState.MovingToOrigin;
         destinationBuilding = null;
+        FindPath();
     }
 
     public void SetPosition(int x, int z)
@@ -310,5 +322,6 @@ public enum CustomerMood
 {
     Normal,
     AngryNoCapacity,
+    AngryToLongWaitTime,
     SkippingKebabToday,
 }

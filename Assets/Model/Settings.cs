@@ -31,6 +31,6 @@
     public static float Customer_EatSpeedPerSec = 50.0f; // Hunger reduced per second
 
     public static int Employee_HireCost = 500;
-    public static int Employee_WageCostPerDay = 25;
+    public static int Employee_WageCostPerDay = 10;
     public static int Employee_DaysBetweenEmployeeWages = 7;
 }
