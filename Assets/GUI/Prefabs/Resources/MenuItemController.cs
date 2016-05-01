@@ -13,11 +13,14 @@ public class MenuItemController : MonoBehaviour {
     public Dropdown sauceDropdown;
     public Text costLabel;
     public InputField priceInputField;
+    public Button deleteButton;
     public MenuItem menuItem;
     public bool menuItemIsSaved = false;
 
     private Image background;
     private Color originalBackgroundColor;
+
+    private KebabMenuController kebabMenuControllerReference;
 
     void Awake()
     {
@@ -40,8 +43,9 @@ public class MenuItemController : MonoBehaviour {
         }
     }
 
-    public void SetMenuItem(MenuItem newMenuItem)
+    public void SetMenuItem(KebabMenuController kebabMenuControllerReference, MenuItem newMenuItem)
     {
+        this.kebabMenuControllerReference = kebabMenuControllerReference;
         menuItem = newMenuItem;
         CopyModelDataToGUI();
         SetupInputs();
@@ -74,6 +78,11 @@ public class MenuItemController : MonoBehaviour {
         menuItemIsSaved = true;
     }
 
+    private void Delete()
+    {
+        kebabMenuControllerReference.DeleteMenuItemController(this);
+    }
+
     private void SetupInputs()
     {
         IngredientDB.Meats.ForEach(x => meatDropdown.options.Add(new Dropdown.OptionData(x.Name)));
@@ -103,6 +112,9 @@ public class MenuItemController : MonoBehaviour {
         priceInputField.onValueChanged.AddListener(Dialog.KeyboardLockOn);
         priceInputField.onEndEdit.RemoveAllListeners();
         priceInputField.onEndEdit.AddListener(InputFieldValueChanged);
+
+        deleteButton.onClick.RemoveAllListeners();
+        deleteButton.onClick.AddListener(Delete);
     }
 
     private void IngredientChanged(int arg0)

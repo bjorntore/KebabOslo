@@ -24,7 +24,7 @@ public class KebabMenuController : MonoBehaviour
         ResetMenuItemList();
 
         this.kebabMenu = kebabMenu;
-        SetAddMenuItemButtonInteractability();
+        UpdateAddMenuItemButtonInteractability();
 
         foreach (MenuItem menuItem in this.kebabMenu.menuItems)
         {
@@ -42,25 +42,6 @@ public class KebabMenuController : MonoBehaviour
         DiscardButton.onClick.AddListener(DiscardChanges);
     }
 
-    private void SetAddMenuItemButtonInteractability()
-    {
-        if (kebabMenu.CanCreateMoreMenuItems())
-            AddMenuItemButton.interactable = true;
-        else AddMenuItemButton.interactable = false;
-    }
-
-    private MenuItemController CreateMenuItemPanel(MenuItem menuItem)
-    {
-        GameObject menuItemGO = (GameObject)Instantiate(MenuItemPanelPrefab);
-        menuItemGO.transform.SetParent(kebabMenuList);
-
-        MenuItemController menuItemController = menuItemGO.GetComponent<MenuItemController>();
-        menuItemController.SetMenuItem(menuItem);
-        menuItemControls.Add(menuItemController);
-
-        return menuItemController;
-    }
-
     public void AddMenuItem()
     {
         if (kebabMenu.CanCreateMoreMenuItems())
@@ -72,14 +53,18 @@ public class KebabMenuController : MonoBehaviour
                 CreateMenuItemPanel(newMenuItem);
             }
         }
+        UpdateAddMenuItemButtonInteractability();
+    }
 
-        SetAddMenuItemButtonInteractability();
+    public void DeleteMenuItemController(MenuItemController menuItemController)
+    {
+        RemoveMenuItemController(menuItemController);
     }
 
     public void SaveMenu()
     {
         menuItemControls.ForEach(x => x.SaveChanges());
-        if (kebabMenu.CanCreateMoreMenuItems()) AddMenuItemButton.interactable = true;
+        UpdateAddMenuItemButtonInteractability();
     }
 
     public void DiscardChanges()
@@ -89,22 +74,45 @@ public class KebabMenuController : MonoBehaviour
         {
             if (!x.menuItem.IsActive)
             {
-                Destroy(x.gameObject);
                 menuItemControllersToDelete.Add(x);
             }
             else
                 x.DiscardChanges();
         });
 
-
         menuItemControllersToDelete.ForEach(x =>
         {
-            kebabMenu.RemoveMenuItem(x.menuItem);
-            menuItemControls.Remove(x);
+            RemoveMenuItemController(x);
         });
-
-        if (kebabMenu.CanCreateMoreMenuItems()) AddMenuItemButton.interactable = true;
         Dialog.KeyboardLockOff();
+    }
+
+    private void RemoveMenuItemController(MenuItemController menuItemControllerToDelete)
+    {
+        kebabMenu.RemoveMenuItem(menuItemControllerToDelete.menuItem);
+        menuItemControls.Remove(menuItemControllerToDelete);
+        Destroy(menuItemControllerToDelete.gameObject);
+
+        UpdateAddMenuItemButtonInteractability();
+    }
+
+    private void UpdateAddMenuItemButtonInteractability()
+    {
+        if (kebabMenu.CanCreateMoreMenuItems())
+            AddMenuItemButton.interactable = true;
+        else AddMenuItemButton.interactable = false;
+    }
+
+    private MenuItemController CreateMenuItemPanel(MenuItem menuItem)
+    {
+        GameObject menuItemGO = Instantiate(MenuItemPanelPrefab);
+        menuItemGO.transform.SetParent(kebabMenuList);
+
+        MenuItemController menuItemController = menuItemGO.GetComponent<MenuItemController>();
+        menuItemController.SetMenuItem(this, menuItem);
+        menuItemControls.Add(menuItemController);
+
+        return menuItemController;
     }
 
     private void ResetMenuItemList()
