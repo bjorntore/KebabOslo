@@ -42,4 +42,9 @@ public class KebabMenu
     {
         return menuItems.Count < 5;
     }
+
+    public List<MenuItem> GetAffordableMenuItems(int cash)
+    {
+        return menuItems.Where(x => x.Price <= cash).ToList();
+    }
 }

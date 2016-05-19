@@ -62,9 +62,10 @@ public class World
             throw new Exception("Tried to add a new building to tile " + tile.ToString() + " when not allowed. Should not happend. Fix originating code.");
     }
 
-    public Customer CreateCustomer(int x, int z)
+    public Customer CreateCustomer(Tile tile)
     {
-        Customer newCustomer = new Customer(x, z, this);
+        int customerCash = Settings.Customer_BaseCash + (tile.propertyValue / 500);
+        Customer newCustomer = new Customer(this, tile.x, tile.z, customerCash);
         newCustomer.DecideDestinationAndPath();
         customers.Add(newCustomer);
         return newCustomer;

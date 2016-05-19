@@ -50,10 +50,13 @@ public class Customer
     public float eatingUntil;
     public float moveSpeed;
     public int hunger;
+    private int cash;
+    private MenuItem menuItemWant;
+    private int menuItemWantPriceWhenDecided;
 
     private float timeWhenLeavesQueue;
 
-    public Customer(int x, int z, World world)
+    public Customer(World world, int x, int z, int cash)
     {
         this.world = world;
         this.InstanceID = Guid.NewGuid();
@@ -62,6 +65,7 @@ public class Customer
         this.x = x;
         this.z = z;
         this.hunger = Utils.RandomInt(0, 100);
+        this.cash = cash;
         SetMoveSpeed();
 
         CacheJumpPointParam();
@@ -78,6 +82,17 @@ public class Customer
     public void TriggerArrivedAtKebabBuilding()
     {
         KebabBuilding destinationKebabBuilding = (KebabBuilding)destinationBuilding;
+
+        menuItemWant = DecideKebabMenuChoice(destinationKebabBuilding);
+        if (menuItemWant == null)
+        {
+            GoToMapEnd();
+            destinationKebabBuilding.ChangeReputation(-Settings.KebabBuilding_ReputationLostFromNoMenuItemDesiredOrAfforded);
+            return;
+        }
+        else
+            menuItemWantPriceWhenDecided = (int)menuItemWant.Price;
+
         if (destinationKebabBuilding.IsFull())
         {
             if (!DecideIfJoinQueue(destinationKebabBuilding))
@@ -119,7 +134,10 @@ public class Customer
         state = CustomerState.Eating;
         eatingUntil = Time.time + EatDuration(hunger);
         destinationKebabBuilding.ChangeReputation(Settings.KebabBuilding_ReputationGainedFromSale);
-        destinationKebabBuilding.AddCashEarned(Settings.KebabBuilding_CashPerKebab);
+        int profit = menuItemWantPriceWhenDecided - (int)menuItemWant.GetProductionCost();
+        destinationKebabBuilding.AddCashEarned(profit);
+        menuItemWant.sales++;
+        Debug.Log(string.Format("Sold {0} for a profit of {1}", menuItemWant.Name, profit));
     }
 
     private float EatDuration(int hunger)
@@ -187,6 +205,18 @@ public class Customer
             mood = CustomerMood.SkippingKebabToday;
             return null;
         }
+    }
+
+    private MenuItem DecideKebabMenuChoice(KebabBuilding destinationKebabBuilding)
+    {
+        List<MenuItem> affordableMenuItemChoices = destinationKebabBuilding.kebabMenu.GetAffordableMenuItems(cash);
+        if (affordableMenuItemChoices.Count == 0)
+        {
+            mood = CustomerMood.AngryNotEnoughCash;
+            return null;
+        }
+        else
+            return Utils.Random(affordableMenuItemChoices);
     }
 
     private bool DecideIfJoinQueue(KebabBuilding kebabBuilding)
@@ -323,5 +353,6 @@ public enum CustomerMood
     Normal,
     AngryNoCapacity,
     AngryToLongWaitTime,
+    AngryNotEnoughCash,
     SkippingKebabToday,
 }

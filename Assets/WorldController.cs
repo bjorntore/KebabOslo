@@ -165,7 +165,7 @@ public class WorldController : MonoBehaviour
 
                 if (world.Customers.Count < Settings.World_MaxCustomers && building.CustomerSpawnRoll())
                 {
-                    Customer customer = world.CreateCustomer(building.tile.x, building.tile.z);
+                    Customer customer = world.CreateCustomer(building.tile);
                     SpawnCustomer(customer, building.tile);
                 }
                 yield return null;
