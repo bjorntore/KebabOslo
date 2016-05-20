@@ -37,7 +37,10 @@ public class KebabBuildingController : BuildingController, IClickable
     public void Click()
     {
         KebabBuildingDialog panel = KebabBuildingDialog.Instance();
-        panel.OpenDialog(building);
+        panel.OpenDialog(building, CloseKebabBuildingOverlay);
+
+        OverlayHelper overlayHelper = OverlayHelper.Instance();
+        overlayHelper.ActivateKebabBuildingOverlay(building);
     }
 
     private void RunCashEarnedAnimationAndSound()
@@ -45,6 +48,12 @@ public class KebabBuildingController : BuildingController, IClickable
         cashEarnedAnimator.enabled = true;
         cashEarnedAnimator.Play("CashGainedAnimation", -1, 0);
         AudioSource.PlayOneShot(cashEarnedAudioClip, 0.1f);
+    }
+
+    private void CloseKebabBuildingOverlay()
+    {
+        OverlayHelper overlayHelper = OverlayHelper.Instance();
+        overlayHelper.DeactivateKebabBuildingOverlay();
     }
 
 }

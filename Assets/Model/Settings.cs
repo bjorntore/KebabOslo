@@ -12,7 +12,7 @@
 
     public static int KebabBuilding_MaxEmployees = 5;
 	public static int KebabBuilding_CustomerCapacityPerEmployee = 1;
-    public static int KebabBuilding_ReputationGainedFromSale = 10;
+    public static int KebabBuilding_ReputationGainedFromSale = 3;
     public static int KebabBuilding_ReputationLostFromFull = 1;
     public static int KebabBuilding_ReputationLostFromNoMenuItemDesiredOrAfforded = 1;
     public static int KebabBuilding_MaintenanceCostPerDay = 30;

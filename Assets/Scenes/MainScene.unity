@@ -646,6 +646,10 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 264144510}
+--- !u!1 &396383344 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 147304, guid: e6ebabfca3ac9c0489b2022003fb77f7, type: 2}
+  m_PrefabInternal: {fileID: 1660644673}
 --- !u!1001 &438853400
 Prefab:
   m_ObjectHideFlags: 0
@@ -1367,6 +1371,10 @@ MonoBehaviour:
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
+--- !u!1 &733217254 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 196576, guid: a389e93fc7bbc9e4f8fe7a227d18575e, type: 2}
+  m_PrefabInternal: {fileID: 1713068139}
 --- !u!1 &766370424
 GameObject:
   m_ObjectHideFlags: 0
@@ -2963,6 +2971,56 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1576258099}
+--- !u!1001 &1660644673
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2121152009}
+    m_Modifications:
+    - target: {fileID: 457912, guid: e6ebabfca3ac9c0489b2022003fb77f7, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 457912, guid: e6ebabfca3ac9c0489b2022003fb77f7, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 4.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 457912, guid: e6ebabfca3ac9c0489b2022003fb77f7, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 457912, guid: e6ebabfca3ac9c0489b2022003fb77f7, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 457912, guid: e6ebabfca3ac9c0489b2022003fb77f7, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 457912, guid: e6ebabfca3ac9c0489b2022003fb77f7, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 457912, guid: e6ebabfca3ac9c0489b2022003fb77f7, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 457912, guid: e6ebabfca3ac9c0489b2022003fb77f7, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 147304, guid: e6ebabfca3ac9c0489b2022003fb77f7, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: e6ebabfca3ac9c0489b2022003fb77f7, type: 2}
+  m_IsPrefabParent: 0
+--- !u!4 &1660644674 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 457912, guid: e6ebabfca3ac9c0489b2022003fb77f7, type: 2}
+  m_PrefabInternal: {fileID: 1660644673}
 --- !u!1 &1709757745
 GameObject:
   m_ObjectHideFlags: 0
@@ -3036,6 +3094,52 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1709757745}
+--- !u!1001 &1713068139
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 2121152009}
+    m_Modifications:
+    - target: {fileID: 467266, guid: a389e93fc7bbc9e4f8fe7a227d18575e, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 467266, guid: a389e93fc7bbc9e4f8fe7a227d18575e, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 4.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 467266, guid: a389e93fc7bbc9e4f8fe7a227d18575e, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 467266, guid: a389e93fc7bbc9e4f8fe7a227d18575e, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 467266, guid: a389e93fc7bbc9e4f8fe7a227d18575e, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 467266, guid: a389e93fc7bbc9e4f8fe7a227d18575e, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 467266, guid: a389e93fc7bbc9e4f8fe7a227d18575e, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 467266, guid: a389e93fc7bbc9e4f8fe7a227d18575e, type: 2}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: a389e93fc7bbc9e4f8fe7a227d18575e, type: 2}
+  m_IsPrefabParent: 0
+--- !u!4 &1713068140 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 467266, guid: a389e93fc7bbc9e4f8fe7a227d18575e, type: 2}
+  m_PrefabInternal: {fileID: 1713068139}
 --- !u!1 &1714299380
 GameObject:
   m_ObjectHideFlags: 0
@@ -3713,3 +3817,46 @@ MonoBehaviour:
   cashLabel: {fileID: 1709757747}
   reputationLabel: {fileID: 16972520}
   populationLabel: {fileID: 1866178073}
+--- !u!1 &2121152008
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2121152009}
+  - 114: {fileID: 2121152010}
+  m_Layer: 0
+  m_Name: KebabBuildingOverlays
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2121152009
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2121152008}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1713068140}
+  - {fileID: 1660644674}
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+--- !u!114 &2121152010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2121152008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e12bc200baa9da4bbd38e06db1a29fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kebabBuildingReputationOverlay: {fileID: 396383344}
+  kebabBuildingHungerOverlay: {fileID: 733217254}
