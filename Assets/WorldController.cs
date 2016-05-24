@@ -90,6 +90,17 @@ public class WorldController : MonoBehaviour
         SpawnBuilding(newBuilding);
     }
 
+    public void DeleteKebabBuilding(KebabBuilding building)
+    {
+        world.DeleteBuilding(building, building.tile);
+
+        GameObject tileGameObject = SpawnObject(buildableTilePrefab, building.tile.ToString(), building.tile.x, building.tile.z, tileContainer);
+        TileController tileController = tileGameObject.GetComponent<TileController>();
+        tileController.tile = building.tile;
+
+        StartCoroutine(world.SetNewCustomerDestinations(building.tile.x, building.tile.z));
+    }
+
     private void AdjustGround()
     {
         float xPosition = (world.Width / 2) - 0.5f; // Hack: The -0.5f is an offset we have to set to align the ground to the tiles

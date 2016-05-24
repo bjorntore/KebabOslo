@@ -19,7 +19,7 @@ public class VillaBuildingController : NeutralBuildingController, IClickable
     public void Click()
     {
         GenericDialog panel = GenericDialog.Instance();
-        panel.OpenDialog("Villa", "Tear down the building and build a kebab shop!", DeleteBuildingAndBuildKebabBuilding, string.Format("Erase and build (-{0} cash)!", building.Cost()));
+        panel.OpenDialog("Villa", "Tear down the building and build a kebab shop!", DeleteBuildingAndBuildKebabBuilding, string.Format("Erase and build (-{0} cash)!", building.ReplaceCost()));
     }
 
 }

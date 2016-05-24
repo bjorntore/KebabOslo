@@ -6,7 +6,7 @@ public abstract class Building
 {
 
     public abstract float CustomerSpawnCooldown { get; }
-    public abstract int Cost();
+    public abstract int ReplaceCost();
 
     public Tile tile;
     public float lastSpawnTime;

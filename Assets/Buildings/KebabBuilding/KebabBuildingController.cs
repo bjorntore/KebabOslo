@@ -37,7 +37,7 @@ public class KebabBuildingController : BuildingController, IClickable
     public void Click()
     {
         KebabBuildingDialog panel = KebabBuildingDialog.Instance();
-        panel.OpenDialog(building);
+        panel.OpenDialog(this);
     }
 
     private void RunCashEarnedAnimationAndSound()
@@ -47,4 +47,10 @@ public class KebabBuildingController : BuildingController, IClickable
         AudioSource.PlayOneShot(cashEarnedAudioClip, 0.1f);
     }
 
+    public void Delete()
+    {
+        building.RejectCustomers();
+        WorldController.Instance().DeleteKebabBuilding(building);
+        Destroy(gameObject);
+    }
 }

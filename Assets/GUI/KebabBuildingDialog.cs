@@ -12,9 +12,10 @@ public class KebabBuildingDialog : Dialog
     public Button addEmployeeButton;
     public Button fireEmployeeButton;
     public Button cancelButton;
+    public Button deleteButton;
     public KebabMenuController kebabMenuController;
 
-    private KebabBuilding kebabBuilding;
+    public KebabBuilding kebabBuilding;
 
 	private static KebabBuildingDialog kebabBuildingDialog;
 	public static KebabBuildingDialog Instance()
@@ -40,11 +41,11 @@ public class KebabBuildingDialog : Dialog
         }
     }
 
-	public void OpenDialog(KebabBuilding kebabBuilding, UnityAction cancelEvent = null)
+	public void OpenDialog(KebabBuildingController kebabBuildingController, UnityAction cancelEvent = null)
 	{
         Display();
 
-        this.kebabBuilding = kebabBuilding;
+        kebabBuilding = kebabBuildingController.building;
         title.text = kebabBuilding.ToString();
 
         addEmployeeButton.onClick.RemoveAllListeners();
@@ -59,6 +60,16 @@ public class KebabBuildingDialog : Dialog
         if (cancelEvent != null)
             cancelButton.onClick.AddListener(cancelEvent);
 
-        kebabMenuController.SetupKebabMenu(kebabBuilding.kebabMenu);
-    }	
+        deleteButton.onClick.RemoveAllListeners();
+        deleteButton.onClick.AddListener(kebabBuildingController.Delete);
+        deleteButton.onClick.AddListener(FlushDialogData);
+        deleteButton.onClick.AddListener(ClosePanel);
+
+       kebabMenuController.SetupKebabMenu(kebabBuilding.kebabMenu);
+    }
+
+    private void FlushDialogData()
+    {
+        kebabBuilding = null;
+    }
 }

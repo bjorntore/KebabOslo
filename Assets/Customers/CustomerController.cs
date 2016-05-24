@@ -47,7 +47,7 @@ public class CustomerController : MonoBehaviour
 
     private void StateHandler()
     {
-        if (customer.State == CustomerState.MovingToEat)
+        if (customer.State == CustomerState.MovingToKebabBuilding)
         {
             customer.TriggerArrivedAtKebabBuilding();
         }

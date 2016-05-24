@@ -84,7 +84,7 @@ public class World
         foreach (Customer customer in customersReferenceCopy)
         {
             customer.DecideDestinationAndPath();
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.05f);
         }
     }
 
@@ -187,7 +187,7 @@ public class World
         ProportionItem policeSpawn = new ProportionItem("Police", 2);
         ProportionItem houseSpawn = new ProportionItem("House", 10); // Might get converted to Villa, based on property value
         ProportionItem villaSpawn = new ProportionItem("Villa", 1);
-        ProportionItem emptyTile = new ProportionItem("Empty", 48);
+        ProportionItem emptyTile = new ProportionItem("Empty", 48); // Might get converted to House, based on property value
 
         ProportionValues buildingSpawnChances = new ProportionValues(new ProportionItem[] { clubSpawn, policeSpawn, houseSpawn, villaSpawn, emptyTile });
 

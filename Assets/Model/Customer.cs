@@ -75,6 +75,14 @@ public class Customer
             return state == CustomerState.Nothing || state == CustomerState.MovingToMapEnd || state == CustomerState.MovingToOrigin;
     }
 
+    public void RejectFromKebabBuilding()
+    {
+        if (state == CustomerState.Eating)
+            StopEating();
+        else
+            state = CustomerState.Nothing;
+    }
+
     public void TriggerArrivedAtKebabBuilding()
     {
         KebabBuilding destinationKebabBuilding = (KebabBuilding)destinationBuilding;
@@ -191,10 +199,10 @@ public class Customer
 
     private bool DecideIfJoinQueue(KebabBuilding kebabBuilding)
     {
-        int decisionValue   = hunger - 50; // Since 50 should be the average
-        decisionValue       += kebabBuilding.Reputation;
-        decisionValue       -= kebabBuilding.customersInQueue.Count;
-        decisionValue       += Utils.RandomInt(-10, 10);
+        int decisionValue = hunger - 50; // Since 50 should be the average
+        decisionValue += kebabBuilding.Reputation;
+        decisionValue -= kebabBuilding.customersInQueue.Count;
+        decisionValue += Utils.RandomInt(-10, 10);
 
         bool decision = decisionValue >= 0;
         if (decision)
@@ -212,7 +220,7 @@ public class Customer
     {
         destinationX = kebabBuilding.tile.x;
         destinationZ = kebabBuilding.tile.z;
-        state = CustomerState.MovingToEat;
+        state = CustomerState.MovingToKebabBuilding;
         FindPath();
     }
 
@@ -311,7 +319,7 @@ public class Customer
 public enum CustomerState
 {
     Nothing,
-    MovingToEat,
+    MovingToKebabBuilding,
     MovingToMapEnd,
     MovingToOrigin,
     Queued,
@@ -323,5 +331,5 @@ public enum CustomerMood
     Normal,
     AngryNoCapacity,
     AngryToLongWaitTime,
-    SkippingKebabToday,
+    SkippingKebabToday
 }

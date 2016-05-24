@@ -46,7 +46,7 @@ public class KebabBuilding : Building
     {
         if (employees.Count == Settings.KebabBuilding_MaxEmployees)
             return;
-                
+
         employees.Add(new Employee("Dude"));
         world.player.ChangeCash(-Settings.Employee_HireCost);
     }
@@ -109,9 +109,9 @@ public class KebabBuilding : Building
         }
     }
 
-    public override int Cost()
+    public override int ReplaceCost()
     {
-        return -1; // Not possible
+        throw new Exception("Not possible to replace kebab building");
     }
 
     public void ChangeReputation(int change)
@@ -125,4 +125,10 @@ public class KebabBuilding : Building
             throw new ArgumentOutOfRangeException("Days interval setting can not be less than 1 day.");
     }
 
+    public void RejectCustomers()
+    {
+        customers.ForEach(c => c.RejectFromKebabBuilding());
+        customersInQueue.ForEach(c => c.RejectFromKebabBuilding());
+        world.Customers.Where(c => c.DestinationBuilding == this).Select(c => c).ToList().ForEach(c => c.RejectFromKebabBuilding());
+    }
 }

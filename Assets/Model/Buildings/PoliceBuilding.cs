@@ -9,7 +9,7 @@ public class PoliceBuilding : Building
     float spawnCooldown = 1;
     public override float CustomerSpawnCooldown { get { return spawnCooldown; } }
 
-    public override int Cost()
+    public override int ReplaceCost()
     {
         return tile.propertyValue + Settings.PoliceBuilding_DestroyCost;
     }
