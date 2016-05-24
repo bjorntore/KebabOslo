@@ -72,7 +72,7 @@ public class CustomerController : MonoBehaviour
         angryStateGameObject.SetActive(false);
         skippingStateGameObject.SetActive(false);
 
-        if (customer.Mood == CustomerMood.AngryNoCapacity || customer.Mood == CustomerMood.AngryToLongWaitTime)
+        if (customer.Mood == CustomerMood.AngryNoCapacity || customer.Mood == CustomerMood.AngryToLongWaitTime || customer.Mood == CustomerMood.AngryNotEnoughCash)
         {
             angryStateGameObject.SetActive(true);
             skippingStateGameObject.SetActive(false);

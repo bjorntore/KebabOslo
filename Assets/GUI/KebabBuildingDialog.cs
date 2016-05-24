@@ -6,7 +6,7 @@ using System.Linq;
 
 public class KebabBuildingDialog : Dialog
 {
-	public Text title;
+    public Text title;
     public Text employeeLabel;
     public Text customersLabel;
     public Button addEmployeeButton;
@@ -17,18 +17,18 @@ public class KebabBuildingDialog : Dialog
 
     public KebabBuilding kebabBuilding;
 
-	private static KebabBuildingDialog kebabBuildingDialog;
-	public static KebabBuildingDialog Instance()
-	{
-		if (!kebabBuildingDialog)
-		{
-			kebabBuildingDialog = FindObjectOfType(typeof(KebabBuildingDialog)) as KebabBuildingDialog;
-			if (!kebabBuildingDialog)
-				Debug.LogError("There needs to be one active KebabBuildingDialog script on a GameObject in your scene.");
-		}
+    private static KebabBuildingDialog kebabBuildingDialog;
+    public static KebabBuildingDialog Instance()
+    {
+        if (!kebabBuildingDialog)
+        {
+            kebabBuildingDialog = FindObjectOfType(typeof(KebabBuildingDialog)) as KebabBuildingDialog;
+            if (!kebabBuildingDialog)
+                Debug.LogError("There needs to be one active KebabBuildingDialog script on a GameObject in your scene.");
+        }
 
-		return kebabBuildingDialog;
-	}
+        return kebabBuildingDialog;
+    }
 
     void Update()
     {
@@ -41,8 +41,8 @@ public class KebabBuildingDialog : Dialog
         }
     }
 
-	public void OpenDialog(KebabBuildingController kebabBuildingController, UnityAction cancelEvent = null)
-	{
+    public void OpenDialog(KebabBuildingController kebabBuildingController, UnityAction cancelEvent = null)
+    {
         Display();
 
         kebabBuilding = kebabBuildingController.building;
@@ -57,15 +57,19 @@ public class KebabBuildingDialog : Dialog
         cancelButton.onClick.RemoveAllListeners();
         cancelButton.onClick.AddListener(ClosePanel);
         cancelButton.onClick.AddListener(kebabMenuController.DiscardChanges);
-        if (cancelEvent != null)
-            cancelButton.onClick.AddListener(cancelEvent);
 
         deleteButton.onClick.RemoveAllListeners();
         deleteButton.onClick.AddListener(kebabBuildingController.Delete);
         deleteButton.onClick.AddListener(FlushDialogData);
         deleteButton.onClick.AddListener(ClosePanel);
 
-       kebabMenuController.SetupKebabMenu(kebabBuilding.kebabMenu);
+        if (cancelEvent != null)
+        {
+            cancelButton.onClick.AddListener(cancelEvent);
+            deleteButton.onClick.AddListener(cancelEvent);
+        }
+
+        kebabMenuController.SetupKebabMenu(kebabBuilding.kebabMenu);
     }
 
     private void FlushDialogData()

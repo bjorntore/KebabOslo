@@ -5,12 +5,14 @@ using System.Linq;
 [Serializable]
 public class MenuItem
 {
-    public string Name { get; set; }
-    public Ingredient MeatType { get; set; }
-    public Ingredient VegetableType { get; set; }
-    public Ingredient SauceType { get; set; }
-    public double Price { get; set; }
-    public bool IsActive { get; set; }
+    public string Name;
+    public Ingredient MeatType;
+    public Ingredient VegetableType;
+    public Ingredient SauceType;
+    public double Price;
+    public bool IsActive;
+
+    public int sales = 0;
 
     public MenuItem()
     {
