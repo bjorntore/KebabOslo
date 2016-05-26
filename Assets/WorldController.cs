@@ -25,8 +25,6 @@ public class WorldController : MonoBehaviour
 
     public WorldTimeController worldTimeController;
 
-    private int customerSpawnerBIndex = 0;
-
     private static WorldController worldController;
     public static WorldController Instance()
     {
@@ -54,7 +52,7 @@ public class WorldController : MonoBehaviour
         SpawnTiles();
         SpawnBuildings();
 
-        StartCoroutine(CustomerSpawnerRutine());
+        StartCoroutine("CustomerSpawnerRutine");
 
         Time.timeScale = 1.0f;
     }
@@ -72,7 +70,7 @@ public class WorldController : MonoBehaviour
 
     public void AddAndSpawnKebabBuilding(KebabBuilding building, Tile tile)
     {
-        StopCoroutine(CustomerSpawnerRutine());
+        StopCoroutine("CustomerSpawnerRutine");
 
         if (tile.type == TileType.Buildable)
             Destroy(GameObject.Find(tile.ToString()));
@@ -81,13 +79,17 @@ public class WorldController : MonoBehaviour
         SpawnBuilding(building);
         StartCoroutine(world.SetNewCustomerDestinations(tile.x, tile.z));
 
-        StartCoroutine(CustomerSpawnerRutine());
+        StartCoroutine("CustomerSpawnerRutine");
     }
 
     public void ReplaceBuilding(Building oldBuilding, Building newBuilding)
     {
+        StopCoroutine("CustomerSpawnerRutine");
+
         world.ReplaceBuilding(oldBuilding, newBuilding);
         SpawnBuilding(newBuilding);
+
+        StartCoroutine("CustomerSpawnerRutine");
     }
 
     public void DeleteKebabBuilding(KebabBuilding building)
@@ -163,23 +165,28 @@ public class WorldController : MonoBehaviour
         buildingController.SetBuilding(building);
     }
 
+    /// <summary>
+    /// This method is and should only be started using the StartCoroutine(string) method. If a the name of the method in
+    /// string is not used. Then we cant stop it.
+    /// ref: http://answers.unity3d.com/questions/537591/how-do-i-stop-coroutine.html
+    /// </summary>
     private IEnumerator CustomerSpawnerRutine()
     {
         while (true)
         {
-            for (customerSpawnerBIndex = 0; customerSpawnerBIndex < world.Buildings.Count; customerSpawnerBIndex++)
+            foreach (Building building in world.Buildings)
             {
-                Building building = world.Buildings[customerSpawnerBIndex];
+                /* If we need to expand with more building types that cant spawn, i suggest adding an ICustomerSpawnable interface which we use to indicate that this class can spawn. 
+                Trying to detect that the class inherits from an abstract class (NeutralBuilding) is by my research not very easy. 
+                Se http://stackoverflow.com/questions/2742276/how-do-i-check-if-a-type-is-a-subtype-or-the-type-of-an-object */
+                if (building.GetType() == typeof(KebabBuilding))
+                    continue;
 
-                if (world.Customers.Count >= Settings.World_MaxCustomers)
-                    yield return new WaitForSeconds(5);
-
-                if (world.Customers.Count < Settings.World_MaxCustomers && building.CustomerSpawnRoll())
+                if (((NeutralBuilding)building).CustomerSpawnRoll())
                 {
                     Customer customer = world.CreateCustomer(building.tile);
                     SpawnCustomer(customer, building.tile);
                 }
-                yield return null;
             }
 
             yield return 0;
@@ -188,8 +195,6 @@ public class WorldController : MonoBehaviour
 
     private void SpawnCustomer(Customer customer, Tile tile)
     {
-        //float spawnX = (tile.x + tile.adjacentRoadTile.x) / 2.0f;
-        //float spawnZ = (tile.z + tile.adjacentRoadTile.z) / 2.0f;
         GameObject customerGameObject = SpawnObject(normalCustomerPrefab, customer.ToString(), tile.x, tile.z, customerContainer);
         CustomerController customerController = customerGameObject.GetComponent<CustomerController>();
         customerController.SetCustomer(customer);

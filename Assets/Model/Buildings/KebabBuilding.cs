@@ -9,9 +9,6 @@ public class KebabBuilding : Building
 {
     private World world;
 
-    private float customerSpawnCooldown = 0;
-    public override float CustomerSpawnCooldown { get { return customerSpawnCooldown; } }
-
     public KebabMenu kebabMenu = new KebabMenu();
     public List<Customer> customers = new List<Customer>();
     public List<Customer> customersInQueue = new List<Customer>();
@@ -107,11 +104,6 @@ public class KebabBuilding : Building
 
             Debug.Log("Payday");
         }
-    }
-
-    public override int ReplaceCost()
-    {
-        throw new Exception("Not possible to replace kebab building");
     }
 
     public void ChangeReputation(int change)
