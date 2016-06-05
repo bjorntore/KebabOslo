@@ -73,7 +73,7 @@ public class MenuItemController : MonoBehaviour {
         menuItem.MeatType = ConvertDropdownValueToIngredient(meatDropdown, IngredientDB.Meats);
         menuItem.VegetableType = ConvertDropdownValueToIngredient(vegetableDropdown, IngredientDB.Vegetables);
         menuItem.SauceType = ConvertDropdownValueToIngredient(sauceDropdown, IngredientDB.Sauces);
-        menuItem.Price = double.Parse(priceInputField.text);
+        menuItem.Price = int.Parse(priceInputField.text);
         menuItem.IsActive = true;
         menuItemIsSaved = true;
     }

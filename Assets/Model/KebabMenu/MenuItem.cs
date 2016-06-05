@@ -9,7 +9,7 @@ public class MenuItem
     public Ingredient MeatType;
     public Ingredient VegetableType;
     public Ingredient SauceType;
-    public double Price;
+    public int Price;
     public bool IsActive;
 
     public int sales = 0;
@@ -20,11 +20,11 @@ public class MenuItem
         MeatType = IngredientDB.Meats.OrderBy(x => x.Cost).First();
         VegetableType = IngredientDB.Vegetables.OrderBy(x => x.Cost).First();
         SauceType = IngredientDB.Sauces.OrderBy(x => x.Cost).First();
-        Price = GetProductionCost() * 1.25;
+        Price = GetProductionCost() * 25 / 100;
         IsActive = false;
     }
 
-    public double GetProductionCost()
+    public int GetProductionCost()
     {
         return MeatType.Cost + VegetableType.Cost + SauceType.Cost;
     }

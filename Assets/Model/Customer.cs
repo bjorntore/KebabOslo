@@ -142,7 +142,7 @@ public class Customer
         state = CustomerState.Eating;
         eatingUntil = Time.time + EatDuration(hunger);
         destinationKebabBuilding.ChangeReputation(Settings.KebabBuilding_ReputationGainedFromSale);
-        int profit = menuItemWantPriceWhenDecided - (int)menuItemWant.GetProductionCost();
+        int profit = menuItemWantPriceWhenDecided - menuItemWant.GetProductionCost();
         destinationKebabBuilding.AddCashEarned(profit);
         menuItemWant.sales++;
         Debug.Log(string.Format("Sold {0} for a profit of {1}", menuItemWant.Name, profit));
