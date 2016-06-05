@@ -1,6 +1,6 @@
 ﻿public static class Settings
 {
-    public static float World_BaseIrlSecondsPerDay = 5.0f;
+    public static float World_BaseTimeSecondsPerDay = 5.0f;
     public static int World_MaxTimeScale = 15; // Max Game Speed
 
     public static int Player_StartCash = 3000;

@@ -32,6 +32,16 @@ public static class Utils
         return rnd.Next(max - min) + min;
     }
 
+    public static int RandomInt(double min, double max)
+    {
+        return (int)Math.Round(RandomDouble(min, max));
+    }
+
+    public static double RandomDouble(double min, double max)
+    {
+        return (rnd.NextDouble() * Math.Abs(max - min)) + min;
+    }
+
     public static bool PercentageRoll(double percentage)
     {
         return RandomInt(0, 100) <= percentage;

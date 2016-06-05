@@ -17,5 +17,16 @@ namespace Tests
             Assert.AreEqual(1, Utils.RandomInt(1, 1));
         }
 
+        [TestMethod()]
+        public void RandomIntDoubleTest()
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                int roll = Utils.RandomInt(0.0, 3.0);
+                Assert.IsTrue(roll >= 0);
+                Assert.IsTrue(roll <= 3);
+                Console.WriteLine(roll);
+            }
+        }
     }
 }

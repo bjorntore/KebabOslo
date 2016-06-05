@@ -25,12 +25,12 @@ public class WorldTimeController : MonoBehaviour
 
     private void Start()
     {
-        InvokeRepeating("UpdateTimeData", 0, Settings.World_BaseIrlSecondsPerDay / 24.0f);
+        InvokeRepeating("UpdateTimeData", 0, Settings.World_BaseTimeSecondsPerDay / 24.0f);
     }
 
     private void UpdateTimeData()
     {
-        float elapsedGameDays = (Time.time / Settings.World_BaseIrlSecondsPerDay);
+        float elapsedGameDays = (Time.time / Settings.World_BaseTimeSecondsPerDay);
         TimeSpan gameTimeSpan = TimeSpan.FromDays(elapsedGameDays);
 
         day = gameTimeSpan.Days;

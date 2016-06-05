@@ -7,6 +7,7 @@ using System.Collections;
 public class World
 {
     public Player player;
+    public CustomerSpawner customerSpawner;
 
     private int width;
     public int Width { get { return width; } }
@@ -33,6 +34,7 @@ public class World
 
     public World(Player player, int width = 200, int height = 200)
     {
+        Debug.LogWarning("Using UnityEngine.Random.seed! Debug only!");
         UnityEngine.Random.seed = 42; // Debug purpose only, same random values for testing performance
 
         this.player = player;
@@ -43,6 +45,8 @@ public class World
         List<Tile> buildableTiles = SetAndGetBuildableTiles();
         InitTilePropertyValues();
         InitBuildings(buildableTiles);
+
+        this.customerSpawner = new CustomerSpawner(buildings);
     }
 
     public void AddBuilding(Building building, Tile tile)
@@ -120,6 +124,7 @@ public class World
     {
         DeleteBuilding(oldBuilding, oldBuilding.tile);
         AddBuilding(newBuilding, oldBuilding.tile);
+        customerSpawner.RebuildTrackersList(buildings);
         Debug.Log("Replaced building at model level. Now " + buildings.Count + " total buildings.");
     }
 

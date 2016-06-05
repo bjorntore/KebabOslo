@@ -2,6 +2,7 @@
 using UnityEngine.Events;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 public class WorldController : MonoBehaviour
 {
@@ -174,19 +175,10 @@ public class WorldController : MonoBehaviour
     {
         while (true)
         {
-            foreach (Building building in world.Buildings)
+            foreach(NeutralBuilding naturalBuilding in world.customerSpawner.GetSpawningBuildings())
             {
-                /* If we need to expand with more building types that cant spawn, i suggest adding an ICustomerSpawnable interface which we use to indicate that this class can spawn. 
-                Trying to detect that the class inherits from an abstract class (NeutralBuilding) is by my research not very easy. 
-                Se http://stackoverflow.com/questions/2742276/how-do-i-check-if-a-type-is-a-subtype-or-the-type-of-an-object */
-                if (building.GetType() == typeof(KebabBuilding))
-                    continue;
-
-                if (((NeutralBuilding)building).CustomerSpawnRoll())
-                {
-                    Customer customer = world.CreateCustomer(building.tile);
-                    SpawnCustomer(customer, building.tile);
-                }
+                Customer customer = world.CreateCustomer(naturalBuilding.tile);
+                SpawnCustomer(customer, naturalBuilding.tile);
             }
 
             yield return 0;
