@@ -11,17 +11,20 @@ public class GenericDialog : Dialog
     public UnityEngine.UI.Button cancel;
 
     private static GenericDialog genericDialog;
-    public static GenericDialog Instance()
+    public static GenericDialog instance;
+    
+    private void Awake()
     {
-        if (!genericDialog)
-        {
-            genericDialog = FindObjectOfType(typeof(GenericDialog)) as GenericDialog;
-            if (!genericDialog)
-                Debug.LogError("There needs to be one active GenericDialog script on a GameObject in your scene.");
-        }
+        if (instance == null)
+            instance = this;
 
-        return genericDialog;
+        else if (instance != this)
+        {
+            Debug.LogError("Tried to created another instance of " + GetType() + ". Destroying.");
+            Destroy(gameObject);
+        }
     }
+    
 
     public void OpenDialog(string title, string description, UnityAction buttonAction = null, string buttonText = "", UnityAction cancelEvent = null)
     {

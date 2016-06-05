@@ -12,16 +12,18 @@ public class OverlayHelper : MonoBehaviour
     private int CameraAngleAdjustmentZ = 2;
 
     private static OverlayHelper overlayHelper;
-    public static OverlayHelper Instance()
-    {
-        if (!overlayHelper)
-        {
-            overlayHelper = FindObjectOfType(typeof(OverlayHelper)) as OverlayHelper;
-            if (!overlayHelper)
-                Debug.LogError("There needs to be one active OverlayHelper script on a GameObject in your scene.");
-        }
+    public static OverlayHelper instance;
 
-        return overlayHelper;
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+
+        else if (instance != this)
+        {
+            Debug.LogError("Tried to created another instance of " + GetType() + ". Destroying.");
+            Destroy(gameObject);
+        }
     }
 
     // Update is called once per frame

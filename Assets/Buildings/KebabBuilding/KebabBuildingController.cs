@@ -36,9 +36,9 @@ public class KebabBuildingController : BuildingController, IClickable
 
     public void Click()
     {
-        KebabBuildingDialog.Instance().OpenDialog(this, CloseKebabBuildingOverlay);
+        KebabBuildingDialog.instance.OpenDialog(this, CloseKebabBuildingOverlay);
 
-        OverlayHelper overlayHelper = OverlayHelper.Instance();
+        OverlayHelper overlayHelper = OverlayHelper.instance;
         overlayHelper.ActivateKebabBuildingOverlay(building);
     }
 
@@ -58,7 +58,7 @@ public class KebabBuildingController : BuildingController, IClickable
 
     private void CloseKebabBuildingOverlay()
     {
-        OverlayHelper overlayHelper = OverlayHelper.Instance();
+        OverlayHelper overlayHelper = OverlayHelper.instance;
         overlayHelper.DeactivateKebabBuildingOverlay();
     }
 

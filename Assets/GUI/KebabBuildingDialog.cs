@@ -18,16 +18,18 @@ public class KebabBuildingDialog : Dialog
     public KebabBuilding kebabBuilding;
 
     private static KebabBuildingDialog kebabBuildingDialog;
-    public static KebabBuildingDialog Instance()
-    {
-        if (!kebabBuildingDialog)
-        {
-            kebabBuildingDialog = FindObjectOfType(typeof(KebabBuildingDialog)) as KebabBuildingDialog;
-            if (!kebabBuildingDialog)
-                Debug.LogError("There needs to be one active KebabBuildingDialog script on a GameObject in your scene.");
-        }
+    public static KebabBuildingDialog instance;
 
-        return kebabBuildingDialog;
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+
+        else if (instance != this)
+        {
+            Debug.LogError("Tried to created another instance of " + GetType() + ". Destroying.");
+            Destroy(gameObject);
+        }
     }
 
     void Update()

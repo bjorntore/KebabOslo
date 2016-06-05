@@ -11,10 +11,10 @@ public class TileController : MonoBehaviour, IClickable
         Debug.Log("Clicked " + tile.ToString());
         if (tile.type == TileType.Buildable)
         {
-            GenericDialog panel = GenericDialog.Instance();
+            GenericDialog panel = GenericDialog.instance;
             panel.OpenDialog("Build Kebab Shop!", "Build a kebab shop and expand your empire!", BuildKebabBuilding, string.Format("Build (-{0} cash)!", Cost()), CloseKebabBuildingOverlay);
 
-            OverlayHelper overlayHelper = OverlayHelper.Instance();
+            OverlayHelper overlayHelper = OverlayHelper.instance;
             KebabBuilding fakeKebabBuildingForOverlay = new KebabBuilding(null);
             fakeKebabBuildingForOverlay.tile = tile;
             overlayHelper.ActivateKebabBuildingOverlay(fakeKebabBuildingForOverlay);
@@ -36,7 +36,7 @@ public class TileController : MonoBehaviour, IClickable
 
     private void CloseKebabBuildingOverlay()
     {
-        OverlayHelper overlayHelper = OverlayHelper.Instance();
+        OverlayHelper overlayHelper = OverlayHelper.instance;
         overlayHelper.DeactivateKebabBuildingOverlay();
     }
 

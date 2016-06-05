@@ -5,7 +5,7 @@ public class CustomerHelpButton : MonoBehaviour {
 
     public void OpenInfoPane()
     {
-        GenericDialog panel = GenericDialog.Instance();
+        GenericDialog panel = GenericDialog.instance;
         panel.OpenDialog("Customer Icon Help", "Red circle = Angry, \nOrange circle = Did not bother with kebab");
     }
 

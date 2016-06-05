@@ -4,7 +4,6 @@ using System;
 
 public class WorldTimeController : MonoBehaviour
 {
-
     public Weekday weekday;
     public int day;
     public int hour;

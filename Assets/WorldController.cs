@@ -61,7 +61,7 @@ public class WorldController : MonoBehaviour
     {
         if (world.player.CheckIfLost(worldTimeController.day))
         {
-            GenericDialog panel = GenericDialog.Instance();
+            GenericDialog panel = GenericDialog.instance;
             panel.OpenDialog("LOST!", "You ran out of money and local gangsters got pissed off and wasted you!");
             Time.timeScale = 0.0f;
         }
