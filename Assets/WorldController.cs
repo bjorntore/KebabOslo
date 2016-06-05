@@ -17,6 +17,7 @@ public class WorldController : MonoBehaviour
     public GameObject policeBuildingPrefab;
 
     public GameObject normalCustomerPrefab;
+    public ObjectPool normalCustomerObjectPool;
 
     private GameObject tileContainer;
     private GameObject buildingContainer;
@@ -27,7 +28,7 @@ public class WorldController : MonoBehaviour
     public WorldTimeController worldTimeController;
     public static WorldController instance;
 
-    void Awake()
+    private void Awake()
     {
         if (instance == null)
             instance = this;
@@ -52,6 +53,7 @@ public class WorldController : MonoBehaviour
         SpawnTiles();
         SpawnBuildings();
 
+        normalCustomerObjectPool = new ObjectPool(normalCustomerPrefab, 300, customerContainer);
         StartCoroutine("CustomerSpawnerRutine");
 
         Time.timeScale = 1.0f;
@@ -185,9 +187,13 @@ public class WorldController : MonoBehaviour
 
     private void SpawnCustomer(Customer customer, Tile tile)
     {
-        GameObject customerGameObject = SpawnObject(normalCustomerPrefab, customer.ToString(), tile.x, tile.z, customerContainer);
+        GameObject customerGameObject = normalCustomerObjectPool.GetObject();
+        customerGameObject.transform.position = new Vector3(tile.x, 0, tile.z);
+
         CustomerController customerController = customerGameObject.GetComponent<CustomerController>();
         customerController.SetCustomer(customer);
+
+        customerGameObject.SetActive(true);
     }
 
     private GameObject SpawnObject(GameObject prefab, string name, float x, float z, GameObject parent)

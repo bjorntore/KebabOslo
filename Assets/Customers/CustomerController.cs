@@ -6,7 +6,7 @@ using System;
 public class CustomerController : MonoBehaviour
 {
 
-    WorldController worldController;
+    private WorldController worldController;
 
     private Customer customer;
     public Customer Customer { get { return customer; } }
@@ -18,18 +18,12 @@ public class CustomerController : MonoBehaviour
     public float baseBodyScaleX;
     public float baseBodyScaleZ;
 
-    public void SetCustomer(Customer customer)
-    {
-        this.customer = customer;
-    }
-
 	// Use this for initialization
 	private void Start () {
         worldController = WorldController.instance;
 
         baseBodyScaleX = bodyTransform.localScale.x;
         baseBodyScaleZ = bodyTransform.localScale.z;
-        bodyTransform.localScale = GetBodyScale(customer.hunger);
     }
 	
 	// Update is called once per frame
@@ -45,6 +39,12 @@ public class CustomerController : MonoBehaviour
         }
     }
 
+    public void SetCustomer(Customer customer)
+    {
+        this.customer = customer;
+        bodyTransform.localScale = GetBodyScale(customer.hunger);
+    }
+
     private void StateHandler()
     {
         if (customer.State == CustomerState.MovingToKebabBuilding)
@@ -54,7 +54,7 @@ public class CustomerController : MonoBehaviour
         else if (customer.State == CustomerState.MovingToOrigin || customer.State == CustomerState.MovingToMapEnd)
         {
             worldController.world.RemoveCustomer(customer);
-            Destroy(gameObject);
+            worldController.normalCustomerObjectPool.ReleaseObject(gameObject);
         }
         else if (customer.State == CustomerState.Queued)
         {
