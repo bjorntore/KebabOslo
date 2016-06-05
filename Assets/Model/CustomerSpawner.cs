@@ -89,20 +89,24 @@ public class CustomerSpawner
         public List<NeutralBuilding> GetSpawningBuildings(double hoursPassed, int currentDay, int currentHour)
         {
             double spawnChanceThisDayHour = dayHourPercentSpawnChanceTable[currentDay % 7, currentHour] * buildings.Count;
-            double spawnCountAverage = (spawnChanceThisDayHour * hoursPassed); // Not perfect, since it will always spawn according to the spawn chance of the last hour, and not accross elapsed hours
-            int spawnCountRoll = Utils.RandomInt(0.0, spawnCountAverage * 2.0);
+
+            /*Not perfect, since it will always spawn according to the spawn chance of the last hour. 
+            So if two frames after eachother are drawn accross two hours, then some precision is lost. This should not have any impact.*/
+            int spawnCount = (int)Math.Floor(spawnChanceThisDayHour * hoursPassed);
 
             List<NeutralBuilding> spawningBuildings = new List<NeutralBuilding>();
-            for (int i = 0; i < spawnCountRoll; i++)
+            for (int i = 0; i < spawnCount; i++)
             {
                 NeutralBuilding dequeuedBuilding = buildings.Dequeue();
                 spawningBuildings.Add(dequeuedBuilding);
                 buildings.Enqueue(dequeuedBuilding);
                 //Debug.LogFormat("Total spawn for {0} is now {1}", buildingType, totalSpawnCount);
             }
-            totalSpawnCount += spawnCountRoll;
+            totalSpawnCount += spawnCount;
 
-            lastSpawnCheckTime = Time.time;
+            if (spawnCount > 0)
+                lastSpawnCheckTime = Time.time;
+
             return spawningBuildings;
         }
 

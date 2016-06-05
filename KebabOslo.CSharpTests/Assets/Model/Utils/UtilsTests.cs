@@ -18,15 +18,35 @@ namespace Tests
         }
 
         [TestMethod()]
-        public void RandomIntDoubleTest()
+        public void RandomDoubleTest()
         {
-            for (int i = 0; i < 100; i++)
-            {
-                int roll = Utils.RandomInt(0.0, 3.0);
-                Assert.IsTrue(roll >= 0);
-                Assert.IsTrue(roll <= 3);
-                Console.WriteLine(roll);
-            }
+            Assert.AreEqual(0, Utils.RandomDouble(0, 0));
+            Assert.AreEqual(1, Utils.RandomDouble(1, 1));
         }
+
+        [TestMethod()]
+        public void PercentageRollTest()
+        {
+            double percentChance = 0.1 * 2.0;
+
+            double attempts = 1000000;
+            double trues = 0;
+
+            for (int i = 0; i < attempts; i++)
+            {
+                if (Utils.PercentageRoll(percentChance))
+                    trues++;
+            }
+
+            double measuredPercentChance = trues * 100 / attempts;
+
+            Console.WriteLine("{0} of {1} ({2}%) was 1 with a chance of {3}", trues, attempts, measuredPercentChance, percentChance);
+
+            double measuredVersusInputChanceDif = Math.Abs(measuredPercentChance - percentChance);
+            double measuredVersusInputChanceDifFactor = measuredVersusInputChanceDif / percentChance;
+
+            Assert.IsTrue(measuredVersusInputChanceDifFactor < 0.2, "Measured chance is not very equal to input chance, diference factor is " + measuredVersusInputChanceDifFactor);
+        }
+
     }
 }
