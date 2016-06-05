@@ -10,17 +10,18 @@ public class WorldTimeController : MonoBehaviour
     public int hour;
     public string toString = "lolnotset";
 
-    private static WorldTimeController worldTimeController;
-    public static WorldTimeController Instance()
-    {
-        if (!worldTimeController)
-        {
-            worldTimeController = FindObjectOfType(typeof(WorldTimeController)) as WorldTimeController;
-            if (!worldTimeController)
-                Debug.LogError("There needs to be one active WorldTimeController script on a GameObject in your scene.");
-        }
+    public static WorldTimeController instance;
 
-        return worldTimeController;
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+
+        else if (instance != this)
+        {
+            Debug.LogError("Tried to created another instance of " + GetType() + ". Destroying.");
+            Destroy(gameObject);
+        }
     }
 
     private void Start()

@@ -11,7 +11,7 @@ public abstract class NeutralBuilding : Building
 
     public NeutralBuilding()
     {
-        worldTimeController = WorldTimeController.Instance();
+        worldTimeController = WorldTimeController.instance;
     }
 
 }

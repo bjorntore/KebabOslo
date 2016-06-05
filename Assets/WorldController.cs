@@ -14,7 +14,7 @@ public class WorldController : MonoBehaviour
     public GameObject villaBuildingPrefab;
     public GameObject clubBuildingPrefab;
     public GameObject kebabBuildingPrefab;
-	public GameObject policeBuildingPrefab;
+    public GameObject policeBuildingPrefab;
 
     public GameObject normalCustomerPrefab;
 
@@ -25,21 +25,20 @@ public class WorldController : MonoBehaviour
     public World world;
 
     public WorldTimeController worldTimeController;
+    public static WorldController instance;
 
-    private static WorldController worldController;
-    public static WorldController Instance()
+    void Awake()
     {
-        if (!worldController)
-        {
-            worldController = FindObjectOfType(typeof(WorldController)) as WorldController;
-            if (!worldController)
-                Debug.LogError("There needs to be one active WorldController script on a GameObject in your scene.");
-        }
+        if (instance == null)
+            instance = this;
 
-        return worldController;
+        else if (instance != this)
+        {
+            Debug.LogError("Tried to created another instance of " + GetType() + ". Destroying.");
+            Destroy(gameObject);
+        }
     }
 
-    // Use this for initialization
     private void Start()
     {
         Player player = new Player("ShrubNub");
@@ -58,7 +57,6 @@ public class WorldController : MonoBehaviour
         Time.timeScale = 1.0f;
     }
 
-    // Update is called once per frame
     private void Update()
     {
         if (world.player.CheckIfLost(worldTimeController.day))
@@ -156,8 +154,8 @@ public class WorldController : MonoBehaviour
             prefab = clubBuildingPrefab;
         else if (building is KebabBuilding)
             prefab = kebabBuildingPrefab;
-		else if (building is PoliceBuilding)
-			prefab = policeBuildingPrefab;
+        else if (building is PoliceBuilding)
+            prefab = policeBuildingPrefab;
         else
             throw new Exception("Not supporting building type " + building.GetType());
 
@@ -175,7 +173,7 @@ public class WorldController : MonoBehaviour
     {
         while (true)
         {
-            foreach(NeutralBuilding naturalBuilding in world.customerSpawner.GetSpawningBuildings())
+            foreach (NeutralBuilding naturalBuilding in world.customerSpawner.GetSpawningBuildings())
             {
                 Customer customer = world.CreateCustomer(naturalBuilding.tile);
                 SpawnCustomer(customer, naturalBuilding.tile);

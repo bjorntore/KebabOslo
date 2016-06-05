@@ -12,7 +12,7 @@ public class CustomerSpawner
 
     public CustomerSpawner(List<Building> buildings)
     {
-        worldTimeController = WorldTimeController.Instance();
+        worldTimeController = WorldTimeController.instance;
 
         BuildTrackersList(buildings);
     }

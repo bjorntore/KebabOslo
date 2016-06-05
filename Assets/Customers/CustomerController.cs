@@ -25,7 +25,7 @@ public class CustomerController : MonoBehaviour
 
 	// Use this for initialization
 	private void Start () {
-        worldController = WorldController.Instance();
+        worldController = WorldController.instance;
 
         baseBodyScaleX = bodyTransform.localScale.x;
         baseBodyScaleZ = bodyTransform.localScale.z;

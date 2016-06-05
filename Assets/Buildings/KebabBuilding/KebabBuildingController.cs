@@ -52,7 +52,7 @@ public class KebabBuildingController : BuildingController, IClickable
     public void Delete()
     {
         building.RejectCustomers();
-        WorldController.Instance().DeleteKebabBuilding(building);
+        WorldController.instance.DeleteKebabBuilding(building);
         Destroy(gameObject);
     }
 
