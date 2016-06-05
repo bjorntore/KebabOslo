@@ -493,7 +493,7 @@ RectTransform:
   m_Children:
   - {fileID: 997114702}
   m_Father: {fileID: 1515220328}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 860, y: -75}
@@ -756,6 +756,81 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 264144510}
+--- !u!1 &315889105
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 224: {fileID: 315889106}
+  - 222: {fileID: 315889108}
+  - 114: {fileID: 315889107}
+  m_Layer: 5
+  m_Name: ReputationLabel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &315889106
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 315889105}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1515220328}
+  m_RootOrder: 3
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 35.799988, y: -167.1}
+  m_SizeDelta: {x: 160, y: 30}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &315889107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 315889105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 20
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 2
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: 'Reputation:
+
+'
+--- !u!222 &315889108
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 315889105}
 --- !u!1 &396383344 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 147304, guid: e6ebabfca3ac9c0489b2022003fb77f7, type: 2}
@@ -953,11 +1028,30 @@ MonoBehaviour:
   title: {fileID: 882192674}
   employeeLabel: {fileID: 233818345}
   customersLabel: {fileID: 826042711}
+  reputationLabel: {fileID: 315889107}
   addEmployeeButton: {fileID: 1782334193}
   fireEmployeeButton: {fileID: 812057090}
   cancelButton: {fileID: 1957783003}
   deleteButton: {fileID: 243181310}
   kebabMenuController: {fileID: 453680179}
+  kebabBuilding:
+    tile:
+      x: 0
+      z: 0
+      type: 0
+      isWorldEdge: 0
+      propertyValue: 0
+    kebabMenu:
+      menuItems:
+      - Name: Kebab
+        Price: 11.25
+        IsActive: 1
+        sales: 0
+    customers: []
+    customersInQueue: []
+    employees: []
+    cashEarned: 0
+    cashEarnedTrigger: 0
 --- !u!114 &453680179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1649,7 +1743,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1515220328}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 295.3, y: -84}
@@ -2819,6 +2913,7 @@ RectTransform:
   - {fileID: 882192673}
   - {fileID: 233818344}
   - {fileID: 826042710}
+  - {fileID: 315889106}
   - {fileID: 1782334190}
   - {fileID: 812057087}
   - {fileID: 1957783002}
@@ -3427,7 +3522,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1515220328}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 318.7, y: -88}
@@ -3546,7 +3641,7 @@ RectTransform:
   - {fileID: 1018606192}
   - {fileID: 732233653}
   m_Father: {fileID: 1515220328}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0.69996, y: -137}
@@ -3761,7 +3856,7 @@ RectTransform:
   m_Children:
   - {fileID: 895044906}
   m_Father: {fileID: 1515220328}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -8.4, y: -6.6}

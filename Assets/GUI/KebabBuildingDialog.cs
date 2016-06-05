@@ -9,6 +9,7 @@ public class KebabBuildingDialog : Dialog
     public Text title;
     public Text employeeLabel;
     public Text customersLabel;
+    public Text reputationLabel;
     public Button addEmployeeButton;
     public Button fireEmployeeButton;
     public Button cancelButton;
@@ -40,6 +41,7 @@ public class KebabBuildingDialog : Dialog
             customersLabel.text = "Customers: " + kebabBuilding.customers.Count + "/" + kebabBuilding.GetCurrentCapacity();
             if (kebabBuilding.customersInQueue.Count > 0)
                 customersLabel.text = string.Format("{0} (Queue: {1})", customersLabel.text, kebabBuilding.customersInQueue.Count);
+            reputationLabel.text = "Reputation: " + kebabBuilding.Reputation;
         }
     }
 
