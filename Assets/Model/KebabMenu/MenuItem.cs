@@ -20,7 +20,7 @@ public class MenuItem
         MeatType = IngredientDB.Meats.OrderBy(x => x.Cost).First();
         VegetableType = IngredientDB.Vegetables.OrderBy(x => x.Cost).First();
         SauceType = IngredientDB.Sauces.OrderBy(x => x.Cost).First();
-        Price = Convert.ToInt32(GetProductionCost() * 1.5);
+        Price = GetProductionCost() * 25 / 100;
         IsActive = false;
     }
 
